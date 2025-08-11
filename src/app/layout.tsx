@@ -5,6 +5,18 @@ import "./fontawesome";
 export const metadata: Metadata = {
   title: "The Corporate Girlie Arts",
   description: "The Corporate Girlie Arts",
+  openGraph: {
+    title: "The Corporate Girlie Arts",
+    description: "The Corporate Girlie Arts",
+    images: [
+      {
+        url: "/favicon.ico",
+        width: 200,
+        height: 200,
+        alt: "The Corporate Girlie Arts Logo",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
