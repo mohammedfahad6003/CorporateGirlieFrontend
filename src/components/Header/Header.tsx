@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Link from "next/link";
 import { menuItems, MenuItems } from "@/utils/commonJson";
+import Image from "next/image";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,12 +16,35 @@ const Header = () => {
 
   return (
     <header
-      className={`flex items-center lg:p-4 px-6 pb-3 md:pt-6 pt-8 relative md:justify-around justify-between transition-colors duration-300 `}
+      className={`flex items-center lg:p-4 md:px-6 px-2 pb-3 md:pt-6 pt-8 relative md:justify-around justify-between transition-colors duration-300 `}
     >
-      {/* Header Name */}
-      <h1 className="font-dancing lg:text-4xl md:text-3xl text-2xl font-bold text-yellow-400">
-        The Corporate Girlie Arts
-      </h1>
+      <div className="flex items-center">
+        <div className="w-8 sm:w-10 md:w-16">
+          {darkMode ? (
+            <Image
+              src="/DarkModeLogo.svg"
+              alt="Dark Mode Logo"
+              width={60} 
+              height={60}
+              loading="eager"
+              style={{ width: "100%", height: "auto" }}
+            />
+          ) : (
+            <Image
+              src="/LightModeLogo.svg"
+              alt="Light Mode Logo"
+              width={60}
+              height={60}
+              loading="eager"
+              style={{ width: "100%", height: "auto" }}
+            />
+          )}
+        </div>
+        {/* Header Name */}
+        <h1 className="md:pl-4 pl-1 font-dancing lg:text-4xl md:text-3xl text-2xl font-bold text-yellow-400">
+          The Corporate Girlie Arts
+        </h1>
+      </div>
 
       {/* Desktop Menu */}
       <nav
