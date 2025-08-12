@@ -1,5 +1,5 @@
 module.exports = {
-  darkMode: 'class',
+  darkMode: "class",
   important: true,
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -9,9 +9,13 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['Times New Roman', 'Times', 'serif'],
+        serif: ["Times New Roman", "Times", "serif"],
+        cursive: ["cursive"], // generic cursive fallback
+        dancing: ["Dancing Script", "cursive"],
+        satisfy: ["Satisfy", "cursive"],
+        sacramento: ["Sacramento", "cursive"],
       },
     },
   },
   plugins: [],
-}
+};
