@@ -3,6 +3,7 @@ import "./globals.css";
 import "./fontawesome";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://thecorporategirliearts.netlify.app/"),
   title: "The Corporate Girlie Arts",
   description: "The Corporate Girlie Arts",
   openGraph: {
