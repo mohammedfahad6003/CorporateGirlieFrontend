@@ -34,7 +34,7 @@ const MobileNavigation = ({
         : "bg-white text-black shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
     }`}
         >
-          {menuItems?.map((item) => {
+          {menuItems?.map((item, index) => {
             const isActive = pathName === item.navigation;
             const isCategories = item.title === "Categories";
 
@@ -48,17 +48,15 @@ const MobileNavigation = ({
                       setMenuOpen(false);
                     }
                   }}
-                  className={`max-w-xs mx-auto flex items-center justify-between py-2 px-4 cursor-pointer text-[0.85rem] relative
-                    ${isActive ? "text-yellow-400" : "hover:text-yellow-400"}
-                    
-                    `}
+                  className={`max-w-xs mx-auto flex items-center justify-between py-2 px-4 cursor-pointer relative
+                    ${isActive ? "text-yellow-400" : "hover:text-yellow-400"}`}
                 >
                   <Link
                     href={item.navigation}
                     onClick={(e) => {
                       if (isCategories) e.preventDefault();
                     }}
-                    className="flex-1 text-center text-lg"
+                    className="flex-1 text-center text-lg text-[1rem]"
                   >
                     {item.title}
                     {isCategories && (
@@ -76,7 +74,7 @@ const MobileNavigation = ({
 
                 {/* Animated Categories Submenu */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out px-4
+                  className={`overflow-hidden transition-all duration-300 ease-in-out px-5
                   ${
                     categoriesOpenMobile
                       ? "max-h-[1000px] opacity-100"
@@ -85,40 +83,47 @@ const MobileNavigation = ({
                 >
                   {isCategories &&
                     subMenusItems?.map((menu) => (
-                      <div key={menu?.id} className="mb-3">
-                        <h2 className="font-dancing tracking-widest font-bold text-yellow-400 text-md">
-                          {menu?.title}
-                        </h2>
-                        <ul className="pl-4 space-y-1 mt-2 flex flex-row items-center flex-wrap">
-                          {menu?.childMenus?.map((submenu, index) => (
-                            <>
-                              <li
-                                key={`${submenu.id}-${submenu.title}`}
-                                className="px-2"
-                              >
-                                <Link
-                                  href={`/categories/${submenu.title
-                                    .toLowerCase()
-                                    .replace(/\s+/g, "-")}`}
-                                  onClick={() => setMenuOpen(false)}
-                                  className="text-medium text-sm relative inline-block hover:text-yellow-400 group"
-                                >
-                                  {submenu?.title}
-                                  <span className="absolute left-0 -bottom-0.5 w-full h-[2px] bg-yellow-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
-                                </Link>
-                              </li>
-
-                              {index !== menu?.childMenus?.length - 1 && (
-                                <li className="flex items-center">
-                                  <span className="mx-2 h-4 w-px bg-gray-950 dark:bg-gray-200"></span>
+                      <React.Fragment key={menu?.id}>
+                        <div className="my-3">
+                          <h2 className="font-serif tracking-wide font-bold text-yellow-400 text-md">
+                            {menu?.title}
+                          </h2>
+                          <ul className="pl-4 space-y-1 mt-2 mb-4 flex flex-row items-center flex-wrap">
+                            {menu?.childMenus?.map((submenu, index) => (
+                              <React.Fragment key={submenu?.id}>
+                                <li className="px-2">
+                                  <Link
+                                    href={`/categories/${submenu.title
+                                      .toLowerCase()
+                                      .replace(/\s+/g, "-")}`}
+                                    onClick={() => setMenuOpen(false)}
+                                    className="text-medium text-sm relative inline-block hover:text-yellow-400 group"
+                                  >
+                                    {submenu?.title}
+                                    <span className="absolute left-0 -bottom-0.5 w-full h-[2px] bg-yellow-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+                                  </Link>
                                 </li>
-                              )}
-                            </>
-                          ))}
-                        </ul>
-                      </div>
+
+                                {index !== menu?.childMenus?.length - 1 && (
+                                  <li className="flex items-center">
+                                    <span className="mx-2 h-4 w-px bg-gray-950 dark:bg-gray-200"></span>
+                                  </li>
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {subMenusItems?.length - 1 !== menu?.id && (
+                          <div className="w-full h-px bg-gray-300 dark:bg-gray-700" />
+                        )}
+                      </React.Fragment>
                     ))}
                 </div>
+
+                {menuItems?.length - 1 !== index && (
+                  <div className="w-full h-px bg-gray-300 dark:bg-gray-700" />
+                )}
               </div>
             );
           })}

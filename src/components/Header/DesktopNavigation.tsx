@@ -26,7 +26,11 @@ const DesktopNavigation = () => {
           return (
             <div
               key={item.id}
-              className="relative"
+              className={`relative hover:text-yellow-400 after:content-[''] after:absolute after:w-full after:h-[2px] after:bottom-0 after:left-0 after:bg-yellow-400 after:transition-transform after:duration-300  ${
+                isActive
+                  ? "text-yellow-400 after:scale-x-100 after:origin-left"
+                  : "after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left"
+              }`}
               onMouseEnter={() => setCategoriesOpen(true)}
               onMouseLeave={() => setCategoriesOpen(false)}
             >
@@ -34,16 +38,8 @@ const DesktopNavigation = () => {
               <Link
                 href={item.navigation}
                 className={`
-                  md:text-[1.25rem]
+                  md:text-[1.125rem]
                   cursor-pointer relative
-                  hover:text-yellow-400
-                  after:content-[''] after:absolute after:w-full after:h-[2px] after:bottom-0 after:left-0
-                  after:bg-yellow-400 after:transition-transform after:duration-300
-                  ${
-                    isActive
-                      ? "text-yellow-400 after:scale-x-100 after:origin-left"
-                      : "after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left"
-                  }
                 `}
               >
                 {item.title}
@@ -54,7 +50,11 @@ const DesktopNavigation = () => {
                 className={`
                     absolute top-12 -left-96 lg:-left-80 md:-left-40 sm:-left-20 mt-0 rounded-lg shadow-lg z-50
                     transition-opacity duration-200
-                    ${categoriesOpen ? "opacity-100 visible" : "opacity-0 invisible"}
+                    ${
+                      categoriesOpen
+                        ? "opacity-100 visible"
+                        : "opacity-0 invisible"
+                    }
                 `}
               >
                 <ul
@@ -62,7 +62,7 @@ const DesktopNavigation = () => {
                     p-4 w-[800px] lg:w-[650px] md:w-[500px] sm:w-[350px]
                     rounded-lg shadow-lg border
                     ${
-                        darkMode
+                      darkMode
                         ? "bg-black border-gray-700 text-white"
                         : "bg-white border-gray-200 text-black"
                     }
@@ -73,7 +73,7 @@ const DesktopNavigation = () => {
                       {/* Main Menu Title */}
                       <h2
                         className={`
-                            font-dancing tracking-widest text-xl lg:text-lg md:text-base font-bold text-yellow-400
+                            tracking-widest text-xl lg:text-lg md:text-base font-serif text-yellow-400
                         `}
                       >
                         {menu.title}
@@ -112,7 +112,7 @@ const DesktopNavigation = () => {
             key={item.id}
             href={item.navigation}
             className={`
-              md:text-[1.25rem]
+              md:text-[1.125rem]
               cursor-pointer relative
               hover:text-yellow-400
               after:content-[''] after:absolute after:w-full after:h-[2px] after:bottom-0 after:left-0

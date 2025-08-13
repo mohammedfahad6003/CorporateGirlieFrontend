@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./fontawesome";
 
+import { Poppins } from "next/font/google";
+import AppProvider from "./AppProvider";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://thecorporategirliearts.netlify.app/"),
   title: "The Corporate Girlie Arts",
@@ -46,7 +54,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`antialiased`}>{children}</body>
+      <body className={`antialiased ${poppins.className}`}>
+        <AppProvider>{children}</AppProvider>
+      </body>
     </html>
   );
 }
