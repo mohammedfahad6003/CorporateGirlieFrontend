@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import InputBox from "../InputBox/InputBox";
@@ -38,13 +38,6 @@ const GetInTouch = () => {
       [field]: "",
     }));
   };
-
-  useEffect(() => {
-    setToast({
-      message: "Message sent successfully!",
-      type: "success",
-    });
-  }, []);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
