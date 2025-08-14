@@ -1,7 +1,6 @@
 import { RootState } from "@/store/store";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import GetInTouch from "../GetInTouch/GetInTouch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
@@ -33,7 +32,6 @@ const Footer = () => {
 
   return (
     <>
-      <GetInTouch />
       <div
         className={`${darkMode ? "bg-black" : "bg-gray-50"} p-6 sm:p-8 lg:p-10`}
       >
@@ -93,7 +91,7 @@ const Footer = () => {
 
               {/* Email */}
               <a
-                href="mailto:contact@artcompany.com?subject=Inquiry Regarding Available Artwork&cc=assistant@artcompany.com"
+                href="mailto:chaiyadav03@gmail.com?subject=Inquiry Message to Corporate Girlie Arts&cc=mdfahad6003@gmail.com"
                 className={`flex items-center gap-2 text-sm transition ${textColor} hover:text-blue-500 dark:hover:text-blue-400`}
               >
                 <FontAwesomeIcon icon={faEnvelope} />

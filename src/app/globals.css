@@ -35,3 +35,18 @@ body {
     font-size: 1.75rem;
   }
 }
+
+/* For Chrome, Safari, Edge */
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: none;
+}
+
+/* For IE/Edge (old) */
+html {
+  -ms-overflow-style: none;
+}

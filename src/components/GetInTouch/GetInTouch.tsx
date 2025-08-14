@@ -96,7 +96,7 @@ const GetInTouch = () => {
         ${
           darkMode
             ? "bg-black border-1 border-y-yellow-300"
-            : "bg-yellow-300 border-1 border-y-white"
+            : "bg-yellow-300 border-1 border-yellow-300"
         }
       `}
     >
