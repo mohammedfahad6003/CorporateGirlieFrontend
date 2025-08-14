@@ -1,7 +1,6 @@
 import { RootState } from "@/store/store";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import GetInTouch from "../GetInTouch/GetInTouch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
@@ -11,6 +10,7 @@ import {
 import Image from "next/image";
 import { motivationalJson } from "@/utils/inspirationJson";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const Footer = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
@@ -33,7 +33,6 @@ const Footer = () => {
 
   return (
     <>
-      <GetInTouch />
       <div
         className={`${darkMode ? "bg-black" : "bg-gray-50"} p-6 sm:p-8 lg:p-10`}
       >
@@ -87,13 +86,13 @@ const Footer = () => {
                       : "text-black hover:underline"
                   }`}
                 >
-                  +91 98765 43210
+                  +91 98765-43210
                 </span>
               </a>
 
               {/* Email */}
               <a
-                href="mailto:contact@artcompany.com?subject=Inquiry Regarding Available Artwork&cc=assistant@artcompany.com"
+                href="mailto:chaiyadav03@gmail.com?subject=Inquiry Message to Corporate Girlie Arts&cc=mdfahad6003@gmail.com"
                 className={`flex items-center gap-2 text-sm transition ${textColor} hover:text-blue-500 dark:hover:text-blue-400`}
               >
                 <FontAwesomeIcon icon={faEnvelope} />
@@ -160,15 +159,21 @@ const Footer = () => {
         >
           <div className={`${textColor} flex gap-4`}>
             <a href="#" className="hover:underline">
-              Terms
+              Terms of Service
             </a>
             <a href="#" className="hover:underline">
               Privacy Policy
             </a>
+            <a href="#" className="hover:underline">
+              Shipping Policy
+            </a>
           </div>
           <p className={`${textColor} mt-2 md:mt-0`}>
-            © {new Date().getFullYear()} The Corporate Girlie Arts. All rights
-            reserved.
+            © {new Date().getFullYear()}{" "}
+            <Link href={"/"} className="hover:underline" prefetch={true}>
+              The Corporate Girlie Arts.
+            </Link>{" "}
+            All rights reserved.
           </p>
         </div>
       </div>

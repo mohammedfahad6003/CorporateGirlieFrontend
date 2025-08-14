@@ -92,11 +92,11 @@ const GetInTouch = () => {
   return (
     <div
       className={`
-        p-8 flex flex-col items-center justify-center gap-6
+        sm:p-8 p-6 flex flex-col items-center justify-center gap-6
         ${
           darkMode
             ? "bg-black border-1 border-y-yellow-300"
-            : "bg-yellow-300 border-1 border-y-white"
+            : "bg-yellow-300 border-1 border-yellow-300"
         }
       `}
     >

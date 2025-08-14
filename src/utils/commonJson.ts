@@ -72,3 +72,21 @@ export const subMenusItems: Menu[] = [
     ],
   },
 ];
+
+export const menuForMobileItems: MenuItems[] = [
+  { id: 6, title: "Festive Edition - SALE!", navigation: "/festive-edition" },
+  { id: 7, title: "Limited Edition - SALE!", navigation: "/limited-edition" },
+  { id: 13, title: "New Launches", navigation: "/newLaunches" },
+  
+  { id: 2, title: "Painting", navigation: "/painting" },
+  { id: 3, title: "Drawing", navigation: "/drawing" },
+  { id: 4, title: "Resin Art", navigation: "/resin-art" },
+  { id: 5, title: "Wall Hangings", navigation: "/wall-hangings" },
+
+  { id: 8, title: "Portrait Painting", navigation: "/painting/portrait" },
+  { id: 9, title: "Macrame Hangings", navigation: "/wall-hangings/macrame" },
+  { id: 10, title: "Resin Jewelry", navigation: "/resin-art/jewelry" },
+
+  { id: 11, title: "About Us", navigation: "/aboutus" },
+  { id: 12, title: "Contact Us", navigation: "/contactus" },
+];
