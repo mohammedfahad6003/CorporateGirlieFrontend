@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import { motivationalJson } from "@/utils/inspirationJson";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const Footer = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
@@ -85,7 +86,7 @@ const Footer = () => {
                       : "text-black hover:underline"
                   }`}
                 >
-                  +91 98765 43210
+                  +91 98765-43210
                 </span>
               </a>
 
@@ -158,15 +159,21 @@ const Footer = () => {
         >
           <div className={`${textColor} flex gap-4`}>
             <a href="#" className="hover:underline">
-              Terms
+              Terms of Service
             </a>
             <a href="#" className="hover:underline">
               Privacy Policy
             </a>
+            <a href="#" className="hover:underline">
+              Shipping Policy
+            </a>
           </div>
           <p className={`${textColor} mt-2 md:mt-0`}>
-            © {new Date().getFullYear()} The Corporate Girlie Arts. All rights
-            reserved.
+            © {new Date().getFullYear()}{" "}
+            <Link href={"/"} className="hover:underline" prefetch={true}>
+              The Corporate Girlie Arts.
+            </Link>{" "}
+            All rights reserved.
           </p>
         </div>
       </div>

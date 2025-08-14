@@ -65,6 +65,8 @@ const DesktopNavigation = () => {
                     className={`
                       p-4 w-[800px] lg:w-[650px] md:w-[500px] sm:w-[350px]
                       rounded-lg shadow-lg border
+                      max-h-[70vh] overflow-y-auto
+                      scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-transparent
                       ${
                         darkMode
                           ? "bg-black border-gray-700 text-white"
