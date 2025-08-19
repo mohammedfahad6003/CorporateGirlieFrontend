@@ -31,13 +31,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* This script runs before React hydration */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -46,8 +45,10 @@ export default function RootLayout({
                   const theme = localStorage.getItem('theme');
                   if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
+                    document.body?.classList.add('dark');
                   } else {
                     document.documentElement.classList.remove('dark');
+                    document.body?.classList.remove('dark');
                   }
                 } catch (e) {}
               })();
@@ -55,8 +56,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`antialiased ${poppins.className}`}>
-        <AppProvider>{children}
+      <body
+        className={`antialiased ${poppins.className}`}
+        suppressHydrationWarning
+      >
+        <AppProvider>
+          {children}
           <CookieConsent />
         </AppProvider>
       </body>
