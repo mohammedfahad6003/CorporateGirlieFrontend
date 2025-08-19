@@ -44,7 +44,11 @@ const Header = () => {
     <div
       className={`sticky top-0 z-50 w-full p-4 sm:p-5 lg:p-8 transition-transform duration-300 ${
         showHeader ? "translate-y-0" : "-translate-y-full"
-      } ${darkMode ? "bg-black" : "bg-gray-50"}`}
+      }  ${
+        darkMode
+          ? "bg-black border-b border-y-yellow-400"
+          : "bg-gray-50 border-b border-gray-50"
+      }`}
     >
       <header className="flex items-center lg:p-4 sm:px-6 px-0 pb-3 md:pt-6 pt-8 relative sm:justify-around justify-end flex-row-reverse sm:flex-row transition-colors duration-300">
         <div className="flex items-center">
