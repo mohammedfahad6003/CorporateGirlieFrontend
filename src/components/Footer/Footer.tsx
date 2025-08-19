@@ -34,7 +34,13 @@ const Footer = () => {
   return (
     <>
       <div
-        className={`${darkMode ? "bg-black" : "bg-gray-50"} p-6 sm:p-8 lg:p-10`}
+        className={`${
+          darkMode ? "bg-black" : "bg-gray-50"
+        } p-6 sm:p-8 lg:p-10 ${
+          darkMode
+            ? "bg-black border-t border-y-yellow-300"
+            : "bg-yellow-300 border-t border-yellow-300"
+        }`}
       >
         <footer className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Brand & Identity */}
@@ -48,7 +54,7 @@ const Footer = () => {
                   height={25}
                   src={"/DarkModeLogo.svg"}
                   alt={"Dark Mode Logo"}
-                  className="mr-2"
+                  className="mr-2 rounded-full"
                 />
               ) : (
                 <Image
@@ -56,7 +62,7 @@ const Footer = () => {
                   height={25}
                   src={"/LightModeLogo.svg"}
                   alt={"Light Mode Logo"}
-                  className="mr-2"
+                  className="mr-2 rounded-full"
                 />
               )}{" "}
               The Corporate Girlie Arts
@@ -103,7 +109,7 @@ const Footer = () => {
                       : "text-black hover:underline"
                   }`}
                 >
-                  contact@artcompany.com
+                  chaiyadav03@gmail.com
                 </span>
               </a>
             </div>
@@ -157,18 +163,20 @@ const Footer = () => {
         <div
           className={`border-t mt-8 pt-4 ${borderColor} flex flex-col md:flex-row justify-between text-sm`}
         >
-          <div className={`${textColor} flex gap-4`}>
-            <a href="#" className="hover:underline">
-              Terms of Service
+          <div
+            className={`${textColor} flex flex-wrap md:flex-row gap-3 md:gap-4`}
+          >
+            <a href="/policies/terms-and-conditions" className="hover:underline">
+              Terms and Conditions
             </a>
-            <a href="#" className="hover:underline">
+            <a href="/policies/privacy-policy" className="hover:underline">
               Privacy Policy
             </a>
-            <a href="#" className="hover:underline">
+            <a href="/policies/shipping-policy" className="hover:underline">
               Shipping Policy
             </a>
           </div>
-          <p className={`${textColor} mt-2 md:mt-0`}>
+          <p className={`${textColor} mt-4`}>
             © {new Date().getFullYear()}{" "}
             <Link href={"/"} className="hover:underline" prefetch={true}>
               The Corporate Girlie Arts.

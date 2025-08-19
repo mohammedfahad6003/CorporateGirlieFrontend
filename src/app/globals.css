@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Satisfy&family=Sacramento&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Satisfy&family=Sacramento&display=swap");
 
 @import "tailwindcss";
 
@@ -49,4 +48,29 @@ html {
 /* For IE/Edge (old) */
 html {
   -ms-overflow-style: none;
+}
+
+body.cookie-banner-visible {
+  padding-bottom: 120px; /* Adjust to match banner height */
+}
+
+/* CSS */
+.cookie-btn {
+  max-width: 90%; /* Prevent overflow */
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Ultra small devices (<375px) */
+@media (max-width: 374px) {
+  .cookie-btn {
+    font-size: 0.7rem;
+    padding: 0.6rem 1rem;
+    display: none;
+  }
+}
+
+li {
+  margin-bottom: 8px;
 }
