@@ -4,6 +4,7 @@ import "./fontawesome";
 
 import { Poppins } from "next/font/google";
 import AppProvider from "./AppProvider";
+import CookieConsent from "@/components/CookiesConsent/page";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -55,7 +56,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`antialiased ${poppins.className}`}>
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>{children}
+          <CookieConsent />
+        </AppProvider>
       </body>
     </html>
   );
