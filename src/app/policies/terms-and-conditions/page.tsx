@@ -9,7 +9,7 @@ import PolicyContainer from "@/components/ContainerStyles/PolicyContainer";
 const TermsAndConditions = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const textColor = darkMode ? "text-white" : "text-gray-900";
-  const emailTextColor = "text-yellow-300";
+  const emailTextColor = "text-yellow-400";
 
   return (
     <PolicyContainer>
@@ -81,7 +81,7 @@ const TermsAndConditions = () => {
             href="https://thecorporategirliearts.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-yellow-300 hover:underline"
+            className="text-yellow-400 hover:underline"
           >
             https://thecorporategirliearts.netlify.app/
           </Link>
@@ -126,51 +126,6 @@ const TermsAndConditions = () => {
         Application or the Website and tells You about Your privacy rights and
         how the law protects You. Please read Our Privacy Policy carefully
         before using Our Service.
-      </p>
-
-      {/* Section: Termination */}
-      <h2 className={`sm:text-xl text-lg font-semibold mt-6 mb-2 ${textColor}`}>
-        Termination
-      </h2>
-      <p className="mb-2">
-        We may terminate or suspend Your access immediately, without prior
-        notice or liability, for any reason whatsoever, including without
-        limitation if You breach these Terms and Conditions.
-      </p>
-      <p className="mb-2">
-        Upon termination, Your right to use the Service will cease immediately.
-      </p>
-
-      {/* Section: Limitation of Liability */}
-      <h2 className={`sm:text-xl text-lg font-semibold mt-6 mb-2 ${textColor}`}>
-        Limitation of Liability
-      </h2>
-      <p className="mb-2">
-        Notwithstanding any damages that You might incur, the entire liability
-        of the Company and any of its suppliers under any provision of this
-        Terms and Your exclusive remedy for all of the foregoing shall be
-        limited to the amount actually paid by You through the Service or 100
-        USD if You haven&apos;t purchased anything through the Service.
-      </p>
-      <p className="mb-2">
-        To the maximum extent permitted by applicable law, in no event shall the
-        Company or its suppliers be liable for any special, incidental,
-        indirect, or consequential damages whatsoever (including, but not
-        limited to, damages for loss of profits, loss of data or other
-        information, for business interruption, for personal injury, loss of
-        privacy arising out of or in any way related to the use of or inability
-        to use the Service, third-party software and/or third-party hardware
-        used with the Service, or otherwise in connection with any provision of
-        this Terms), even if the Company or any supplier has been advised of the
-        possibility of such damages and even if the remedy fails of its
-        essential purpose.
-      </p>
-      <p className="mb-2">
-        Some states do not allow the exclusion of implied warranties or
-        limitation of liability for incidental or consequential damages, which
-        means that some of the above limitations may not apply. In these states,
-        each party&apos;s liability will be limited to the greatest extent
-        permitted by law.
       </p>
 
       {/* Section: Links to Other Websites */}
@@ -285,25 +240,6 @@ const TermsAndConditions = () => {
         try to resolve the dispute informally by contacting the Company.
       </p>
 
-      {/* Section: EU Users */}
-      <h2 className={`sm:text-xl text-lg font-semibold mt-6 mb-2 ${textColor}`}>
-        For European Union (EU) Users
-      </h2>
-      <p className="mb-2">
-        If You are a European Union consumer, you will benefit from any
-        mandatory provisions of the law of the country in which You are
-        resident.
-      </p>
-
-      {/* Section: US Compliance */}
-      <h2 className={`sm:text-xl text-lg font-semibold mt-6 mb-2 ${textColor}`}>
-        United States Legal Compliance
-      </h2>
-      <p className="mb-2">
-        You represent and warrant that (i) You are not located in a country that
-        is subject to the United States government embargo...
-      </p>
-
       {/* Section: Severability and Waiver */}
       <h2 className={`sm:text-xl text-lg font-semibold mt-6 mb-2 ${textColor}`}>
         Severability and Waiver
@@ -315,13 +251,13 @@ const TermsAndConditions = () => {
       <p className="mb-2">
         If any provision of these Terms is held to be unenforceable or invalid,
         such provision will be changed and interpreted to accomplish the
-        objectives of such provision...
+        objectives of such provision.
       </p>
 
       <h3 className={`text-lg font-medium mt-4 mb-2 ${textColor}`}>Waiver</h3>
       <p className="mb-2">
         Except as provided herein, the failure to exercise a right or to require
-        performance...
+        performance.
       </p>
 
       {/* Section: Translation */}
@@ -360,7 +296,7 @@ const TermsAndConditions = () => {
         contact us at:{" "}
         <Link
           href="/contactUs"
-          className={`${emailTextColor} hover:underline hover:text-yellow-300`}
+          className={`${emailTextColor} hover:underline hover:text-yellow-400`}
         >
           Contact Us Page
         </Link>

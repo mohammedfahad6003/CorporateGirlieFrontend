@@ -9,8 +9,9 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
 import { motivationalJson } from "@/utils/inspirationJson";
-import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { COMMON_VARIABLES } from "@/utils/commonVariables";
 
 const Footer = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
@@ -34,12 +35,10 @@ const Footer = () => {
   return (
     <>
       <div
-        className={`${
-          darkMode ? "bg-black" : "bg-gray-50"
-        } p-6 sm:p-8 lg:p-10 ${
+        className={`p-4 pt-6 sm:p-8 lg:p-10 ${
           darkMode
-            ? "bg-black border-t border-y-yellow-300"
-            : "bg-yellow-300 border-t border-yellow-300"
+            ? "bg-black border-t border-y-yellow-400"
+            : "bg-gray-50 border-t border-gray-50"
         }`}
       >
         <footer className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -79,27 +78,10 @@ const Footer = () => {
               Contact
             </h3>
             <div className="space-y-2">
-              {/* Phone */}
-              <a
-                href="tel:+919876543210"
-                className={`flex items-center gap-2 text-sm transition ${textColor} hover:text-green-500 dark:hover:text-green-400`}
-              >
-                <FontAwesomeIcon icon={faPhone} />
-                <span
-                  className={`${
-                    darkMode
-                      ? "text-white hover:underline"
-                      : "text-black hover:underline"
-                  }`}
-                >
-                  +91 98765-43210
-                </span>
-              </a>
-
               {/* Email */}
               <a
-                href="mailto:chaiyadav03@gmail.com?subject=Inquiry Message to Corporate Girlie Arts&cc=mdfahad6003@gmail.com"
-                className={`flex items-center gap-2 text-sm transition ${textColor} hover:text-blue-500 dark:hover:text-blue-400`}
+                href={`mailto:${COMMON_VARIABLES.emailId}?subject=Inquiry Message to Corporate Girlie Arts&cc=${COMMON_VARIABLES.ccId}`}
+                className={`flex items-center gap-2 text-sm transition text-blue-500 hover:text-blue-400`}
               >
                 <FontAwesomeIcon icon={faEnvelope} />
                 <span
@@ -109,7 +91,7 @@ const Footer = () => {
                       : "text-black hover:underline"
                   }`}
                 >
-                  chaiyadav03@gmail.com
+                  {COMMON_VARIABLES.emailId}
                 </span>
               </a>
             </div>
@@ -141,8 +123,8 @@ const Footer = () => {
                 href="https://www.threads.com/@thecorporategirliearts"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${textColor}  transition ${
-                  darkMode ? "hover:text-yellow-300" : "hover:text-black"
+                className={`${textColor} transition ${
+                  darkMode ? "hover:text-yellow-400" : "hover:text-black"
                 }`}
               >
                 <FontAwesomeIcon icon={faThreads} size="lg" />
@@ -166,15 +148,18 @@ const Footer = () => {
           <div
             className={`${textColor} flex flex-wrap md:flex-row gap-3 md:gap-4`}
           >
-            <a href="/policies/terms-and-conditions" className="hover:underline">
+            <Link
+              href="/policies/terms-and-conditions"
+              className="hover:underline"
+            >
               Terms and Conditions
-            </a>
-            <a href="/policies/privacy-policy" className="hover:underline">
+            </Link>
+            <Link href="/policies/privacy-policy" className="hover:underline">
               Privacy Policy
-            </a>
-            <a href="/policies/shipping-policy" className="hover:underline">
+            </Link>
+            <Link href="/policies/shipping-policy" className="hover:underline">
               Shipping Policy
-            </a>
+            </Link>
           </div>
           <p className={`${textColor} mt-4`}>
             © {new Date().getFullYear()}{" "}

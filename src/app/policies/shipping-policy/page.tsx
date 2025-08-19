@@ -9,7 +9,6 @@ import PolicyContainer from "@/components/ContainerStyles/PolicyContainer";
 const ShippingPolicy = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const textColor = darkMode ? "text-white" : "text-gray-900";
-  const emailTextColor = darkMode ? "text-yellow-300" : "text-yellow-300";
 
   return (
     <PolicyContainer>
@@ -107,7 +106,7 @@ const ShippingPolicy = () => {
         contact us at:{" "}
         <Link
           href="/contactUs"
-          className={`${emailTextColor} hover:underline hover:text-yellow-300`}
+          className={`text-yellow-400 hover:underline hover:text-yellow-400`}
         >
           Contact Us Page
         </Link>

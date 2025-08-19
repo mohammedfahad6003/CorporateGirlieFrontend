@@ -5,7 +5,6 @@ import { menuForMobileItems } from "@/utils/commonJson";
 import {
   faCircleArrowRight,
   faTimes,
-  faPhone,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -19,6 +18,7 @@ import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
 import ThemeToggleButton from "../ThemeToggleButton/ThemeToggleButton";
+import { COMMON_VARIABLES } from "@/utils/commonVariables";
 
 interface MobileNavigationProps {
   menuOpen: boolean;
@@ -115,18 +115,11 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
             {/* Quick Contact */}
             <h3 className="text-sm font-semibold mb-2">Quick Contact</h3>
             <a
-              href="tel:+919876543210"
-              className="flex items-center gap-2 text-sm mb-2 hover:text-green-500"
+               href={`mailto:${COMMON_VARIABLES.emailId}?subject=Inquiry Message to Corporate Girlie Arts&cc=${COMMON_VARIABLES.ccId}`}
+              className="flex items-center gap-2 text-sm mb-4 "
             >
-              <FontAwesomeIcon icon={faPhone} />
-              +91 98765-43210
-            </a>
-            <a
-              href="mailto:contact@artcompany.com"
-              className="flex items-center gap-2 text-sm mb-4 hover:text-blue-500"
-            >
-              <FontAwesomeIcon icon={faEnvelope} />
-              contact@artcompany.com
+              <FontAwesomeIcon icon={faEnvelope} className="text-yellow-400"/>
+              {COMMON_VARIABLES.emailId}
             </a>
 
             {/* Social Media */}
@@ -151,7 +144,7 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
                 href="https://www.threads.com/@thecorporategirliearts"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-yellow-300 dark:hover:text-yellow-300"
+                className="hover:text-yellow-400 dark:hover:text-yellow-400"
               >
                 <FontAwesomeIcon icon={faThreads} size="lg" />
               </a>

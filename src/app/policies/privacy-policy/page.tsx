@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const PrivacyPolicy = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const linkColor = darkMode ? "text-blue-400" : "text-blue-600";
-  const emailTextColor = darkMode ? "text-yellow-300" : "text-yellow-300";
+  const emailTextColor = darkMode ? "text-yellow-400" : "text-yellow-400";
 
   return (
     <PolicyContainer>
@@ -55,8 +55,7 @@ const PrivacyPolicy = () => {
         <li className="before:content-['-'] before:mr-2 before:inline-block">
           <strong>Company</strong> (referred to as either &quot;the
           Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in
-          this Agreement) refers to The Corporate Girlie Arts, C96, 1st cross,
-          Ramachandrapuram, Bangalore.
+          this Agreement) refers to The Corporate Girlie Arts, Bangalore.
         </li>
         <li className="before:content-['-'] before:mr-2 before:inline-block">
           <strong>Cookies</strong> are small files placed on Your computer,
@@ -490,7 +489,7 @@ const PrivacyPolicy = () => {
         contact us at:{" "}
         <Link
           href="/contactUs"
-          className={`${emailTextColor} hover:underline hover:text-yellow-300`}
+          className={`${emailTextColor} hover:underline hover:text-yellow-400`}
         >
           Contact Us Page
         </Link>

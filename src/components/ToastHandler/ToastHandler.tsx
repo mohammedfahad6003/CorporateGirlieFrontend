@@ -25,7 +25,7 @@ const ToastHandler: React.FC<ToastHandlerProps> = ({
   }, [onClose]);
 
   const baseStyles =
-    "fixed top-5 left-1/2 -translate-x-1/2 w-[100%] max-w-lg flex items-center gap-3 px-4 py-3 border-l-8 rounded-lg shadow-lg transition-opacity duration-300";
+    "fixed top-10 left-1/2 -translate-x-1/2 z-50 w-[100%] max-w-lg flex items-center gap-3 px-4 py-3 border-l-8 rounded-lg shadow-lg transition-opacity duration-300";
 
   const typeStyles =
     type === "success"
@@ -35,7 +35,7 @@ const ToastHandler: React.FC<ToastHandlerProps> = ({
   const icon = type === "success" ? faCheckCircle : faTimesCircle;
 
   return (
-    <div className={`${baseStyles} ${typeStyles}`}>
+    <div className={`${baseStyles} ${typeStyles} opacity-100`}>
       <FontAwesomeIcon
         icon={icon}
         size="lg"

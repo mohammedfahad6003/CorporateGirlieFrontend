@@ -37,7 +37,7 @@ const ThemeToggleButton = () => {
       {/* Icons */}
       <FontAwesomeIcon
         icon={faSun}
-        className="text-yellow-500 w-[0.9rem] h-[0.9rem] absolute left-1.5 transition-opacity duration-300"
+        className="text-yellow-400 w-[0.9rem] h-[0.9rem] absolute left-1.5 transition-opacity duration-300"
         style={{ opacity: darkMode ? 0 : 1 }}
       />
       <FontAwesomeIcon
