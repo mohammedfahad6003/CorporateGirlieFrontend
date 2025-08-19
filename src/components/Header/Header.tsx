@@ -9,6 +9,7 @@ import { RootState } from "@/store/store";
 import Image from "next/image";
 import DesktopNavigation from "./DesktopNavigation";
 import MobileNavigation from "./MobileNavigation";
+import Link from "next/link";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,7 +19,7 @@ const Header = () => {
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
-    const threshold = 120; 
+    const threshold = 120;
     const scrollBuffer = 10;
 
     const handleScroll = () => {
@@ -61,7 +62,7 @@ const Header = () => {
           </div>
 
           <h1 className="md:pl-4 pl-1 font-dancing lg:text-4xl sm:text-3xl text-2xl font-bold text-yellow-400 sm:ml-0 ml-3">
-            The Corporate Girlie Arts
+            <Link href="/">The Corporate Girlie Arts</Link>
           </h1>
         </div>
 
