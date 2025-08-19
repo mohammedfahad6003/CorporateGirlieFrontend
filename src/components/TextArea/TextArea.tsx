@@ -24,7 +24,7 @@ const TextArea = ({ placeholder, value, onChange }: TextAreaProps) => {
         [resize:vertical]
         ${
           darkMode
-            ? "text-white border-yellow-300 placeholder-gray-300 hover:shadow-md hover:shadow-white/20"
+            ? "text-white border-yellow-400 placeholder-gray-300 hover:shadow-md hover:shadow-white/20"
             : "text-gray-800 border-gray-800 placeholder-gray-500 hover:shadow-md hover:shadow-gray-400/40"
         }
       `}
