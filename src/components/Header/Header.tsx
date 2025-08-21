@@ -14,6 +14,7 @@ import { RootState } from "@/store/store";
 import DesktopNavigation from "./DesktopNavigation";
 import MobileNavigation from "./MobileNavigation";
 import Link from "next/link";
+import Image from "next/image";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,20 +69,39 @@ const Header = () => {
         <div className="hidden sm:block cursor-pointer text-xl sm:text-2xl md:text-3xl">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
-            className={darkMode ? "text-yellow-400" : "text-black"}
+            className={`sm:text-2xl text-xl ${
+              darkMode ? "text-yellow-400" : "text-black"
+            }`}
           />
         </div>
 
         {/* Title */}
-        <h1 className="font-dancing lg:text-5xl sm:text-3xl text-2xl font-bold text-yellow-400">
-          <Link href="/">The Corporate Girlie Arts</Link>
-        </h1>
+        <div className="flex flex-row items-center">
+          <div className="w-8 md:w-10 mr-2">
+            <Image
+              src={darkMode ? "/DarkModeLogo.svg" : "/LightModeLogo.svg"}
+              alt={darkMode ? "Dark Mode Logo" : "Light Mode Logo"}
+              width={60}
+              height={60}
+              loading="eager"
+              style={{ width: "100%", height: "auto", borderRadius: "50%" }}
+            />
+          </div>
+
+          <h1 className="font-dancing lg:text-[36px] sm:text-3xl text-2xl font-bold text-yellow-400 text-center">
+            <Link href="/">The Corporate Girlie Arts</Link>
+          </h1>
+        </div>
 
         {/* Wishlist Icon */}
         <div className="cursor-pointer text-xl sm:text-2xl md:text-3xl">
           <FontAwesomeIcon
             icon={faBagShopping}
-            className={darkMode ? "text-yellow-400" : "text-gray-800"}
+            className={`sm:text-2xl text-xl ${
+              darkMode
+                ? "text-yellow-400 hover:text-yellow-300"
+                : "text-gray-800 hover:text-gray-400"
+            }`}
           />
         </div>
 
