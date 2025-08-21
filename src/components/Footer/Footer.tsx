@@ -81,7 +81,9 @@ const Footer = () => {
               {/* Email */}
               <a
                 href={`mailto:${COMMON_VARIABLES.emailId}?subject=Inquiry Message to Corporate Girlie Arts&cc=${COMMON_VARIABLES.ccId}`}
-                className={`flex items-center gap-2 text-sm transition text-blue-500 hover:text-blue-400`}
+                className={`flex items-center gap-2 text-sm transition ${
+                  darkMode ? "text-white" : "text-black"
+                } hover:text-blue-400`}
               >
                 <FontAwesomeIcon icon={faEnvelope} />
                 <span

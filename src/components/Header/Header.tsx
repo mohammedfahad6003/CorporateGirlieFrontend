@@ -3,10 +3,14 @@
 import React, { useEffect, useState } from "react";
 import ThemeToggleButton from "../ThemeToggleButton/ThemeToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBagShopping,
+  faBars,
+  faMagnifyingGlass,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import Image from "next/image";
 import DesktopNavigation from "./DesktopNavigation";
 import MobileNavigation from "./MobileNavigation";
 import Link from "next/link";
@@ -50,45 +54,46 @@ const Header = () => {
           : "bg-gray-50 border-b border-gray-50"
       }`}
     >
-      <header className="flex items-center lg:p-4 sm:px-6 px-0 pb-3 md:pt-6 pt-8 relative sm:justify-around justify-end flex-row-reverse sm:flex-row transition-colors duration-300">
-        <div className="flex items-center">
-          <div className="hidden sm:block">
-            <div className="w-8 sm:w-10 md:w-16">
-              <Image
-                src={darkMode ? "/DarkModeLogo.svg" : "/LightModeLogo.svg"}
-                alt={darkMode ? "Dark Mode Logo" : "Light Mode Logo"}
-                width={60}
-                height={60}
-                loading="eager"
-                style={{ width: "100%", height: "auto", borderRadius: "50%" }}
-              />
-            </div>
-          </div>
-
-          <h1 className="md:pl-4 pl-1 font-dancing lg:text-4xl sm:text-3xl text-2xl font-bold text-yellow-400 sm:ml-0 ml-3">
-            <Link href="/">The Corporate Girlie Arts</Link>
-          </h1>
-        </div>
-
-        {/* Desktop Menu */}
-        <DesktopNavigation />
-
-        {/* Mobile Menu */}
-        <MobileNavigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-
+      <header className="flex items-center lg:px-12 px-0 pb-3 md:pt-6 pt-8 relative sm:justify-around justify-between flex-row sm:flex-row transition-colors duration-300">
         {/* Mobile Hamburger Icon */}
         <button
           className={`sm:hidden text-[1.25rem] transition-colors duration-300 ${
-            darkMode ? "text-white" : "text-yellow-400"
+            darkMode ? "text-white" : "text-gray-800"
           }`}
           onClick={() => setMenuOpen((prev) => !prev)}
         >
           <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
         </button>
 
+        <div className="hidden sm:block cursor-pointer text-xl sm:text-2xl md:text-3xl">
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            className={darkMode ? "text-yellow-400" : "text-black"}
+          />
+        </div>
+
+        {/* Title */}
+        <h1 className="font-dancing lg:text-5xl sm:text-3xl text-2xl font-bold text-yellow-400">
+          <Link href="/">The Corporate Girlie Arts</Link>
+        </h1>
+
+        {/* Wishlist Icon */}
+        <div className="cursor-pointer text-xl sm:text-2xl md:text-3xl">
+          <FontAwesomeIcon
+            icon={faBagShopping}
+            className={darkMode ? "text-yellow-400" : "text-gray-800"}
+          />
+        </div>
+
+        {/* Mobile Menu */}
+        <MobileNavigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+
         {/* Theme Toggle */}
         <ThemeToggleButton />
       </header>
+
+      {/* Desktop Menu */}
+      <DesktopNavigation />
     </div>
   );
 };
