@@ -8,6 +8,7 @@ import {
   faEnvelope,
   faChevronDown,
   faChevronRight,
+  faBagShopping,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faInstagram,
@@ -22,6 +23,7 @@ import { usePathname } from "next/navigation";
 import ThemeToggleButton from "../ThemeToggleButton/ThemeToggleButton";
 import { COMMON_VARIABLES } from "@/utils/commonVariables";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface MobileNavigationProps {
   menuOpen: boolean;
@@ -71,12 +73,32 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
       >
         {/* Header */}
         <div className="p-4 relative">
-          <header className="flex items-center lg:p-4 sm:px-6 px-0 pb-3 md:pt-6 pt-8 relative sm:justify-around justify-end transition-colors duration-300 flex-row-reverse">
-            <h1 className="md:pl-4 pl-1 font-dancing lg:text-4xl sm:text-3xl text-2xl font-bold text-yellow-400 sm:ml-0 ml-3">
-              <Link href={"/"} onClick={() => setMenuOpen(false)}>
-                The Corporate Girlie Arts
-              </Link>
-            </h1>
+          <header className="flex items-center lg:p-4 sm:px-6 px-0 pb-3 md:pt-6 pt-8 relative sm:justify-around justify-between transition-colors duration-300 flex-row-reverse">
+            {/* Wishlist Icon */}
+            <div className="cursor-pointer text-xl sm:text-2xl md:text-3xl">
+              <FontAwesomeIcon
+                icon={faBagShopping}
+                className={darkMode ? "text-yellow-400" : "text-gray-800"}
+              />
+            </div>
+
+            <div className="flex flex-row items-center">
+              <div className="w-8 md:w-10 mr-2">
+                <Image
+                  src={darkMode ? "/DarkModeLogo.svg" : "/LightModeLogo.svg"}
+                  alt={darkMode ? "Dark Mode Logo" : "Light Mode Logo"}
+                  width={60}
+                  height={60}
+                  loading="eager"
+                  style={{ width: "100%", height: "auto", borderRadius: "50%" }}
+                />
+              </div>
+
+              <h1 className="font-dancing lg:text-5xl sm:text-3xl text-2xl font-bold text-yellow-400 text-center">
+                <Link href="/">The Corporate Girlie Arts</Link>
+              </h1>
+            </div>
+
             <button
               onClick={() => setMenuOpen(false)}
               className={`cursor-pointer ${
@@ -85,6 +107,7 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
             >
               <FontAwesomeIcon icon={faTimes} />
             </button>
+
             {/* Theme Toggle Button inside left pane */}
             <ThemeToggleButton />
           </header>
@@ -144,25 +167,27 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
                     }`}
                   >
                     {item.childMenus &&
-                      item.childMenus.map((submenu: ChildMenu, index: number) => (
-                        <Link
-                          key={submenu.id}
-                          href={submenu.navigation}
-                          onClick={() => setMenuOpen(false)}
-                          className={`block pt-2 text-sm  ${
-                            pathName === submenu.navigation
-                              ? "text-yellow-400 font-medium"
-                              : "hover:text-yellow-400"
-                          }
+                      item.childMenus.map(
+                        (submenu: ChildMenu, index: number) => (
+                          <Link
+                            key={submenu.id}
+                            href={submenu.navigation}
+                            onClick={() => setMenuOpen(false)}
+                            className={`block pt-2 text-sm  ${
+                              pathName === submenu.navigation
+                                ? "text-yellow-400 font-medium"
+                                : "hover:text-yellow-400"
+                            }
                         `}
-                          prefetch={true}
-                        >
-                          {submenu.title}
-                          {index !== (item.childMenus?.length ?? 0) - 1 && (
-                            <div className="border-b border-gray-300 my-2" />
-                          )}
-                        </Link>
-                      ))}
+                            prefetch={true}
+                          >
+                            {submenu.title}
+                            {index !== (item.childMenus?.length ?? 0) - 1 && (
+                              <div className="border-b border-gray-300 my-2" />
+                            )}
+                          </Link>
+                        )
+                      )}
                   </div>
                 )}
               </React.Fragment>
