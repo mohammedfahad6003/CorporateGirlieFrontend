@@ -488,7 +488,7 @@ const PrivacyPolicy = () => {
         If you have any questions or need assistance with your order, please
         contact us at:{" "}
         <Link
-          href="/contactUs"
+          href="/contact-us"
           className={`${emailTextColor} hover:underline hover:text-yellow-400`}
         >
           Contact Us Page

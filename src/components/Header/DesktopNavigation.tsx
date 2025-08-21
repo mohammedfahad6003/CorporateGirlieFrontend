@@ -1,5 +1,7 @@
 import { RootState } from "@/store/store";
-import { menuItems, MenuItems, subMenusItems } from "@/utils/commonJson";
+import { ChildMenu, menuForDesktopItems, Menus } from "@/utils/commonJson";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -8,64 +10,78 @@ import { useSelector } from "react-redux";
 const DesktopNavigation = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const pathName = usePathname();
-  const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [categoriesOpen, setCategoriesOpen] = useState<Menus["id"] | null>(
+    null
+  );
 
   return (
     <nav
-      className={`hidden sm:flex flex-row md:gap-12 gap-4 transition-colors duration-300 ${
+      className={`mt-8 hidden sm:flex flex-row flex-wrap justify-center lg:gap-12 md:gap-8 gap-4 transition-colors duration-300 ${
         darkMode ? "text-white" : "text-black"
       }`}
     >
-      {menuItems.map((item: MenuItems) => {
+      {menuForDesktopItems.map((item: Menus) => {
+        const hasChildren = item.childMenus && item.childMenus.length > 0;
         const isActive =
-          item.title === "Categories"
-            ? pathName.startsWith("/categories")
-            : pathName === item.navigation;
+          pathName === item.navigation ||
+          (hasChildren && pathName.startsWith(item.navigation));
 
-        if (item.title === "Categories") {
+        if (hasChildren) {
           return (
             <div
               key={item.id}
               className={`relative hover:text-yellow-400
-                  after:content-[''] after:absolute after:w-full after:h-[2px] after:bottom-0 after:left-0
-                  after:bg-yellow-400 after:transition-transform after:duration-300
-                  
-                  ${
-                    isActive
-                      ? "text-yellow-400 after:scale-x-100 after:origin-left"
-                      : "after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left"
-                  }`}
-              onMouseEnter={() => setCategoriesOpen(true)}
-              onMouseLeave={() => setCategoriesOpen(false)}
+                after:content-[''] after:absolute after:w-full after:h-[2px] after:bottom-0 after:left-0
+                after:bg-yellow-400 after:transition-transform after:duration-300
+                ${
+                  isActive || categoriesOpen === item.id
+                    ? "text-yellow-400 after:scale-x-100 after:origin-left"
+                    : "after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left"
+                }`}
+              onMouseEnter={() => setCategoriesOpen(item?.id)}
+              onMouseLeave={() => setCategoriesOpen(null)}
             >
-              {/* Parent link */}
-              <Link
-                href={item.navigation}
+              {/* Parent (no navigation) */}
+              <button
                 className={`
                   md:text-[1.125rem]
                   cursor-pointer relative
-                  mb-4
-              `}
-                prefetch={true}
+                  pb-2 flex items-center gap-2
+                `}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (categoriesOpen === item.id) {
+                    setCategoriesOpen(null);
+                  } else {
+                    setCategoriesOpen(item.id);
+                  }
+                }}
               >
                 {item.title}
-              </Link>
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  className={`md:text-[0.75rem] transition-transform duration-300 ${
+                    categoriesOpen === item.id ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
 
               {/* Dropdown */}
-              {categoriesOpen && (
+              {categoriesOpen === item.id && (
                 <div
                   className={`
-                    absolute top-full -left-96 lg:-left-80 md:-left-40 sm:-left-20
+                    absolute top-full left-1/2 -translate-x-1/2
                     rounded-lg shadow-lg z-50 transition-opacity duration-200
-                    opacity-100 visible
-                    pt-4
+                    opacity-100 visible pt-4
+                    max-h-[70vh] overflow-y-auto
+                    w-[150px]
                   `}
                 >
                   <ul
                     className={`
-                      p-4 w-[800px] lg:w-[650px] md:w-[500px] sm:w-[350px]
+                      flex flex-col gap-3
+                      p-4 w-full
                       rounded-lg shadow-lg border
-                      max-h-[70vh] overflow-y-auto
                       scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-transparent
                       ${
                         darkMode
@@ -74,32 +90,21 @@ const DesktopNavigation = () => {
                       }
                     `}
                   >
-                    {subMenusItems?.map((menu) => (
-                      <div key={menu.id} className="mb-2">
-                        <h2 className="tracking-widest text-xl lg:text-lg md:text-base font-serif text-yellow-400">
-                          {menu.title}
-                        </h2>
-                        <ul className="flex flex-wrap py-3 items-center gap-y-2">
-                          {menu?.childMenus?.map((submenu) => (
-                            <li key={submenu.id} className="mb-2 px-3">
-                              <Link
-                                href={`/categories/${submenu.title
-                                  .toLowerCase()
-                                  .replace(/\s+/g, "-")}`}
-                                className={`
-                                  relative inline-block font-medium
-                                  text-base lg:text-sm md:text-xs
-                                  hover:text-yellow-400 group
-                                `}
-                                prefetch={true}
-                              >
-                                {submenu.title}
-                                <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-yellow-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                    {item?.childMenus?.map((submenu: ChildMenu) => (
+                      <li key={submenu.id} className="flex items-center">
+                        <Link
+                          href={submenu.navigation}
+                          className={`
+                            relative inline-block font-medium
+                            text-base lg:text-sm md:text-xs
+                            hover:text-yellow-400 group
+                          `}
+                          prefetch={true}
+                        >
+                          {submenu.title}
+                          <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-yellow-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+                        </Link>
+                      </li>
                     ))}
                   </ul>
                 </div>

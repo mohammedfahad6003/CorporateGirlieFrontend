@@ -1,92 +1,111 @@
-export interface MenuItems {
+export interface ChildMenu {
   id: number;
   title: string;
   navigation: string;
 }
 
-export const menuItems: MenuItems[] = [
-  { id: 1, title: "Home", navigation: "/" },
-  { id: 2, title: "Categories", navigation: "/categories" },
-  { id: 3, title: "About Us", navigation: "/aboutUs" },
-  { id: 4, title: "Contact Us", navigation: "/contactUs" },
-];
-
-export interface SubMenuItems {
+export interface Menus {
   id: number;
   title: string;
+  navigation: string;
+  childMenus?: ChildMenu[];
 }
 
-export interface Menu {
-  id: number;
-  title: string;
-  childMenus: SubMenuItems[];
-}
-
-export const subMenusItems: Menu[] = [
-  {
-    id: 1,
-    title: "Painting",
-    childMenus: [
-      { id: 1, title: "Oil Painting" },
-      { id: 2, title: "Watercolor Painting" },
-      { id: 3, title: "Acrylic Painting" },
-      { id: 4, title: "Portrait Painting" },
-      { id: 5, title: "Landscape Painting" },
-      { id: 6, title: "Abstract Painting" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Drawing",
-    childMenus: [
-      { id: 1, title: "Pencil Sketching" },
-      { id: 2, title: "Charcoal Drawing" },
-      { id: 3, title: "Ink Drawing" },
-      { id: 4, title: "Figure Drawing" },
-      { id: 5, title: "Architectural Drawing" },
-      { id: 6, title: "Cartoon & Comic Drawing" },
-    ],
-  },
-  {
-    id: 3,
-    title: "Resin Art",
-    childMenus: [
-      { id: 1, title: "Keychains" },
-      { id: 2, title: "Flower Storage" },
-      { id: 3, title: "Resin Tables" },
-      { id: 4, title: "Wall Clocks" },
-      { id: 5, title: "Jewelry & Accessories" },
-      { id: 6, title: "Coasters" },
-    ],
-  },
+export const menuForDesktopItems: Menus[] = [
+  { id: 1, title: "Festive Edition - SALE!", navigation: "/festive-edition" },
+  { id: 2, title: "Limited Edition - SALE!", navigation: "/limited-edition" },
+  { id: 3, title: "New Launches", navigation: "/new-launches" },
   {
     id: 4,
-    title: "Wall Hangings",
+    title: "Painting",
+    navigation: "/painting",
     childMenus: [
-      { id: 1, title: "Personal Quote Frames" },
-      { id: 2, title: "Bedroom Wall Hangings" },
-      { id: 3, title: "Living Room Decor" },
-      { id: 4, title: "Macrame Hangings" },
-      { id: 5, title: "Tapestry Wall Art" },
-      { id: 6, title: "Festive Wall Hangings" },
+      { id: 1, title: "Oil Painting", navigation: "/painting/oil" },
+      {
+        id: 2,
+        title: "Watercolor Painting",
+        navigation: "/painting/watercolor",
+      },
+      { id: 3, title: "Acrylic Painting", navigation: "/painting/acrylic" },
+      { id: 4, title: "Portrait Painting", navigation: "/painting/portrait" },
+      { id: 5, title: "Landscape Painting", navigation: "/painting/landscape" },
+      { id: 6, title: "Abstract Painting", navigation: "/painting/abstract" },
     ],
   },
-];
-
-export const menuForMobileItems: MenuItems[] = [
-  { id: 6, title: "Festive Edition - SALE!", navigation: "/festive-edition" },
-  { id: 7, title: "Limited Edition - SALE!", navigation: "/limited-edition" },
-  { id: 13, title: "New Launches", navigation: "/newLaunches" },
-  
-  { id: 2, title: "Painting", navigation: "/painting" },
-  { id: 3, title: "Drawing", navigation: "/drawing" },
-  { id: 4, title: "Resin Art", navigation: "/resin-art" },
-  { id: 5, title: "Wall Hangings", navigation: "/wall-hangings" },
-
-  { id: 8, title: "Portrait Painting", navigation: "/painting/portrait" },
-  { id: 9, title: "Macrame Hangings", navigation: "/wall-hangings/macrame" },
-  { id: 10, title: "Resin Jewelry", navigation: "/resin-art/jewelry" },
-
-  { id: 11, title: "About Us", navigation: "/aboutus" },
-  { id: 12, title: "Contact Us", navigation: "/contactus" },
+  {
+    id: 5,
+    title: "Drawing",
+    navigation: "/drawing",
+    childMenus: [
+      { id: 1, title: "Pencil Sketching", navigation: "/drawing/pencil" },
+      { id: 2, title: "Charcoal Drawing", navigation: "/drawing/charcoal" },
+      { id: 3, title: "Ink Drawing", navigation: "/drawing/ink" },
+      { id: 4, title: "Figure Drawing", navigation: "/drawing/figure" },
+      {
+        id: 5,
+        title: "Architectural Drawing",
+        navigation: "/drawing/architecture",
+      },
+      { id: 6, title: "Cartoon & Comic Drawing", navigation: "/drawing/comic" },
+    ],
+  },
+  {
+    id: 6,
+    title: "Resin Art",
+    navigation: "/resin-art",
+    childMenus: [
+      { id: 1, title: "Keychains", navigation: "/resin-art/keychains" },
+      { id: 2, title: "Flower Preservation", navigation: "/resin-art/flowers" },
+      { id: 3, title: "Resin Tables", navigation: "/resin-art/tables" },
+      { id: 4, title: "Wall Clocks", navigation: "/resin-art/clocks" },
+      {
+        id: 5,
+        title: "Jewelry & Accessories",
+        navigation: "/resin-art/jewelry",
+      },
+      { id: 6, title: "Coasters", navigation: "/resin-art/coasters" },
+    ],
+  },
+  {
+    id: 7,
+    title: "Home Decor",
+    navigation: "/home-decor",
+    childMenus: [
+      {
+        id: 1,
+        title: "Personal Quote Frames",
+        navigation: "/home-decor/frames",
+      },
+      {
+        id: 2,
+        title: "Bedroom Wall Hangings",
+        navigation: "/home-decor/bedroom",
+      },
+      {
+        id: 3,
+        title: "Living Room Decor",
+        navigation: "/home-decor/living-room",
+      },
+      { id: 4, title: "Macrame Hangings", navigation: "/home-decor/macrame" },
+      { id: 5, title: "Tapestry Wall Art", navigation: "/home-decor/tapestry" },
+      {
+        id: 6,
+        title: "Festive Wall Hangings",
+        navigation: "/home-decor/festive",
+      },
+    ],
+  },
+  {
+    id: 8,
+    title: "Crafts",
+    navigation: "/crafts",
+    childMenus: [
+      { id: 1, title: "Paper Craft", navigation: "/crafts/paper" },
+      { id: 2, title: "Clay Modeling", navigation: "/crafts/clay" },
+      { id: 3, title: "Handmade Jewelry", navigation: "/crafts/jewelry" },
+      { id: 4, title: "Wood Art", navigation: "/crafts/wood" },
+      { id: 5, title: "Fabric Art", navigation: "/crafts/fabric" },
+    ],
+  },
+  { id: 9, title: "Contact Us", navigation: "/contact-us" },
 ];

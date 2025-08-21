@@ -103,8 +103,8 @@ const GetInTouch = () => {
         sm:p-8 p-6 flex flex-col items-center justify-center gap-6
         ${
           darkMode
-            ? "bg-black border-1 border-y-yellow-400"
-            : "bg-yellow-400 border-1 border-yellow-400"
+            ? "bg-black border-t border-y-yellow-400"
+            : "bg-yellow-400 border-t border-yellow-400"
         }
       `}
       >

@@ -1,11 +1,13 @@
 "use client";
 
 import { RootState } from "@/store/store";
-import { menuForMobileItems } from "@/utils/commonJson";
+import { ChildMenu, menuForDesktopItems, Menus } from "@/utils/commonJson";
 import {
   faCircleArrowRight,
   faTimes,
   faEnvelope,
+  faChevronDown,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faInstagram,
@@ -14,11 +16,12 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
 import ThemeToggleButton from "../ThemeToggleButton/ThemeToggleButton";
 import { COMMON_VARIABLES } from "@/utils/commonVariables";
+import { useRouter } from "next/navigation";
 
 interface MobileNavigationProps {
   menuOpen: boolean;
@@ -28,8 +31,13 @@ interface MobileNavigationProps {
 const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const pathName = usePathname();
+  const router = useRouter();
 
   const paneRef = useRef<HTMLDivElement>(null);
+
+  const [categoriesOpen, setCategoriesOpen] = useState<Menus["id"] | null>(
+    null
+  );
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -72,7 +80,7 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
             <button
               onClick={() => setMenuOpen(false)}
               className={`cursor-pointer ${
-                darkMode ? "text-white" : "text-yellow-400"
+                darkMode ? "text-white" : "text-gray-800"
               }`}
             >
               <FontAwesomeIcon icon={faTimes} />
@@ -84,28 +92,79 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
 
         {/* Menu Items */}
         <nav className="flex flex-col flex-grow">
-          {menuForMobileItems?.map((item) => {
+          {menuForDesktopItems?.map((item: Menus) => {
             const isActive = pathName === item.navigation;
+            const hasChildren = item.childMenus && item.childMenus.length > 0;
+            const isExpanded = categoriesOpen === item.id;
+
             return (
               <React.Fragment key={item.id}>
-                <Link
-                  href={item.navigation}
-                  onClick={() => setMenuOpen(false)}
-                  className={`flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 transition-colors duration-200 ${
+                <button
+                  onClick={() => {
+                    if (hasChildren) {
+                      setCategoriesOpen(isExpanded ? null : item.id);
+                    } else {
+                      setMenuOpen(false);
+                      if (typeof window !== undefined) {
+                        router.push(item.navigation);
+                      }
+                    }
+                  }}
+                  className={`flex items-center justify-between px-6 py-4 border-b transition-colors duration-200 w-full text-left ${
                     isActive
-                      ? "text-yellow-400 font-medium"
-                      : "hover:text-yellow-400"
+                      ? "text-yellow-400 font-medium border-gray-700"
+                      : "hover:text-yellow-400 border-gray-200"
                   }`}
-                  prefetch={true}
                 >
                   <span>{item.title}</span>
-                  <FontAwesomeIcon
-                    icon={faCircleArrowRight}
-                    className={`${
-                      !darkMode ? "text-gray-600" : "text-yellow-400"
+
+                  {/* If has children → toggle icon, else normal arrow */}
+                  {hasChildren ? (
+                    <FontAwesomeIcon
+                      icon={isExpanded ? faChevronDown : faChevronRight}
+                      className={`${
+                        !darkMode ? "text-yellow-400" : "text-yellow-400"
+                      } transition-transform duration-300`}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faCircleArrowRight}
+                      className={`${
+                        !darkMode ? "text-yellow-400" : "text-yellow-400"
+                      }`}
+                    />
+                  )}
+                </button>
+
+                {/* Child Menus */}
+                {hasChildren && isExpanded && (
+                  <div
+                    className={`pl-10 pr-10 py-2 space-y-2 ${
+                      darkMode ? "bg-black" : "bg-gray-50"
                     }`}
-                  />
-                </Link>
+                  >
+                    {item.childMenus &&
+                      item.childMenus.map((submenu: ChildMenu, index: number) => (
+                        <Link
+                          key={submenu.id}
+                          href={submenu.navigation}
+                          onClick={() => setMenuOpen(false)}
+                          className={`block pt-2 text-sm  ${
+                            pathName === submenu.navigation
+                              ? "text-yellow-400 font-medium"
+                              : "hover:text-yellow-400"
+                          }
+                        `}
+                          prefetch={true}
+                        >
+                          {submenu.title}
+                          {index !== (item.childMenus?.length ?? 0) - 1 && (
+                            <div className="border-b border-gray-300 my-2" />
+                          )}
+                        </Link>
+                      ))}
+                  </div>
+                )}
               </React.Fragment>
             );
           })}
@@ -115,10 +174,10 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
             {/* Quick Contact */}
             <h3 className="text-sm font-semibold mb-2">Quick Contact</h3>
             <a
-               href={`mailto:${COMMON_VARIABLES.emailId}?subject=Inquiry Message to Corporate Girlie Arts&cc=${COMMON_VARIABLES.ccId}`}
+              href={`mailto:${COMMON_VARIABLES.emailId}?subject=Inquiry Message to Corporate Girlie Arts&cc=${COMMON_VARIABLES.ccId}`}
               className="flex items-center gap-2 text-sm mb-4 "
             >
-              <FontAwesomeIcon icon={faEnvelope} className="text-yellow-400"/>
+              <FontAwesomeIcon icon={faEnvelope} className="text-yellow-400" />
               {COMMON_VARIABLES.emailId}
             </a>
 
@@ -144,7 +203,7 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
                 href="https://www.threads.com/@thecorporategirliearts"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-yellow-400 dark:hover:text-yellow-400"
+                className="hover:text-yellow-400"
               >
                 <FontAwesomeIcon icon={faThreads} size="lg" />
               </a>
