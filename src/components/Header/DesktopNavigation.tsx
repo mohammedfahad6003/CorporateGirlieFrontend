@@ -16,7 +16,7 @@ const DesktopNavigation = () => {
 
   return (
     <nav
-      className={`mt-8 hidden sm:flex flex-row flex-wrap justify-center lg:gap-12 md:gap-8 gap-4 transition-colors duration-300 ${
+      className={`mt-8 hidden sm:flex flex-row flex-wrap justify-center lg:gap-8 md:gap-8 gap-4 transition-colors duration-300 ${
         darkMode ? "text-white" : "text-black"
       }`}
     >
@@ -44,7 +44,7 @@ const DesktopNavigation = () => {
               {/* Parent (no navigation) */}
               <button
                 className={`
-                  md:text-[1.125rem]
+                  md:text-[1rem] text-[0.75rem]
                   cursor-pointer relative
                   pb-2 flex items-center gap-2
                 `}
@@ -119,7 +119,7 @@ const DesktopNavigation = () => {
             href={item.navigation}
             prefetch={true}
             className={`
-              md:text-[1.125rem]
+              md:text-[1rem] text-[0.75rem]
               cursor-pointer relative
               hover:text-yellow-400
               after:content-[''] after:absolute after:w-full after:h-[2px] after:bottom-0 after:left-0
