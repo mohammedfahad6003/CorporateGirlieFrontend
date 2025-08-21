@@ -105,7 +105,7 @@ const ShippingPolicy = () => {
         If you have any questions or need assistance with your order, please
         contact us at:{" "}
         <Link
-          href="/contactUs"
+          href="/contact-us"
           className={`text-yellow-400 hover:underline hover:text-yellow-400`}
         >
           Contact Us Page
