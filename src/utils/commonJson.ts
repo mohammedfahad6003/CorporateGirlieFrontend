@@ -107,5 +107,18 @@ export const menuForDesktopItems: Menus[] = [
       { id: 5, title: "Fabric Art", navigation: "/crafts/fabric" },
     ],
   },
-  { id: 9, title: "Contact Us", navigation: "/contact-us" },
+  { id: 9, title: "Contact Us", navigation: "/contactus" },
+];
+
+export const DummySearchValues = [
+  { id: 1, label: "Apple", value: "apple" },
+  { id: 2, label: "Banana", value: "banana" },
+  { id: 3, label: "Cherry", value: "cherry" },
+  { id: 4, label: "Dragonfruit", value: "dragonfruit" },
+  { id: 5, label: "Elderberry", value: "elderberry" },
+  { id: 6, label: "Fig", value: "fig" },
+  { id: 7, label: "Grapes", value: "grapes" },
+  { id: 8, label: "Honeydew", value: "honeydew" },
+  { id: 9, label: "Mango", value: "mango" },
+  { id: 10, label: "Pineapple", value: "pineapple" },
 ];
