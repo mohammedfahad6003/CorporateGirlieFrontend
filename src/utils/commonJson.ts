@@ -107,7 +107,7 @@ export const menuForDesktopItems: Menus[] = [
       { id: 5, title: "Fabric Art", navigation: "/crafts/fabric" },
     ],
   },
-  { id: 9, title: "Contact Us", navigation: "/contactus" },
+  { id: 9, title: "Contact Us", navigation: "/contact-us" },
 ];
 
 export const DummySearchValues = [
