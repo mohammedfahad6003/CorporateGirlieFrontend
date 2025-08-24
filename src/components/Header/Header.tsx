@@ -15,10 +15,14 @@ import DesktopNavigation from "./DesktopNavigation";
 import MobileNavigation from "./MobileNavigation";
 import Link from "next/link";
 import Image from "next/image";
+import SearchableDropdown from "../SearchableDropdown/page";
+import { DummySearchValues } from "@/utils/commonJson";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchedValue, setSearchedValue] = useState('');
 
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
@@ -45,6 +49,10 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleDropdown = (e: string) => {
+    setSearchedValue(e);
+  };
+
   return (
     <div
       className={`sticky top-0 z-50 w-full p-4 sm:p-5 lg:p-8 transition-transform duration-300 ${
@@ -66,14 +74,23 @@ const Header = () => {
           <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
         </button>
 
-        <div className="hidden sm:block cursor-pointer text-xl sm:text-2xl md:text-3xl">
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            className={`sm:text-2xl text-xl ${
-              darkMode ? "text-yellow-400" : "text-black"
-            }`}
-          />
-        </div>
+        {!showSearch ? (
+          <div
+            className="hidden sm:block cursor-pointer text-xl sm:text-2xl md:text-3xl"
+            onClick={() => setShowSearch(true)}
+          >
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              className={`sm:text-2xl text-xl ${
+                darkMode ? "text-yellow-400" : "text-black"
+              }`}
+            />
+          </div>
+        ) : (
+          <div className="hidden sm:block cursor-pointer text-xl sm:text-2xl md:text-3xl w-[30px]">
+            {" "}
+          </div>
+        )}
 
         {/* Title */}
         <div className="flex flex-row items-center">
@@ -112,8 +129,41 @@ const Header = () => {
         <ThemeToggleButton />
       </header>
 
+      <div className="w-full mx-auto mt-3 sm:hidden transition-all duration-300 ease-in-out flex items-center">
+        <div className="flex-grow">
+          <SearchableDropdown
+            value={searchedValue}
+            options={DummySearchValues}
+            onChange={(e) => handleDropdown(e)}
+            required={true}
+          />
+        </div>
+      </div>
+
+      {/* Desktop Search Container */}
+      {showSearch && (
+        <div className="w-full sm:w-2/5 mx-auto sm:mt-5 lg:mt-6 transition-all duration-300 ease-in-out flex items-center">
+          <div className="flex-grow">
+            <SearchableDropdown
+              value={searchedValue}
+              options={DummySearchValues}
+              onChange={(e) => handleDropdown(e)}
+              required={true}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setShowSearch(false)}
+            className="ml-3 cursor-pointer text-[14px] sm:text-[16px]"
+          >
+            <FontAwesomeIcon icon={faTimes} className={"text-gray-600"} />
+          </button>
+        </div>
+      )}
+
       {/* Desktop Menu */}
-      <DesktopNavigation />
+      {!showSearch && <DesktopNavigation />}
     </div>
   );
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import { RootState } from "@/store/store";
 import { ChildMenu, menuForDesktopItems, Menus } from "@/utils/commonJson";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
@@ -73,7 +75,7 @@ const DesktopNavigation = () => {
                     absolute top-full left-1/2 -translate-x-1/2
                     rounded-lg shadow-lg z-50 transition-opacity duration-200
                     opacity-100 visible pt-4
-                    max-h-[70vh] overflow-y-auto
+                    max-h-[70vh] overflow-y-auto submenu-container
                     w-[150px]
                   `}
                 >
@@ -83,6 +85,7 @@ const DesktopNavigation = () => {
                       p-4 w-full
                       rounded-lg shadow-lg border
                       scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-transparent
+                      custom-scrollbar
                       ${
                         darkMode
                           ? "bg-black border-gray-700 text-white"
