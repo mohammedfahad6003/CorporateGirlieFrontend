@@ -16,13 +16,16 @@ import MobileNavigation from "./MobileNavigation";
 import Link from "next/link";
 import Image from "next/image";
 import SearchableDropdown from "../SearchableDropdown/page";
-import { DummySearchValues } from "@/utils/commonJson";
+import { DummySearchValues, Menus } from "@/utils/commonJson";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
-  const [searchedValue, setSearchedValue] = useState('');
+  const [searchedValue, setSearchedValue] = useState("");
+  const [categoriesOpen, setCategoriesOpen] = useState<Menus["id"] | null>(
+    null
+  );
 
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
@@ -40,6 +43,7 @@ const Header = () => {
         setShowHeader(true);
       } else {
         setShowHeader(false);
+        setCategoriesOpen(null);
       }
 
       lastScrollY = currentScrollY;
@@ -163,7 +167,7 @@ const Header = () => {
       )}
 
       {/* Desktop Menu */}
-      {!showSearch && <DesktopNavigation />}
+      {!showSearch && <DesktopNavigation categoriesOpen={categoriesOpen} setCategoriesOpen={setCategoriesOpen}/>}
     </div>
   );
 };

@@ -6,15 +6,20 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
-const DesktopNavigation = () => {
+type DesktopNavigationProps = {
+  categoriesOpen: Menus["id"] | null;
+  setCategoriesOpen: React.Dispatch<React.SetStateAction<Menus["id"] | null>>;
+};
+
+const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
+  categoriesOpen,
+  setCategoriesOpen,
+}) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const pathName = usePathname();
-  const [categoriesOpen, setCategoriesOpen] = useState<Menus["id"] | null>(
-    null
-  );
 
   return (
     <nav
