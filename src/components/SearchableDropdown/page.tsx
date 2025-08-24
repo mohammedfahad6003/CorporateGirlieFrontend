@@ -3,6 +3,11 @@
 import { RootState } from "@/store/store";
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleXmark,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface DropdownOption {
   id: number;
@@ -46,7 +51,6 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
     if (!required || isFocused) return;
 
     const currentText = placeholders[placeholderIndex];
-
     const typingSpeed = isDeleting ? 80 : 120;
 
     const interval = setInterval(() => {
@@ -55,7 +59,7 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
           const next = currentText.substring(0, prev.length + 1);
           if (next === currentText) {
             clearInterval(interval);
-            setTimeout(() => setIsDeleting(true), 1500); // wait before deleting
+            setTimeout(() => setIsDeleting(true), 1500);
           }
           return next;
         } else {
@@ -75,7 +79,7 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
     return () => clearInterval(interval);
   }, [placeholderIndex, isDeleting, isFocused, required]);
 
-  // Close dropdown if clicked outside
+  // close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -90,16 +94,35 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter options
   const filteredOptions = options.filter((opt) =>
     opt.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleClear = () => {
+    setSearchTerm("");
+    onChange("");
+    setOpen(false);
+  };
+
+  const selectedOption = options.find((opt) => opt.value === value);
+
   return (
-    <div className="relative w-full" ref={dropdownRef}>
+    <div className="relative flex items-center" ref={dropdownRef}>
+      {/* search icon inside input */}
+      <FontAwesomeIcon
+        icon={faMagnifyingGlass}
+        className={`absolute left-3 text-sm sm:text-base ${
+          darkMode ? "text-yellow-400" : "text-gray-500"
+        }`}
+      />
+
       <input
         type="text"
-        value={open ? searchTerm : value}
+        value={
+          open
+            ? searchTerm 
+            : selectedOption?.label || ""
+        }
         placeholder={
           required && !isFocused && !value ? typedPlaceholder : "Search..."
         }
@@ -113,7 +136,7 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
           setOpen(true);
         }}
         className={`
-          border-1 px-3 py-2 rounded-md outline-none w-full
+          pl-10 pr-10 border-1 px-3 py-2 rounded-md outline-none w-full
           text-[14px] sm:text-[16px]
           transition-all duration-200 ease-in-out
           placeholder-gray-500 cursor-pointer
@@ -125,10 +148,23 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
         `}
       />
 
-      {/* Dropdown Options */}
+      {/* cancel icon inside input */}
+      {(searchTerm || value) && (
+        <button
+          type="button"
+          onClick={handleClear}
+          className="absolute right-3 text-md sm:text-sm cursor-pointer"
+        >
+          <FontAwesomeIcon
+            icon={faCircleXmark}
+            className={darkMode ? "text-yellow-400" : "text-gray-600"}
+          />
+        </button>
+      )}
+
       {open && (
         <ul
-          className={`absolute z-50 mt-1 max-h-40 w-full overflow-y-auto rounded-md shadow-lg custom-scrollbar
+          className={`absolute top-full mt-1 max-h-40 w-full overflow-y-auto rounded-md shadow-lg custom-scrollbar z-50
           ${
             darkMode
               ? "bg-black text-white border border-yellow-400 dark"
@@ -144,15 +180,12 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
                   setSearchTerm("");
                   setOpen(false);
                 }}
-                className={`
-                    px-3 py-2 cursor-pointer 
-                    ${
-                      darkMode
-                        ? "hover:bg-yellow-400 hover:text-black"
-                        : "hover:bg-yellow-400 hover:text-white"
-                    } 
-                    ${value === opt?.value ? "font-semibold" : ""}
-                `}
+                className={`py-1.5 px-3 sm:py-2 cursor-pointer text-sm sm:text-base 
+                  ${
+                    darkMode
+                      ? "hover:bg-yellow-400 hover:text-black"
+                      : "hover:bg-yellow-400 hover:text-white"
+                  } ${value === opt?.value ? "font-semibold" : ""}`}
               >
                 {opt.label}
               </li>
