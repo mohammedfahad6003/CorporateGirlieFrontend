@@ -74,3 +74,29 @@ body.cookie-banner-visible {
 li {
   margin-bottom: 8px;
 }
+
+/* Common scrollbar base */
+.custom-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #9ca3af transparent; /* fallback gray */
+}
+
+/* Chrome, Safari, Edge */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #facc15; /* yellow-400 */
+}
+.light .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #1f2937; /* gray-800 */
+}

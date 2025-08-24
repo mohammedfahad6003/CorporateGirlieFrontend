@@ -15,6 +15,8 @@ import DesktopNavigation from "./DesktopNavigation";
 import MobileNavigation from "./MobileNavigation";
 import Link from "next/link";
 import Image from "next/image";
+import SearchableDropdown from "../SearchableDropdown/page";
+import { DummySearchValues } from "@/utils/commonJson";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,6 +46,10 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleDropdown = (e: string) => {
+    console.log(e);
+  };
 
   return (
     <div
@@ -111,6 +117,15 @@ const Header = () => {
         {/* Theme Toggle */}
         <ThemeToggleButton />
       </header>
+
+      <div className="cursor-pointer">
+        <SearchableDropdown
+          value=""
+          options={DummySearchValues}
+          onChange={(e) => handleDropdown(e)}
+          required={true}
+        />
+      </div>
 
       {/* Desktop Menu */}
       <DesktopNavigation />

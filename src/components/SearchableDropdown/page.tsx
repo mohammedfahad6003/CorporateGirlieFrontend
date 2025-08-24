@@ -37,7 +37,7 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
 
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [typedPlaceholder, setTypedPlaceholder] = useState("");
-  const charIndexRef = useRef(0);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -46,23 +46,34 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
     if (!required || isFocused) return;
 
     const currentText = placeholders[placeholderIndex];
-    setTypedPlaceholder("");
-    charIndexRef.current = 0;
 
-    const typingInterval = setInterval(() => {
-      if (charIndexRef.current < currentText.length - 1) {
-        setTypedPlaceholder((prev) => prev + currentText[charIndexRef.current]);
-        charIndexRef.current = charIndexRef.current + 1;
-      } else {
-        clearInterval(typingInterval);
-        setTimeout(() => {
-          setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
-        }, 2000);
-      }
-    }, 120);
+    const typingSpeed = isDeleting ? 80 : 120;
 
-    return () => clearInterval(typingInterval);
-  }, [placeholderIndex, isFocused, required]);
+    const interval = setInterval(() => {
+      setTypedPlaceholder((prev) => {
+        if (!isDeleting) {
+          const next = currentText.substring(0, prev.length + 1);
+          if (next === currentText) {
+            clearInterval(interval);
+            setTimeout(() => setIsDeleting(true), 1500); // wait before deleting
+          }
+          return next;
+        } else {
+          const next = currentText.substring(0, prev.length - 1);
+          if (next === "") {
+            clearInterval(interval);
+            setIsDeleting(false);
+            setPlaceholderIndex(
+              (prevIndex) => (prevIndex + 1) % placeholders.length
+            );
+          }
+          return next;
+        }
+      });
+    }, typingSpeed);
+
+    return () => clearInterval(interval);
+  }, [placeholderIndex, isDeleting, isFocused, required]);
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -90,11 +101,7 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
         type="text"
         value={open ? searchTerm : value}
         placeholder={
-          required
-            ? !isFocused && !value
-              ? typedPlaceholder
-              : ""
-            : "Search..."
+          required && !isFocused && !value ? typedPlaceholder : "Search..."
         }
         onFocus={() => {
           setOpen(true);
@@ -140,7 +147,7 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({
                 className={`
                     px-3 py-2 cursor-pointer 
                     ${
-                    darkMode
+                      darkMode
                         ? "hover:bg-yellow-400 hover:text-black"
                         : "hover:bg-yellow-400 hover:text-white"
                     } 
