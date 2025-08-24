@@ -26,7 +26,7 @@ body {
   font-family: "Dancing Script", cursive;
 }
 
-@media (max-width: 1024px) and (min-width: 768px) {
+@media (max-width: 1024px) and (min-width: 991px) {
   .submenu-container {
     width: 600px;
   }
