@@ -133,16 +133,18 @@ const Header = () => {
         <ThemeToggleButton />
       </header>
 
-      <div className="w-full mx-auto mt-3 sm:hidden transition-all duration-300 ease-in-out flex items-center">
-        <div className="flex-grow">
-          <SearchableDropdown
-            value={searchedValue}
-            options={DummySearchValues}
-            onChange={(e) => handleDropdown(e)}
-            required={true}
-          />
+      {!menuOpen && (
+        <div className="w-full mx-auto mt-3 sm:hidden transition-all duration-300 ease-in-out flex items-center">
+          <div className="flex-grow">
+            <SearchableDropdown
+              value={searchedValue}
+              options={DummySearchValues}
+              onChange={(e) => handleDropdown(e)}
+              required={true}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Desktop Search Container */}
       {showSearch && (
