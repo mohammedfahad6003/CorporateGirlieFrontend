@@ -35,21 +35,6 @@ body {
   }
 }
 
-/* For Chrome, Safari, Edge */
-html::-webkit-scrollbar {
-  display: none;
-}
-
-/* For Firefox */
-html {
-  scrollbar-width: none;
-}
-
-/* For IE/Edge (old) */
-html {
-  -ms-overflow-style: none;
-}
-
 body.cookie-banner-visible {
   padding-bottom: 120px; /* Adjust to match banner height */
 }
@@ -109,4 +94,11 @@ li {
 
 .submenu-container::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Edge */
+}
+
+.mobile-drawer {
+  height: 100%; /* instead of h-screen fallback */
+  max-height: 100vh; /* ensure it respects viewport */
+  overflow-y: auto !important; /* allow scrolling */
+  -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
 }

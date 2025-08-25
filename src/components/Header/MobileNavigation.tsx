@@ -41,12 +41,12 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
     null
   );
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
+  // useEffect(() => {
+  //   document.body.style.overflow = menuOpen ? "hidden" : "";
+  //   return () => {
+  //     document.body.style.overflow = "";
+  //   };
+  // }, [menuOpen]);
 
   useEffect(() => {
     if (menuOpen && paneRef.current) {
@@ -67,7 +67,7 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
 
       <div
         ref={paneRef}
-        className={`fixed top-0 left-0 h-screen w-full z-50 sm:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col ${
+        className={`fixed top-0 left-0 h-screen w-full z-50 sm:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col mobile-drawer ${
           darkMode ? "bg-black text-white" : "bg-gray-50 text-black"
         } ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
