@@ -19,9 +19,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import ThemeToggleButton from "../ThemeToggleButton/ThemeToggleButton";
 import { COMMON_VARIABLES } from "@/utils/commonVariables";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 interface MobileNavigationProps {
@@ -29,32 +30,24 @@ interface MobileNavigationProps {
   setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MobileNavigation: React.FC<MobileNavigationProps> = ({
-  menuOpen,
-  setMenuOpen,
-}) => {
+const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const pathName = usePathname();
   const router = useRouter();
 
   const paneRef = useRef<HTMLDivElement>(null);
+
   const [categoriesOpen, setCategoriesOpen] = useState<Menus["id"] | null>(
     null
   );
 
-  // Prevent background scroll when menu is open
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
 
-  // Reset scroll position when menu opens
   useEffect(() => {
     if (menuOpen && paneRef.current) {
       paneRef.current.scrollTop = 0;
@@ -65,18 +58,16 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
 
   return (
     <>
-      {/* Backdrop */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-40 sm:hidden bg-black/40"
+          className="fixed inset-0 z-40 sm:hidden"
           onClick={() => setMenuOpen(false)}
         />
       )}
 
-      {/* Drawer */}
       <div
         ref={paneRef}
-        className={`fixed top-0 left-0 h-full w-full z-50 sm:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto -webkit-overflow-scrolling-touch flex flex-col mobile-drawer ${
+        className={`fixed top-0 left-0 h-screen w-full z-50 sm:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col mobile-drawer ${
           darkMode ? "bg-black text-white" : "bg-gray-50 text-black"
         } ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
@@ -91,7 +82,6 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
               />
             </div>
 
-            {/* Logo + Title */}
             <div className="flex flex-row items-center">
               <div className="w-8 md:w-10 mr-2">
                 <Image
@@ -103,12 +93,12 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
                   style={{ width: "100%", height: "auto", borderRadius: "50%" }}
                 />
               </div>
+
               <h1 className="font-dancing lg:text-5xl sm:text-3xl text-2xl font-bold text-yellow-400 text-center">
                 <Link href="/">The Corporate Girlie Arts</Link>
               </h1>
             </div>
 
-            {/* Close Button */}
             <button
               onClick={() => setMenuOpen(false)}
               className={`cursor-pointer ${
@@ -118,7 +108,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
               <FontAwesomeIcon icon={faTimes} />
             </button>
 
-            {/* Theme Toggle */}
+            {/* Theme Toggle Button inside left pane */}
             <ThemeToggleButton />
           </header>
         </div>
@@ -151,7 +141,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
                 >
                   <span>{item.title}</span>
 
-                  {/* Icons */}
+                  {/* If has children → toggle icon, else normal arrow */}
                   {hasChildren ? (
                     <FontAwesomeIcon
                       icon={isExpanded ? faChevronDown : faChevronRight}
@@ -169,45 +159,48 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
                   )}
                 </button>
 
-                {/* Submenus */}
+                {/* Child Menus */}
                 {hasChildren && isExpanded && (
                   <div
                     className={`pl-10 pr-10 py-2 space-y-2 ${
                       darkMode ? "bg-black" : "bg-gray-50"
                     }`}
                   >
-                    {item.childMenus?.map(
-                      (submenu: ChildMenu, index: number) => (
-                        <Link
-                          key={submenu.id}
-                          href={submenu.navigation}
-                          onClick={() => setMenuOpen(false)}
-                          className={`block pt-2 text-sm ${
-                            pathName === submenu.navigation
-                              ? "text-yellow-400 font-medium"
-                              : "hover:text-yellow-400"
-                          }`}
-                          prefetch={true}
-                        >
-                          {submenu.title}
-                          {index !== (item.childMenus?.length ?? 0) - 1 && (
-                            <div className="border-b border-gray-300 my-2" />
-                          )}
-                        </Link>
-                      )
-                    )}
+                    {item.childMenus &&
+                      item.childMenus.map(
+                        (submenu: ChildMenu, index: number) => (
+                          <Link
+                            key={submenu.id}
+                            href={submenu.navigation}
+                            onClick={() => setMenuOpen(false)}
+                            className={`block pt-2 text-sm  ${
+                              pathName === submenu.navigation
+                                ? "text-yellow-400 font-medium"
+                                : "hover:text-yellow-400"
+                            }
+                        `}
+                            prefetch={true}
+                          >
+                            {submenu.title}
+                            {index !== (item.childMenus?.length ?? 0) - 1 && (
+                              <div className="border-b border-gray-300 my-2" />
+                            )}
+                          </Link>
+                        )
+                      )}
                   </div>
                 )}
               </React.Fragment>
             );
           })}
 
-          {/* Footer */}
+          {/* Mini Footer Section */}
           <div className={`mt-auto p-6 border-t ${borderColor}`}>
+            {/* Quick Contact */}
             <h3 className="text-sm font-semibold mb-2">Quick Contact</h3>
             <a
               href={`mailto:${COMMON_VARIABLES.emailId}?subject=Inquiry Message to Corporate Girlie Arts&cc=${COMMON_VARIABLES.ccId}`}
-              className="flex items-center gap-2 text-sm mb-4"
+              className="flex items-center gap-2 text-sm mb-4 "
             >
               <FontAwesomeIcon icon={faEnvelope} className="text-yellow-400" />
               {COMMON_VARIABLES.emailId}
