@@ -97,6 +97,8 @@ li {
 }
 
 .mobile-drawer {
-  -webkit-overflow-scrolling: touch;
-  overflow-y: scroll !important; /* force scroll container */
+  height: 100%; /* instead of h-screen fallback */
+  max-height: 100vh; /* ensure it respects viewport */
+  overflow-y: auto !important; /* allow scrolling */
+  -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
 }
