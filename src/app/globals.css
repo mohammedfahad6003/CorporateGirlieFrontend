@@ -98,4 +98,5 @@ li {
 
 .mobile-drawer {
   -webkit-overflow-scrolling: touch;
+  overflow-y: scroll !important; /* force scroll container */
 }
