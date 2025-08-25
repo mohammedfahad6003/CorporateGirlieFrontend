@@ -146,7 +146,7 @@ const Header = () => {
 
       {/* Desktop Search Container */}
       {showSearch && (
-        <div className="w-full sm:w-2/5 mx-auto sm:mt-5 lg:mt-6 transition-all duration-300 ease-in-out flex items-center">
+        <div className="hidden sm:flex w-full sm:w-2/5 mx-auto sm:mt-5 lg:mt-6 transition-all duration-300 ease-in-out items-center">
           <div className="flex-grow">
             <SearchableDropdown
               value={searchedValue}
@@ -167,7 +167,12 @@ const Header = () => {
       )}
 
       {/* Desktop Menu */}
-      {!showSearch && <DesktopNavigation categoriesOpen={categoriesOpen} setCategoriesOpen={setCategoriesOpen}/>}
+      {!showSearch && (
+        <DesktopNavigation
+          categoriesOpen={categoriesOpen}
+          setCategoriesOpen={setCategoriesOpen}
+        />
+      )}
     </div>
   );
 };
