@@ -3,6 +3,7 @@
 import MainPageContainer from "@/components/ContainerStyles/MainPageContainer";
 import GetInTouch from "@/components/GetInTouch/GetInTouch";
 import LandingPage from "@/components/LandingPage/LandingPage";
+import TestimonialsDisplay from "@/components/Testimonials/Testimonials";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
           <LandingPage />
         </div>
       </MainPageContainer>
+      <TestimonialsDisplay />
       <GetInTouch />
     </>
   );
