@@ -76,23 +76,69 @@ const TestimonialsDisplay = () => {
       ) : testimonials.length === 0 ? (
         <p className="text-center">No testimonials found.</p>
       ) : (
-        <div className="overflow-hidden relative">
-          <div
-            ref={containerRef}
-            className="flex gap-9 transition-transform duration-700 ease-in-out"
-            style={{
-              transform: `translateX(${translateX}%)`,
-            }}
-          >
-            {displayedTestimonials.map((t, idx) => (
+        <div
+          className={`overflow-hidden relative ${
+            isDesktop ? "" : "flex flex-col gap-6"
+          }`}
+        >
+          {isDesktop ? (
+            <div
+              ref={containerRef}
+              className="flex gap-6 transition-transform duration-700 ease-in-out"
+              style={{
+                transform: `translateX(${translateX}%)`,
+              }}
+            >
+              {displayedTestimonials.map((t, idx) => (
+                <div
+                  key={t._id + idx}
+                  className={`flex-shrink-0 w-full sm:w-[calc(33.333%-20px)] p-6 rounded-xl shadow-md flex flex-col justify-between h-auto sm:h-[220px]
+                    ${
+                      darkMode
+                        ? "bg-black text-white border border-yellow-400"
+                        : "bg-white text-black"
+                    }`}
+                >
+                  <div className="break-words">
+                    <h3
+                      className={`font-semibold text-base sm:text-lg truncate ${
+                        darkMode ? "text-yellow-400" : ""
+                      }`}
+                      title={t?.name ?? ""}
+                    >
+                      {t?.name ?? ""}
+                    </h3>
+                    {t?.location && (
+                      <span
+                        className="font-normal text-xs sm:text-base mb-2 block truncate"
+                        title={t.location ?? ""}
+                      >
+                        {t.location ?? ""}
+                      </span>
+                    )}
+                    <p
+                      className="text-xs sm:text-sm italic mb-3 truncate"
+                      title={t.productName ?? ""}
+                    >
+                      {t?.productName ?? ""}
+                    </p>
+                    <p className="text-xs sm:text-sm break-words">
+                      {t.message ?? ""}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            testimonials.slice(0, 3).map((t) => (
               <div
-                key={t._id + idx}
-                className={`flex-shrink-0 w-full sm:w-[calc(33.333%-33px)] p-6 rounded-xl shadow-md flex flex-col justify-between h-auto sm:h-[220px]
-                  ${
-                    darkMode
-                      ? "bg-black text-white border border-yellow-400"
-                      : "bg-white text-black"
-                  }`}
+                key={t._id}
+                className={`w-full p-6 rounded-xl shadow-md flex flex-col justify-between h-auto mb-4
+                ${
+                  darkMode
+                    ? "bg-black text-white border border-yellow-400"
+                    : "bg-white text-black"
+                }`}
               >
                 <div className="break-words">
                   <h3
@@ -105,25 +151,25 @@ const TestimonialsDisplay = () => {
                   </h3>
                   {t?.location && (
                     <span
-                      className="font-normal text-sm sm:text-base mb-1 block truncate"
+                      className="font-normal text-xs sm:text-sm mb-1 block truncate"
                       title={t.location ?? ""}
                     >
                       {t.location ?? ""}
                     </span>
                   )}
                   <p
-                    className="text-sm sm:text-base italic mb-3 truncate"
+                    className="text-xs sm:text-sm italic mb-3 truncate"
                     title={t.productName ?? ""}
                   >
                     {t?.productName ?? ""}
                   </p>
-                  <p className="text-sm sm:text-base break-words">
+                  <p className="text-xs sm:text-sm break-words">
                     {t.message ?? ""}
                   </p>
                 </div>
               </div>
-            ))}
-          </div>
+            ))
+          )}
         </div>
       )}
     </div>
