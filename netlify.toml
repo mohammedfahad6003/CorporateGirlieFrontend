@@ -1,6 +1,14 @@
 [build]
+  command = "next build"
+  publish = ".next"
   functions = "netlify/functions"
-  publish = "build" # or "dist" depending on your frontend
 
 [functions]
   node_bundler = "esbuild"
+
+[build.environment]
+  NEXT_USE_NETLIFY_CACHE = "true"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
