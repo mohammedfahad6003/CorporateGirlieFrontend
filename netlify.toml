@@ -11,3 +11,4 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
