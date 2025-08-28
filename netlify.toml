@@ -1,0 +1,13 @@
+[build]
+  command = "next build"
+  publish = ".next"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[build.environment]
+  NEXT_USE_NETLIFY_CACHE = "true"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

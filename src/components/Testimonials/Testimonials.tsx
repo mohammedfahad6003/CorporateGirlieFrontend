@@ -16,7 +16,9 @@ const TestimonialsDisplay = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 640);
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== "undefined" ? window.innerWidth >= 640 : false
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
 

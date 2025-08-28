@@ -41,13 +41,6 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
     null
   );
 
-  // useEffect(() => {
-  //   document.body.style.overflow = menuOpen ? "hidden" : "";
-  //   return () => {
-  //     document.body.style.overflow = "";
-  //   };
-  // }, [menuOpen]);
-
   useEffect(() => {
     if (menuOpen && paneRef.current) {
       paneRef.current.scrollTop = 0;
