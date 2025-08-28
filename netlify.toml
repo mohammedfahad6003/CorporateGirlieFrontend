@@ -1,0 +1,6 @@
+[build]
+  functions = "netlify/functions"
+  publish = "build" # or "dist" depending on your frontend
+
+[functions]
+  node_bundler = "esbuild"
