@@ -1,7 +1,7 @@
 import { COMMON_VARIABLES } from "@/utils/commonVariables";
-import axios from "axios";
+import axios from '@/lib/axios';
 
-const baseApiUrl = "http://localhost:5000";
+const baseApiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface Testimonial {
   _id: string;
