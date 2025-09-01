@@ -57,11 +57,8 @@ const LandingPage = () => {
       {/* Buttons Container */}
       <div className="flex items-center justify-center gap-4 mt-4">
         {/* Left Button */}
-        <button
-          onClick={handlePrev}
-          className=""
-        >
-          <FontAwesomeIcon icon={faChevronLeft} />
+        <button onClick={handlePrev} className="">
+          <FontAwesomeIcon icon={faChevronLeft} className="cursor-pointer" />
         </button>
 
         {/* Dots */}
@@ -77,19 +74,16 @@ const LandingPage = () => {
         </div>
 
         {/* Right Button */}
-        <button
-          onClick={handleNext}
-          className=""
-        >
-          <FontAwesomeIcon icon={faChevronRight} />
+        <button onClick={handleNext}>
+          <FontAwesomeIcon icon={faChevronRight} className="cursor-pointer" />
         </button>
 
         {/* Play / Pause Button */}
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
-          className=""
-        >
-          <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+        <button onClick={() => setIsPlaying(!isPlaying)}>
+          <FontAwesomeIcon
+            icon={isPlaying ? faPause : faPlay}
+            className="cursor-pointer"
+          />
         </button>
       </div>
 
