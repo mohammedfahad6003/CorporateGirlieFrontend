@@ -63,7 +63,7 @@ const LandingPage = () => {
                       </h2>
                       <p className="mb-5 text-sm">{img.imageDescription}</p>
                       <button
-                        className={`px-5 py-2 rounded-lg transition cursor-pointer ${
+                        className={`px-5 py-2 rounded-lg transition cursor-pointer sm:text-lg text-sm ${
                           darkMode
                             ? "bg-yellow-400 text-white hover:bg-yellow-400 hover:font-medium"
                             : "bg-gray-900 text-white hover:bg-gray-800"
@@ -94,7 +94,7 @@ const LandingPage = () => {
                   <h2 className="text-lg font-bold mb-2">{img.imageTitle}</h2>
                   <p className="mb-4 text-sm">{img.imageDescription}</p>
                   <button
-                    className={`px-5 py-2 rounded-lg transition cursor-pointer ${
+                    className={`px-5 py-2 rounded-lg transition cursor-pointer sm:text-lg text-sm ${
                       darkMode
                         ? "bg-yellow-400 text-white hover:bg-yellow-400 hover:font-medium"
                         : "bg-gray-900 text-white hover:bg-gray-800"
