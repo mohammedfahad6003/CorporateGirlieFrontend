@@ -122,3 +122,43 @@ export const DummySearchValues = [
   { id: 9, label: "Mango", value: "mango" },
   { id: 10, label: "Pineapple", value: "pineapple" },
 ];
+
+export const LandingPageContent = [
+  {
+    id: 1,
+    imageLink: "/unsplashImage1.jpg",
+    imageDescription:
+      "Step into a Dreamy Garden of Floral Tea cups, each skillfully handpainted.",
+    imageTitle: "Arts & Crafts",
+    imageButton: "Explore",
+    imageNavigation: "/arts&crafts",
+  },
+  {
+    id: 2,
+    imageLink: "/unsplashImage2.jpg",
+    imageDescription:
+      "Discover stunning portraits and modern artwork that bring stories to life.",
+    imageTitle: "Paintings",
+    imageButton: "Shop Now",
+    imageNavigation: "/paintings",
+  },
+  {
+    id: 3,
+    imageLink: "/unsplashImage3.jpg",
+    imageDescription:
+      "Dive into the world of resin art, where creativity meets glossy perfection.",
+    imageTitle: "Resin Art",
+    imageButton: "Browse",
+    imageNavigation: "/resin-art",
+  },
+  {
+    id: 4,
+    imageLink: "/unsplashImage4.jpg",
+    imageDescription:
+      "Enhance your living space with unique and artistic home décor pieces.",
+    imageTitle: "Home Décor",
+    imageButton: "Discover",
+    imageNavigation: "/home-decor",
+  },
+];
+

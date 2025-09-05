@@ -54,7 +54,7 @@ const TestimonialsDisplay = () => {
     : testimonials.slice(0, 3);
 
   // Width of each card for translateX calculation
-  const cardWidthPercent = isDesktop ? 33.3 : 100;
+  const cardWidthPercent = isDesktop ? 33.15 : 100;
   const translateX = -(startIndex * cardWidthPercent);
 
   return (
@@ -62,7 +62,7 @@ const TestimonialsDisplay = () => {
       className={`${
         darkMode
           ? "bg-black text-white border-t border-yellow-400"
-          : "bg-gray-200 text-black"
+          : "bg-gray-50 text-black sm:border-0 border-t border-gray-400"
       } sm:p-8 p-6`}
     >
       <h2
@@ -80,7 +80,7 @@ const TestimonialsDisplay = () => {
       ) : (
         <div
           className={`overflow-hidden relative ${
-            isDesktop ? "" : "flex flex-col gap-6"
+            isDesktop ? "" : "flex flex-col gap-4"
           }`}
         >
           {isDesktop ? (
