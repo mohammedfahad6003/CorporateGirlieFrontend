@@ -1,5 +1,5 @@
 export const COMMON_VARIABLES = {
-    emailId: 'chaiyadav03@gmail.com',
+    emailId: 'thecorporategirlie.arts03@gmail.com',
     ccId: 'mdfahad6003@gmail.com',
-    feedbackRoute: 'arts/feedback'
+    feedbackRoute: 'arts/feedback',
 }
