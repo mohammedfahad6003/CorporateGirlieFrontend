@@ -43,7 +43,7 @@ const GetInTouch = () => {
     }));
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const newErrors = { email: "", phoneNumber: "" };
@@ -64,22 +64,26 @@ const GetInTouch = () => {
 
     setLoading(true);
 
-    emailjs
+    const serviceId = `${process.env.NEXT_EMAIL_JS_SERVICE_ID_GET_IN_TOUCH}`;
+    const templateId = `${process.env.NEXT_EMAIL_JS_TEMPLATE_ID}`;
+    const publicKey = `${process.env.NEXT_EMAIL_JS_PUBLIC_KEY}`;
+
+    await emailjs
       .send(
-        "service_l1lim6c",
-        "template_4ywbyf9",
+        serviceId,
+        templateId,
         {
           name: getInTouch.name,
           email: getInTouch.email,
           phoneNumber: getInTouch.phoneNumber,
           message: getInTouch.description,
         },
-        "xWPnbc_u0McpZz0tG"
+        publicKey
       )
       .then(
         () => {
           setToast({
-            message: "Message sent successfully!",
+            message: "Thank you for getting in touch! We value your ideas and will respond to you shortly.",
             type: "success",
           });
           setGetInTouch(initialData);
