@@ -15,8 +15,8 @@ const ProductsContainer = ({ children }: MainContainerProps) => {
   const textColor = darkMode ? "text-white" : "text-gray-900";
 
   return (
-    <div className={`min-h-screen ${bgColor} ${textColor} px-4 sm:py-12 py-6`}>
-      <div className="max-w-full lg:max-w-4xl 2xl:max-w-7xl mx-auto space-y-8">
+    <div className={`min-h-screen ${bgColor} ${textColor} px-4 sm:py-12 py-6 sm:px-12`}>
+      <div className="max-w-full md:max-w-4xl lg:max-w-6xl 2xl:max-w-7xl mx-auto space-y-8 relative">
         {children}
       </div>
     </div>

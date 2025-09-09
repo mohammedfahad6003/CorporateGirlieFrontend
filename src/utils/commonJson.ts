@@ -12,8 +12,16 @@ export interface Menus {
 }
 
 export const menuForDesktopItems: Menus[] = [
-  { id: 1, title: "Festive Edition - SALE!", navigation: "/category/festive-edition" },
-  { id: 2, title: "Limited Edition - SALE!", navigation: "/category/limited-edition" },
+  {
+    id: 1,
+    title: "Festive Edition - SALE!",
+    navigation: "/category/festive-edition",
+  },
+  {
+    id: 2,
+    title: "Limited Edition - SALE!",
+    navigation: "/category/limited-edition",
+  },
   { id: 3, title: "New Launches", navigation: "/category/newly-launched" },
   {
     id: 4,
@@ -34,23 +42,6 @@ export const menuForDesktopItems: Menus[] = [
   },
   {
     id: 5,
-    title: "Drawing",
-    navigation: "/drawing",
-    childMenus: [
-      { id: 1, title: "Pencil Sketching", navigation: "/drawing/pencil" },
-      { id: 2, title: "Charcoal Drawing", navigation: "/drawing/charcoal" },
-      { id: 3, title: "Ink Drawing", navigation: "/drawing/ink" },
-      { id: 4, title: "Figure Drawing", navigation: "/drawing/figure" },
-      {
-        id: 5,
-        title: "Architectural Drawing",
-        navigation: "/drawing/architecture",
-      },
-      { id: 6, title: "Cartoon & Comic Drawing", navigation: "/drawing/comic" },
-    ],
-  },
-  {
-    id: 6,
     title: "Resin Art",
     navigation: "/resin-art",
     childMenus: [
@@ -67,7 +58,7 @@ export const menuForDesktopItems: Menus[] = [
     ],
   },
   {
-    id: 7,
+    id: 6,
     title: "Home Decor",
     navigation: "/home-decor",
     childMenus: [
@@ -96,7 +87,7 @@ export const menuForDesktopItems: Menus[] = [
     ],
   },
   {
-    id: 8,
+    id: 7,
     title: "Crafts",
     navigation: "/crafts",
     childMenus: [
@@ -107,7 +98,7 @@ export const menuForDesktopItems: Menus[] = [
       { id: 5, title: "Fabric Art", navigation: "/crafts/fabric" },
     ],
   },
-  { id: 9, title: "Contact Us", navigation: "/contact-us" },
+  { id: 8, title: "Contact Us", navigation: "/contact-us" },
 ];
 
 export const DummySearchValues = [
@@ -161,4 +152,3 @@ export const LandingPageContent = [
     imageNavigation: "/home-decor",
   },
 ];
-
