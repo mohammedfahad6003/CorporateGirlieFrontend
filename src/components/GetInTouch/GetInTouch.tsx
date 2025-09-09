@@ -84,7 +84,7 @@ const GetInTouch = () => {
         () => {
           setToast({
             message:
-              "Thank you for getting in touch! We value your ideas and will respond to you shortly.",
+              "Thank you for getting in touch! We value your time and will respond to you shortly.",
             type: "success",
           });
           setGetInTouch(initialData);
