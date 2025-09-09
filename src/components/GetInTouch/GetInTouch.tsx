@@ -64,9 +64,9 @@ const GetInTouch = () => {
 
     setLoading(true);
 
-    const serviceId = `${process.env.NEXT_EMAIL_JS_SERVICE_ID_GET_IN_TOUCH}`;
-    const templateId = `${process.env.NEXT_EMAIL_JS_TEMPLATE_ID}`;
-    const publicKey = `${process.env.NEXT_EMAIL_JS_PUBLIC_KEY}`;
+    const serviceId = process.env.NEXT_PUBLIC_EMAIL_JS_SERVICE_ID_GET_IN_TOUCH!;
+    const templateId = process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_ID!;
+    const publicKey = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY!;
 
     await emailjs
       .send(
@@ -83,7 +83,8 @@ const GetInTouch = () => {
       .then(
         () => {
           setToast({
-            message: "Thank you for getting in touch! We value your ideas and will respond to you shortly.",
+            message:
+              "Thank you for getting in touch! We value your ideas and will respond to you shortly.",
             type: "success",
           });
           setGetInTouch(initialData);
