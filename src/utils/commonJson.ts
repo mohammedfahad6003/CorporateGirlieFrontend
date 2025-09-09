@@ -12,9 +12,9 @@ export interface Menus {
 }
 
 export const menuForDesktopItems: Menus[] = [
-  { id: 1, title: "Festive Edition - SALE!", navigation: "/festive-edition" },
-  { id: 2, title: "Limited Edition - SALE!", navigation: "/limited-edition" },
-  { id: 3, title: "New Launches", navigation: "/new-launches" },
+  { id: 1, title: "Festive Edition - SALE!", navigation: "/category/festive-edition" },
+  { id: 2, title: "Limited Edition - SALE!", navigation: "/category/limited-edition" },
+  { id: 3, title: "New Launches", navigation: "/category/newly-launched" },
   {
     id: 4,
     title: "Painting",
