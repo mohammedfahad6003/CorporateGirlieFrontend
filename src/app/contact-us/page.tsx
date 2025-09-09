@@ -87,7 +87,7 @@ const ContactUs = () => {
 
     const serviceId = process.env.NEXT_PUBLIC_EMAIL_JS_SERVICE_ID_CONTACT_US!;
     const templateId = process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_ID!;
-    const publicKey = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY!;
+    const publicKey = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY;
 
     await emailjs
       .send(

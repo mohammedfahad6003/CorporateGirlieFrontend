@@ -66,7 +66,7 @@ const GetInTouch = () => {
 
     const serviceId = process.env.NEXT_PUBLIC_EMAIL_JS_SERVICE_ID_GET_IN_TOUCH!;
     const templateId = process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_ID!;
-    const publicKey = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY!;
+    const publicKey = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY;
 
     await emailjs
       .send(
