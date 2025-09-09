@@ -1,5 +1,5 @@
 import { COMMON_VARIABLES } from "@/utils/commonVariables";
-import axios from '@/lib/axios';
+import axiosInstance from '@/lib/axios';
 
 const baseApiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -12,7 +12,7 @@ interface Testimonial {
 }
 
 export const getTestimonials = (): Promise<Testimonial[]> => {
-  return axios
+  return axiosInstance
     .get(`${baseApiUrl}/${COMMON_VARIABLES.feedbackRoute}`)
     .then((response) => response.data as Testimonial[]);
 };

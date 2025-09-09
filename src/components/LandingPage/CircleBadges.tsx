@@ -42,7 +42,7 @@ const CircleBadges = () => {
         <div key={i} className={`flex items-start gap-4`}>
           {/* Icon */}
           <div
-            className={`w-14 h-14 flex items-center justify-center rounded-xl border-2 text-xl p-4
+            className={`w-14 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-xl border-2 text-xl p-2 sm:p-4
               ${
                 darkMode
                   ? "bg-black border-yellow-400 text-yellow-400"

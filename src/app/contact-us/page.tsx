@@ -58,7 +58,7 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors = { email: "", phoneNumber: "", orderNumber: "" };
@@ -81,25 +81,31 @@ const ContactUs = () => {
 
     let newDescription = formData.message;
     if (formData.queryType === "yes" && formData.orderNumber) {
-      newDescription = `Order Number: ${formData.orderNumber} \n\n` + newDescription;
+      newDescription =
+        `Order Number: ${formData.orderNumber} \n\n` + newDescription;
     }
 
-    emailjs
+    const serviceId = process.env.NEXT_PUBLIC_EMAIL_JS_SERVICE_ID_CONTACT_US!;
+    const templateId = process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_ID!;
+    const publicKey = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY!;
+
+    await emailjs
       .send(
-        "service_zck1zov",
-        "template_4ywbyf9",
+        serviceId,
+        templateId,
         {
           name: formData.name,
           email: formData.email,
           phoneNumber: formData.phoneNumber,
           message: newDescription,
         },
-        "xWPnbc_u0McpZz0tG"
+        publicKey
       )
       .then(
         () => {
           setToast({
-            message: "Message sent successfully!",
+            message:
+              "Thank you! Your message has been sent. We’ll contact you shortly.",
             type: "success",
           });
           setFormData(initialData);
