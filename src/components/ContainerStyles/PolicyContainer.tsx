@@ -15,7 +15,7 @@ const PolicyContainer = ({ children }: MainContainerProps) => {
   const textColor = darkMode ? "text-white" : "text-gray-900";
 
   return (
-    <div className={`min-h-screen ${bgColor} ${textColor} px-4 sm:py-12 py-6`}>
+    <div className={`min-h-screen ${bgColor} ${textColor} px-6 sm:py-12 py-6`}>
       <div className="max-w-4xl mx-auto space-y-8">{children}</div>
     </div>
   );

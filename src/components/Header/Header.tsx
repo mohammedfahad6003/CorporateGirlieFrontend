@@ -51,6 +51,19 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [menuOpen]);
+
   const handleDropdown = (e: string) => {
     setSearchedValue(e);
   };
@@ -173,7 +186,7 @@ const Header = () => {
         )}
       </div>
 
-      {/* ⬇️ Move mobile nav OUTSIDE header */}
+      {/* ⬇️ Mobile nav outside header */}
       <MobileNavigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
     </>
   );
