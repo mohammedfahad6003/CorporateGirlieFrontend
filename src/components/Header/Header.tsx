@@ -58,7 +58,7 @@ const Header = () => {
   return (
     <>
       <div
-        className={`sticky top-0 z-50 w-full p-4 sm:p-5 lg:p-8 transition-transform duration-300 ${
+        className={`sticky top-0 z-30 w-full p-4 sm:p-5 lg:p-8 transition-transform duration-300 ${
           showHeader ? "translate-y-0" : "-translate-y-full"
         }  ${
           darkMode
