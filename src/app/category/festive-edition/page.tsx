@@ -1,15 +1,20 @@
 "use client";
 
+import Card from "@/components/Cards/Cards";
+import HorizontalCard from "@/components/Cards/HorizontalCards";
 import ProductsContainer from "@/components/ContainerStyles/ProductsContainer";
+import FilterChips from "@/components/FilterSortSection/FilterChips";
+import FilterSortSection from "@/components/FilterSortSection/FilterSortSection";
+import SelectableList from "@/components/SelectableList/SelectableList";
+import Slider from "@/components/Slider/Slider";
 import { RootState } from "@/store/store";
 import {
   faArrowDownWideShort,
-  faArrowsUpDown,
   faArrowUpShortWide,
-  faCircleXmark,
   faIndianRupeeSign,
-  faSliders,
+  faList,
   faStar,
+  faThLarge,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,35 +24,107 @@ import { useSelector } from "react-redux";
 const categories = ["Art", "Drawings", "Resin", "Home Décor", "Crafts"];
 
 const sortOptions = [
+  { label: "Best Selling", icon: faStar },
+  { label: "Below 1000", icon: faIndianRupeeSign },
   { label: "Low to High", icon: faArrowUpShortWide },
   { label: "High to Low", icon: faArrowDownWideShort },
-  { label: "Below 1000", icon: faIndianRupeeSign },
-  { label: "Popularity", icon: faStar },
+];
+
+const products = [
+  {
+    id: 1,
+    title: "Cool Sneakers",
+    price: "₹2,499",
+    image: "/unsplashImage1.jpg",
+  },
+  {
+    id: 2,
+    title: "Stylish Jacket",
+    price: "₹3,999",
+    image: "/unsplashImage2.jpg",
+  },
+  {
+    id: 3,
+    title: "Casual Shirt",
+    price: "₹1,299",
+    image: "/unsplashImage3.jpg",
+  },
+  {
+    id: 4,
+    title: "Smart Watch",
+    price: "₹5,499",
+    image: "/unsplashImage4.jpg",
+  },
+  {
+    id: 5,
+    title: "Classic Jeans",
+    price: "₹1,999",
+    image: "/unsplashImage1.jpg",
+  },
+  {
+    id: 6,
+    title: "Leather Wallet",
+    price: "₹999",
+    image: "/unsplashImage2.jpg",
+  },
+  {
+    id: 7,
+    title: "Trendy Backpack",
+    price: "₹2,799",
+    image: "/unsplashImage3.jpg",
+  },
+  {
+    id: 8,
+    title: "Wireless Earbuds",
+    price: "₹4,299",
+    image: "/unsplashImage4.jpg",
+  },
 ];
 
 const FestiveEdition = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"filter" | "sort">("filter");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  // Actual applied states
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [price, setPrice] = useState(100);
+  const [price, setPrice] = useState(200);
   const [selectedSort, setSelectedSort] = useState<string | null>(null);
 
-  const modalRef = useRef<HTMLDivElement>(null);
+  // Temporary states (for modal only)
+  const [tempCategories, setTempCategories] = useState<string[]>([]);
+  const [tempPrice, setTempPrice] = useState(200);
+  const [tempSort, setTempSort] = useState<string | null>(null);
 
+  const modalRef = useRef<HTMLDivElement>(null);
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
-  const buttonBase =
-    "flex items-center justify-center h-10 px-3 rounded-lg cursor-pointer transition text-sm sm:text-base";
-  const lightButton =
-    "border text-gray-900 hover:bg-gray-100 shadow-sm hover:shadow-gray-200";
-  const darkButton =
-    "border border-yellow-400 text-white shadow-sm hover:shadow-yellow-400/100";
+  useEffect(() => {
+    if (isOpen) {
+      setTempCategories(selectedCategories);
+      setTempPrice(price);
+      setTempSort(selectedSort);
+    }
+  }, [isOpen, price, selectedCategories, selectedSort]);
 
-  // Toggle category selection
-  const toggleCategory = (cat: string) => {
-    setSelectedCategories((prev) =>
+  // Toggle category selection in modal
+  const toggleTempCategory = (cat: string) => {
+    setTempCategories((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
     );
+  };
+
+  // Apply Filters
+  const handleApplyFilters = () => {
+    setSelectedCategories(tempCategories);
+    setPrice(tempPrice);
+    setIsOpen(false);
+  };
+
+  // Apply Sort
+  const handleApplySort = () => {
+    setSelectedSort(tempSort);
+    setIsOpen(false);
   };
 
   // Close modal when clicked outside
@@ -61,21 +138,11 @@ const FestiveEdition = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      // Disable background scrolling
-      document.body.style.overflow = "hidden";
-    } else {
-      // Re-enable scrolling
-      document.body.style.overflow = "auto";
-    }
-
-    // Cleanup on unmount
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -92,37 +159,106 @@ const FestiveEdition = () => {
           Festive Edition
         </h1>
 
-        <p className="sm:text-lg text-sm mt-3 sm:mt-4">
+        <p className="sm:text-lg text-sm mt-3 sm:mt-4 mb-0">
           {`Celebrate the season of joy with our Festive Edition – a vibrant mix of art, drawings, resin pieces, home décor, and crafts to brighten your celebrations.`}
         </p>
 
         {/* FilterSection */}
-        <div className="flex justify-between items-center my-4 gap-3">
-          <button
-            onClick={() => {
-              setIsOpen(true);
-              setActiveTab("filter");
-            }}
-            className={`${buttonBase} ${
-              darkMode ? darkButton : lightButton
-            } gap-2`}
-          >
-            <FontAwesomeIcon icon={faSliders} className="w-4 h-4" />
-            <span>Filter</span>
-          </button>
+        <FilterSortSection setIsOpen={setIsOpen} setActiveTab={setActiveTab} />
 
-          <button
-            onClick={() => {
-              setIsOpen(true);
-              setActiveTab("sort");
-            }}
-            className={`${buttonBase} ${
-              darkMode ? darkButton : lightButton
-            } gap-2`}
+        {/* Selected Chips */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8">
+          {/* Filter Chips */}
+          {selectedCategories.length > 0 || price !== 200 || selectedSort ? (
+            <div className="flex flex-wrap gap-2 flex-1">
+              {selectedCategories.map((cat) => (
+                <FilterChips
+                  key={cat}
+                  label={cat}
+                  onClick={() =>
+                    setSelectedCategories((prev) =>
+                      prev.filter((c) => c !== cat)
+                    )
+                  }
+                />
+              ))}
+
+              {price !== 200 && (
+                <FilterChips
+                  label={`₹${price} +`}
+                  onClick={() => setPrice(200)}
+                />
+              )}
+
+              {selectedSort && (
+                <FilterChips
+                  label={selectedSort}
+                  onClick={() => setSelectedSort(null)}
+                />
+              )}
+            </div>
+          ) : (
+            <div></div>
+          )}
+
+          {/* View Toggle */}
+          <div
+            className={`flex w-20 h-10 rounded-lg border overflow-hidden self-end mt-4 sm:mt-0 ${
+              darkMode ? "border-yellow-400" : "border-gray-800"
+            }`}
           >
-            <span>Sort By</span>
-            <FontAwesomeIcon icon={faArrowsUpDown} className="w-3 h-3" />
-          </button>
+            {/* Grid / Card View */}
+            <div
+              onClick={() => setViewMode("grid")}
+              className={`flex-1 flex items-center justify-center cursor-pointer transition-colors duration-200
+              ${
+                viewMode === "grid"
+                  ? darkMode
+                    ? "bg-yellow-400 text-black"
+                    : "bg-gray-800 text-white"
+                  : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faThLarge} className="w-4 h-4" />
+            </div>
+
+            {/* Divider */}
+            <div
+              className={`w-px ${darkMode ? "bg-yellow-400" : "bg-gray-800"}`}
+            ></div>
+
+            {/* List View */}
+            <div
+              onClick={() => setViewMode("list")}
+              className={`flex-1 flex items-center justify-center cursor-pointer transition-colors duration-200
+              ${
+                viewMode === "list"
+                  ? darkMode
+                    ? "bg-yellow-400 text-black"
+                    : "bg-gray-800 text-white"
+                  : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faList} className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+
+        {/* Product Section */}
+        <div
+          className={
+            viewMode === "grid"
+              ? "grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 mt-4"
+              : "grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mt-4"
+          }
+        >
+          {products.map((product) =>
+            viewMode === "grid" ? (
+              <Card key={product.id} product={product} />
+            ) : (
+              <HorizontalCard key={product.id} product={product} />
+            )
+          )}
         </div>
       </ProductsContainer>
 
@@ -159,7 +295,7 @@ const FestiveEdition = () => {
                       : "border-transparent text-gray-900"
                   }`}
                 >
-                  Filter
+                  Filters
                 </button>
                 <button
                   onClick={() => setActiveTab("sort")}
@@ -173,7 +309,7 @@ const FestiveEdition = () => {
                       : "border-transparent text-gray-900"
                   }`}
                 >
-                  Sort
+                  Sort By
                 </button>
               </div>
 
@@ -194,113 +330,34 @@ const FestiveEdition = () => {
             <div className="px-6 py-4 sm:p-6 h-[40vh] sm:h-[55vh] overflow-y-auto flex flex-col gap-2 sm:gap-5">
               {activeTab === "filter" ? (
                 <>
-                  {/* Filter Header with Clear */}
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="font-medium text-base sm:text-lg">
-                      Filter Options
-                    </span>
-
-                    {(selectedCategories.length > 0 || price !== 100) && (
-                      <button
-                        onClick={() => {
-                          setSelectedCategories([]);
-                          setPrice(100);
-                        }}
-                        className="flex items-center gap-1 text-xs sm:text-sm text-red-500 hover:underline transition-colors cursor-pointer"
-                      >
-                        Clear{" "}
-                        <FontAwesomeIcon
-                          icon={faCircleXmark}
-                          className="w-4 h-4"
-                        />
-                      </button>
-                    )}
-                  </div>
-                  {/* Price Slider */}
-                  <div>
-                    <label className="font-medium mb-2 block sm:text-base text-sm">
-                      Price Range:{" "}
-                      <span style={{ fontFamily: "Roboto, sans-serif" }}>
-                        ₹
-                      </span>
-                      {price}+
-                    </label>
-                    <input
-                      type="range"
-                      min="100"
-                      max="8000"
-                      step="100"
-                      value={price}
-                      onChange={(e) => setPrice(Number(e.target.value))}
-                      className="w-full accent-yellow-400 cursor-pointer"
-                    />
-                  </div>
-
-                  {/* Categories */}
-                  <div>
-                    <label className="font-medium mb-2 block sm:text-base text-sm">
-                      Categories
-                    </label>
-                    <div className="grid grid-cols-2 gap-4">
-                      {categories.map((cat) => (
-                        <button
-                          key={cat}
-                          onClick={() => toggleCategory(cat)}
-                          className={`p-3 sm:px-5 sm:py-3 rounded-xl border font-medium text-sm transition-all duration-200 cursor-pointer shadow-sm ${
-                            selectedCategories.includes(cat)
-                              ? "bg-yellow-400 text-black border-yellow-400 shadow-lg"
-                              : darkMode
-                              ? "border-gray-600 text-white hover:border-yellow-400 hover:text-yellow-400"
-                              : "border-gray-300 text-gray-900 hover:border-yellow-400 hover:text-yellow-400"
-                          }`}
-                        >
-                          {cat}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                  {/* Slider uses tempPrice */}
+                  <Slider
+                    label="Price Range"
+                    min={200}
+                    max={10000}
+                    step={200}
+                    value={tempPrice}
+                    unit="₹"
+                    onChange={setTempPrice}
+                  />
+                  {/* Categories use tempCategories */}
+                  <SelectableList
+                    title="Categories"
+                    items={categories.map((cat) => ({ label: cat }))}
+                    selected={tempCategories}
+                    onSelect={toggleTempCategory}
+                    multiSelect={true}
+                  />
                 </>
               ) : (
                 <>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="font-medium text-base sm:text-lg">
-                      Sort Options
-                    </span>
-                    {selectedSort && (
-                      <button
-                        onClick={() => setSelectedSort(null)}
-                        className="flex items-center text-xs sm:text-sm text-red-500 hover:underline transition-colors gap-1 cursor-pointer"
-                      >
-                        Clear
-                        <FontAwesomeIcon
-                          icon={faCircleXmark}
-                          className="w-4 h-4"
-                        />
-                      </button>
-                    )}
-                  </div>
-                  {/* Sort Options */}
-                  <div className="flex flex-col gap-3">
-                    {sortOptions.map((option) => (
-                      <button
-                        key={option.label}
-                        onClick={() => setSelectedSort(option.label)}
-                        className={`flex justify-between items-center px-5 py-3 rounded-xl border font-medium text-sm transition-all duration-200 cursor-pointer shadow-sm ${
-                          selectedSort === option.label
-                            ? "bg-yellow-400 text-black border-yellow-400 shadow-lg"
-                            : darkMode
-                            ? "border-gray-600 text-white hover:border-yellow-400 hover:text-yellow-400"
-                            : "border-gray-300 text-gray-900 hover:border-yellow-400 hover:text-yellow-400"
-                        }`}
-                      >
-                        <span>{option.label}</span>
-                        <FontAwesomeIcon
-                          icon={option.icon}
-                          className="w-4 h-4"
-                        />
-                      </button>
-                    ))}
-                  </div>
+                  {/* Sort uses tempSort */}
+                  <SelectableList
+                    items={sortOptions}
+                    selected={tempSort}
+                    onSelect={setTempSort}
+                    multiSelect={false}
+                  />
                 </>
               )}
             </div>
@@ -308,22 +365,16 @@ const FestiveEdition = () => {
             {/* Footer */}
             <div className="p-4 sm:p-6 border-t text-center">
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={
+                  activeTab === "filter" ? handleApplyFilters : handleApplySort
+                }
                 className={`sm:w-[75%] w-[60%] py-3 text-sm sm:text-base rounded-xl font-semibold cursor-pointer transition-shadow duration-200 shadow-sm
                   ${
                     darkMode
                       ? "bg-yellow-400 text-white hover:shadow-lg"
                       : "bg-yellow-400 text-black hover:shadow-lg"
                   }
-                  disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none
                 `}
-                disabled={
-                  activeTab === "filter"
-                    ? selectedCategories.length === 0 && price === 100
-                    : activeTab === "sort"
-                    ? selectedSort === null
-                    : false
-                }
               >
                 {activeTab === "filter" ? "Apply Filters" : "Apply Sort"}
               </button>
