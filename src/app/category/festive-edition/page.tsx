@@ -129,7 +129,7 @@ const FestiveEdition = () => {
       {/* Modal */}
       {isOpen && (
         <div
-          className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center overflow-y-auto bg-black/75 transition-opacity duration-300 ease-out`}
+          className={`fixed inset-0 z-40 flex items-end sm:items-center justify-center overflow-y-auto bg-black/75 transition-opacity duration-300 ease-out`}
           onClick={() => setIsOpen(false)}
         >
           <div
@@ -306,14 +306,24 @@ const FestiveEdition = () => {
             </div>
 
             {/* Footer */}
-            <div className="p-4 sm:p-6 border-t">
+            <div className="p-4 sm:p-6 border-t text-center">
               <button
                 onClick={() => setIsOpen(false)}
-                className={`w-full py-3 rounded-xl font-semibold cursor-pointer transition-shadow duration-200 shadow-sm ${
-                  darkMode
-                    ? "bg-yellow-400 text-white hover:shadow-lg"
-                    : "bg-yellow-400 text-black hover:shadow-lg"
-                }`}
+                className={`sm:w-[75%] w-[60%] py-3 text-sm sm:text-base rounded-xl font-semibold cursor-pointer transition-shadow duration-200 shadow-sm
+                  ${
+                    darkMode
+                      ? "bg-yellow-400 text-white hover:shadow-lg"
+                      : "bg-yellow-400 text-black hover:shadow-lg"
+                  }
+                  disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none
+                `}
+                disabled={
+                  activeTab === "filter"
+                    ? selectedCategories.length === 0 && price === 100
+                    : activeTab === "sort"
+                    ? selectedSort === null
+                    : false
+                }
               >
                 {activeTab === "filter" ? "Apply Filters" : "Apply Sort"}
               </button>
