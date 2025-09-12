@@ -9,6 +9,8 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 const CollectionsSection = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
+  const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
+
   return (
     <div
       className={`${
@@ -34,6 +36,7 @@ const CollectionsSection = () => {
                 } 
                 rounded-md overflow-hidden flex flex-col cursor-pointer
                 transform transition-transform duration-300 hover:scale-105
+                border-2 ${borderColor}
                 ${
                   darkMode
                     ? "hover:shadow-[0_0_20px_3px_rgba(250,204,21,0.2)]"

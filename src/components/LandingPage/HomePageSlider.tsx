@@ -20,6 +20,8 @@ const HomePageSlider = () => {
     return () => clearInterval(interval);
   }, [handleNext]);
 
+  const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
+
   return (
     <div
       className={`flex items-center justify-center p-0 ${
@@ -53,7 +55,8 @@ const HomePageSlider = () => {
                       darkMode
                         ? "bg-gray-900/80 text-white"
                         : "bg-white/80 text-gray-900"
-                    } backdrop-blur-md px-6 py-4 rounded-lg shadow-lg text-center max-w-md`}
+                    } backdrop-blur-md px-6 py-4 rounded-lg shadow-lg text-center max-w-md
+                    border-2 ${borderColor}`}
                   >
                     <h2 className="text-2xl font-bold mb-3">
                       {img.imageTitle}

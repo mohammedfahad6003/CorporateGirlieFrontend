@@ -1,9 +1,389 @@
-import React from 'react'
+"use client";
+
+import Card from "@/components/Cards/Cards";
+import HorizontalCard from "@/components/Cards/HorizontalCards";
+import ProductsContainer from "@/components/ContainerStyles/ProductsContainer";
+import FilterChips from "@/components/FilterSortSection/FilterChips";
+import FilterSortSection from "@/components/FilterSortSection/FilterSortSection";
+import SelectableList from "@/components/SelectableList/SelectableList";
+import Slider from "@/components/Slider/Slider";
+import { RootState } from "@/store/store";
+import {
+  faArrowDownWideShort,
+  faArrowUpShortWide,
+  faIndianRupeeSign,
+  faList,
+  faStar,
+  faThLarge,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+
+const categories = ["Art", "Drawings", "Resin", "Home Décor", "Crafts"];
+
+const sortOptions = [
+  { label: "Best Selling", icon: faStar },
+  { label: "Below 1000", icon: faIndianRupeeSign },
+  { label: "Low to High", icon: faArrowUpShortWide },
+  { label: "High to Low", icon: faArrowDownWideShort },
+];
+
+const products = [
+  {
+    id: 1,
+    title: "Cool Sneakers",
+    price: "₹2,499",
+    image: "/unsplashImage1.jpg",
+  },
+  {
+    id: 2,
+    title: "Stylish Jacket",
+    price: "₹3,999",
+    image: "/unsplashImage2.jpg",
+  },
+  {
+    id: 3,
+    title: "Casual Shirt",
+    price: "₹1,299",
+    image: "/unsplashImage3.jpg",
+  },
+  {
+    id: 4,
+    title: "Smart Watch",
+    price: "₹5,499",
+    image: "/unsplashImage4.jpg",
+  },
+  {
+    id: 5,
+    title: "Classic Jeans",
+    price: "₹1,999",
+    image: "/unsplashImage1.jpg",
+  },
+  {
+    id: 6,
+    title: "Leather Wallet",
+    price: "₹999",
+    image: "/unsplashImage2.jpg",
+  },
+  {
+    id: 7,
+    title: "Trendy Backpack",
+    price: "₹2,799",
+    image: "/unsplashImage3.jpg",
+  },
+  {
+    id: 8,
+    title: "Wireless Earbuds",
+    price: "₹4,299",
+    image: "/unsplashImage4.jpg",
+  },
+];
 
 const LimitedEdition = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"filter" | "sort">("filter");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  // Actual applied states
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [price, setPrice] = useState(200);
+  const [selectedSort, setSelectedSort] = useState<string | null>(null);
+
+  // Temporary states (for modal only)
+  const [tempCategories, setTempCategories] = useState<string[]>([]);
+  const [tempPrice, setTempPrice] = useState(200);
+  const [tempSort, setTempSort] = useState<string | null>(null);
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTempCategories(selectedCategories);
+      setTempPrice(price);
+      setTempSort(selectedSort);
+    }
+  }, [isOpen, price, selectedCategories, selectedSort]);
+
+  // Toggle category selection in modal
+  const toggleTempCategory = (cat: string) => {
+    setTempCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  };
+
+  // Apply Filters
+  const handleApplyFilters = () => {
+    setSelectedCategories(tempCategories);
+    setPrice(tempPrice);
+    setIsOpen(false);
+  };
+
+  // Apply Sort
+  const handleApplySort = () => {
+    setSelectedSort(tempSort);
+    setIsOpen(false);
+  };
+
+  // Close modal when clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <ProductsContainer>
+        <h1
+          className={`sm:text-3xl text-xl font-bold mb-4 ${
+            darkMode ? "text-yellow-400" : "text-black"
+          }`}
+        >
+          Limited Edition
+        </h1>
+
+        <p className="sm:text-lg text-sm mt-3 sm:mt-4 mb-0">
+          {`Discover our Limited Edition – a rare collection of art, unique drawings, resin creations, and handcrafted décor pieces, designed to bring exclusivity and elegance to your space.`}
+        </p>
+
+        {/* FilterSection */}
+        <FilterSortSection setIsOpen={setIsOpen} setActiveTab={setActiveTab} />
+
+        {/* Selected Chips */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8">
+          {/* Filter Chips */}
+          {selectedCategories.length > 0 || price !== 200 || selectedSort ? (
+            <div className="flex flex-wrap gap-2 flex-1">
+              {selectedCategories.map((cat) => (
+                <FilterChips
+                  key={cat}
+                  label={cat}
+                  onClick={() =>
+                    setSelectedCategories((prev) =>
+                      prev.filter((c) => c !== cat)
+                    )
+                  }
+                />
+              ))}
+
+              {price !== 200 && (
+                <FilterChips
+                  label={`₹${price} +`}
+                  onClick={() => setPrice(200)}
+                />
+              )}
+
+              {selectedSort && (
+                <FilterChips
+                  label={selectedSort}
+                  onClick={() => setSelectedSort(null)}
+                />
+              )}
+            </div>
+          ) : (
+            <div></div>
+          )}
+
+          {/* View Toggle */}
+          <div
+            className={`flex w-20 h-10 rounded-lg border overflow-hidden self-end mt-4 sm:mt-0 ${
+              darkMode ? "border-yellow-400" : "border-gray-800"
+            }`}
+          >
+            {/* Grid / Card View */}
+            <div
+              onClick={() => setViewMode("grid")}
+              className={`flex-1 flex items-center justify-center cursor-pointer transition-colors duration-200
+              ${
+                viewMode === "grid"
+                  ? darkMode
+                    ? "bg-yellow-400 text-black"
+                    : "bg-gray-800 text-white"
+                  : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faThLarge} className="w-4 h-4" />
+            </div>
+
+            {/* Divider */}
+            <div
+              className={`w-px ${darkMode ? "bg-yellow-400" : "bg-gray-800"}`}
+            ></div>
+
+            {/* List View */}
+            <div
+              onClick={() => setViewMode("list")}
+              className={`flex-1 flex items-center justify-center cursor-pointer transition-colors duration-200
+              ${
+                viewMode === "list"
+                  ? darkMode
+                    ? "bg-yellow-400 text-black"
+                    : "bg-gray-800 text-white"
+                  : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faList} className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+
+        {/* Product Section */}
+        <div
+          className={
+            viewMode === "grid"
+              ? "grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 mt-4"
+              : "grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mt-4"
+          }
+        >
+          {products.map((product) =>
+            viewMode === "grid" ? (
+              <Card key={product.id} product={product} />
+            ) : (
+              <HorizontalCard key={product.id} product={product} />
+            )
+          )}
+        </div>
+      </ProductsContainer>
+
+      {/* Modal */}
+      {isOpen && (
+        <div
+          className={`fixed inset-0 z-40 flex items-end sm:items-center justify-center overflow-y-auto bg-black/75 transition-opacity duration-300 ease-out`}
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            ref={modalRef}
+            className={`relative w-full sm:max-w-md mx-auto transform transition-transform duration-300 ease-out
+              ${
+                darkMode
+                  ? "bg-black text-white border-2 border-yellow-400"
+                  : "bg-white text-gray-900"
+              }
+              sm:rounded-xl rounded-t-3xl shadow-2xl max-h-[90vh] flex flex-col`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between border-b p-4 sm:p-6 relative">
+              {/* Tabs */}
+              <div className="flex w-full">
+                <button
+                  onClick={() => setActiveTab("filter")}
+                  className={`flex-1 text-center text-base sm:text-lg font-medium pb-2 border-b-2 sm:border-b-4 transition-colors cursor-pointer ${
+                    activeTab === "filter"
+                      ? darkMode
+                        ? "border-yellow-400 text-yellow-400"
+                        : "border-yellow-400 text-black"
+                      : darkMode
+                      ? "border-transparent text-white"
+                      : "border-transparent text-gray-900"
+                  }`}
+                >
+                  Filters
+                </button>
+                <button
+                  onClick={() => setActiveTab("sort")}
+                  className={`flex-1 text-center text-base sm:text-lg font-medium pb-2 border-b-2 sm:border-b-4 transition-colors cursor-pointer ${
+                    activeTab === "sort"
+                      ? darkMode
+                        ? "border-yellow-400 text-yellow-400"
+                        : "border-yellow-400 text-black"
+                      : darkMode
+                      ? "border-transparent text-white"
+                      : "border-transparent text-gray-900"
+                  }`}
+                >
+                  Sort By
+                </button>
+              </div>
+
+              {/* Close */}
+              <button
+                onClick={() => setIsOpen(false)}
+                className={`hidden sm:inline absolute right-2 top-1/4 -translate-y-1/2 p-2 rounded-full transition-colors cursor-pointer ${
+                  darkMode
+                    ? "text-yellow-400 hover:text-yellow-300"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="px-6 py-4 sm:p-6 h-[40vh] sm:h-[55vh] overflow-y-auto flex flex-col gap-2 sm:gap-5">
+              {activeTab === "filter" ? (
+                <>
+                  {/* Slider uses tempPrice */}
+                  <Slider
+                    label="Price Range"
+                    min={200}
+                    max={10000}
+                    step={200}
+                    value={tempPrice}
+                    unit="₹"
+                    onChange={setTempPrice}
+                  />
+                  {/* Categories use tempCategories */}
+                  <SelectableList
+                    title="Categories"
+                    items={categories.map((cat) => ({ label: cat }))}
+                    selected={tempCategories}
+                    onSelect={toggleTempCategory}
+                    multiSelect={true}
+                  />
+                </>
+              ) : (
+                <>
+                  {/* Sort uses tempSort */}
+                  <SelectableList
+                    items={sortOptions}
+                    selected={tempSort}
+                    onSelect={setTempSort}
+                    multiSelect={false}
+                  />
+                </>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 sm:p-6 border-t text-center">
+              <button
+                onClick={
+                  activeTab === "filter" ? handleApplyFilters : handleApplySort
+                }
+                className={`sm:w-[75%] w-[60%] py-3 text-sm sm:text-base rounded-xl font-semibold cursor-pointer transition-shadow duration-200 shadow-sm
+                  ${
+                    darkMode
+                      ? "bg-yellow-400 text-white hover:shadow-lg"
+                      : "bg-yellow-400 text-black hover:shadow-lg"
+                  }
+                `}
+              >
+                {activeTab === "filter" ? "Apply Filters" : "Apply Sort"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 export default LimitedEdition;
