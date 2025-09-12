@@ -8,7 +8,7 @@ import CircleBadges from "./CircleBadges";
 const CategorySection = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
-  const borderColor = darkMode ? "border-yellow-400" : "border-gray-400";
+  const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
 
   return (
     <div

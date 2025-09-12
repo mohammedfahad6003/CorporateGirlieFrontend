@@ -57,6 +57,8 @@ const TestimonialsDisplay = () => {
   const cardWidthPercent = isDesktop ? 33.15 : 100;
   const translateX = -(startIndex * cardWidthPercent);
 
+  const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
+
   return (
     <div
       className={`${
@@ -99,7 +101,8 @@ const TestimonialsDisplay = () => {
                       darkMode
                         ? "bg-black text-white border border-yellow-400"
                         : "bg-white text-black"
-                    }`}
+                    }
+                    border-2 ${borderColor}`}
                 >
                   <div className="break-words">
                     <h3

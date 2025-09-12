@@ -21,10 +21,13 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ product }) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
+  const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
+
   return (
     <div
       className={`group relative rounded-2xl overflow-hidden cursor-pointer
         transition-transform duration-500 ease-out
+        border-2 ${borderColor}
         ${darkMode ? "bg-black text-white" : "bg-white text-gray-900"}
         hover:z-10
         ${

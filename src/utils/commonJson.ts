@@ -22,7 +22,7 @@ export const menuForDesktopItems: Menus[] = [
     title: "Limited Edition - SALE!",
     navigation: "/category/limited-edition",
   },
-  { id: 3, title: "New Launches", navigation: "/category/newly-launched" },
+  { id: 3, title: "Latest Drops", navigation: "/category/newly-launched" },
   {
     id: 4,
     title: "Painting",
