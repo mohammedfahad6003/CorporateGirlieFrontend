@@ -1,3 +1,10 @@
+import {
+  faArrowDownWideShort,
+  faArrowUpShortWide,
+  faIndianRupeeSign,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
+
 export interface ChildMenu {
   id: number;
   title: string;
@@ -150,5 +157,68 @@ export const LandingPageContent = [
     imageTitle: "Home Décor",
     imageButton: "Discover",
     imageNavigation: "/home-decor",
+  },
+];
+
+export const categories =
+  menuForDesktopItems
+    ?.filter((item) => item?.childMenus?.length)
+    ?.map((item) => item.title) ?? [];
+
+export const sortOptions = [
+  { label: "Best Selling", icon: faStar },
+  { label: "Below 1000", icon: faIndianRupeeSign },
+  { label: "Low to High", icon: faArrowUpShortWide },
+  { label: "High to Low", icon: faArrowDownWideShort },
+];
+
+export const products = [
+  {
+    id: 1,
+    title: "Cool Sneakers",
+    price: "₹2,499",
+    image: "/unsplashImage1.jpg",
+  },
+  {
+    id: 2,
+    title: "Stylish Jacket",
+    price: "₹3,999",
+    image: "/unsplashImage2.jpg",
+  },
+  {
+    id: 3,
+    title: "Casual Shirt",
+    price: "₹1,299",
+    image: "/unsplashImage3.jpg",
+  },
+  {
+    id: 4,
+    title: "Smart Watch",
+    price: "₹5,499",
+    image: "/unsplashImage4.jpg",
+  },
+  {
+    id: 5,
+    title: "Classic Jeans",
+    price: "₹1,999",
+    image: "/unsplashImage1.jpg",
+  },
+  {
+    id: 6,
+    title: "Leather Wallet",
+    price: "₹999",
+    image: "/unsplashImage2.jpg",
+  },
+  {
+    id: 7,
+    title: "Trendy Backpack",
+    price: "₹2,799",
+    image: "/unsplashImage3.jpg",
+  },
+  {
+    id: 8,
+    title: "Wireless Earbuds",
+    price: "₹4,299",
+    image: "/unsplashImage4.jpg",
   },
 ];

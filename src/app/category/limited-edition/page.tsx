@@ -3,83 +3,15 @@
 import Card from "@/components/Cards/Cards";
 import HorizontalCard from "@/components/Cards/HorizontalCards";
 import ProductsContainer from "@/components/ContainerStyles/ProductsContainer";
-import FilterChips from "@/components/FilterSortSection/FilterChips";
-import FilterSortSection from "@/components/FilterSortSection/FilterSortSection";
+import ProductsSection from "@/components/ProductsMainSection/PageFilterSection";
 import SelectableList from "@/components/SelectableList/SelectableList";
 import Slider from "@/components/Slider/Slider";
 import { RootState } from "@/store/store";
-import {
-  faArrowDownWideShort,
-  faArrowUpShortWide,
-  faIndianRupeeSign,
-  faList,
-  faStar,
-  faThLarge,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { products, categories, sortOptions } from "@/utils/commonJson";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-
-const categories = ["Art", "Drawings", "Resin", "Home Décor", "Crafts"];
-
-const sortOptions = [
-  { label: "Best Selling", icon: faStar },
-  { label: "Below 1000", icon: faIndianRupeeSign },
-  { label: "Low to High", icon: faArrowUpShortWide },
-  { label: "High to Low", icon: faArrowDownWideShort },
-];
-
-const products = [
-  {
-    id: 1,
-    title: "Cool Sneakers",
-    price: "₹2,499",
-    image: "/unsplashImage1.jpg",
-  },
-  {
-    id: 2,
-    title: "Stylish Jacket",
-    price: "₹3,999",
-    image: "/unsplashImage2.jpg",
-  },
-  {
-    id: 3,
-    title: "Casual Shirt",
-    price: "₹1,299",
-    image: "/unsplashImage3.jpg",
-  },
-  {
-    id: 4,
-    title: "Smart Watch",
-    price: "₹5,499",
-    image: "/unsplashImage4.jpg",
-  },
-  {
-    id: 5,
-    title: "Classic Jeans",
-    price: "₹1,999",
-    image: "/unsplashImage1.jpg",
-  },
-  {
-    id: 6,
-    title: "Leather Wallet",
-    price: "₹999",
-    image: "/unsplashImage2.jpg",
-  },
-  {
-    id: 7,
-    title: "Trendy Backpack",
-    price: "₹2,799",
-    image: "/unsplashImage3.jpg",
-  },
-  {
-    id: 8,
-    title: "Wireless Earbuds",
-    price: "₹4,299",
-    image: "/unsplashImage4.jpg",
-  },
-];
 
 const LimitedEdition = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -151,98 +83,20 @@ const LimitedEdition = () => {
   return (
     <>
       <ProductsContainer>
-        <h1
-          className={`sm:text-3xl text-xl font-bold mb-4 ${
-            darkMode ? "text-yellow-400" : "text-black"
-          }`}
-        >
-          Limited Edition
-        </h1>
-
-        <p className="sm:text-lg text-sm mt-3 sm:mt-4 mb-0">
-          {`Discover our Limited Edition – a rare collection of art, unique drawings, resin creations, and handcrafted décor pieces, designed to bring exclusivity and elegance to your space.`}
-        </p>
-
-        {/* FilterSection */}
-        <FilterSortSection setIsOpen={setIsOpen} setActiveTab={setActiveTab} />
-
-        {/* Selected Chips */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8">
-          {/* Filter Chips */}
-          {selectedCategories.length > 0 || price !== 200 || selectedSort ? (
-            <div className="flex flex-wrap gap-2 flex-1">
-              {selectedCategories.map((cat) => (
-                <FilterChips
-                  key={cat}
-                  label={cat}
-                  onClick={() =>
-                    setSelectedCategories((prev) =>
-                      prev.filter((c) => c !== cat)
-                    )
-                  }
-                />
-              ))}
-
-              {price !== 200 && (
-                <FilterChips
-                  label={`₹${price} +`}
-                  onClick={() => setPrice(200)}
-                />
-              )}
-
-              {selectedSort && (
-                <FilterChips
-                  label={selectedSort}
-                  onClick={() => setSelectedSort(null)}
-                />
-              )}
-            </div>
-          ) : (
-            <div></div>
-          )}
-
-          {/* View Toggle */}
-          <div
-            className={`flex w-20 h-10 rounded-lg border overflow-hidden self-end mt-4 sm:mt-0 ${
-              darkMode ? "border-yellow-400" : "border-gray-800"
-            }`}
-          >
-            {/* Grid / Card View */}
-            <div
-              onClick={() => setViewMode("grid")}
-              className={`flex-1 flex items-center justify-center cursor-pointer transition-colors duration-200
-              ${
-                viewMode === "grid"
-                  ? darkMode
-                    ? "bg-yellow-400 text-black"
-                    : "bg-gray-800 text-white"
-                  : ""
-              }`}
-            >
-              <FontAwesomeIcon icon={faThLarge} className="w-4 h-4" />
-            </div>
-
-            {/* Divider */}
-            <div
-              className={`w-px ${darkMode ? "bg-yellow-400" : "bg-gray-800"}`}
-            ></div>
-
-            {/* List View */}
-            <div
-              onClick={() => setViewMode("list")}
-              className={`flex-1 flex items-center justify-center cursor-pointer transition-colors duration-200
-              ${
-                viewMode === "list"
-                  ? darkMode
-                    ? "bg-yellow-400 text-black"
-                    : "bg-gray-800 text-white"
-                  : ""
-              }`}
-            >
-              <FontAwesomeIcon icon={faList} className="w-4 h-4" />
-            </div>
-          </div>
-        </div>
+        <ProductsSection
+          title="Limited Edition"
+          description="Discover our Limited Edition – a rare collection of art, unique drawings, resin creations, and handcrafted décor pieces, designed to bring exclusivity and elegance to your space."
+          selectedCategories={selectedCategories}
+          price={price}
+          selectedSort={selectedSort}
+          setIsOpen={setIsOpen}
+          setActiveTab={setActiveTab}
+          setSelectedCategories={setSelectedCategories}
+          setPrice={setPrice}
+          setSelectedSort={setSelectedSort}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+        />
 
         {/* Product Section */}
         <div
