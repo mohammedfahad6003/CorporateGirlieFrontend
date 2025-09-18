@@ -1,54 +1,87 @@
 "use client";
 
-import Card from "@/components/Cards/Cards";
-import HorizontalCard from "@/components/Cards/HorizontalCards";
+import React, { use, useEffect, useRef, useState } from "react";
+import { products, sortOptions } from "@/utils/commonJson";
+import Loading from "./loading";
+import ErrorComponent from "./error";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import ProductsContainer from "@/components/ContainerStyles/ProductsContainer";
 import ProductsSection from "@/components/ProductsMainSection/PageFilterSection";
-import SelectableList from "@/components/SelectableList/SelectableList";
-import Slider from "@/components/Slider/Slider";
-import { RootState } from "@/store/store";
-import { products, categories, sortOptions } from "@/utils/commonJson";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import Slider from "@/components/Slider/Slider";
+import SelectableList from "@/components/SelectableList/SelectableList";
+import { getChildMenuInfo } from "@/utils/menusHelper";
+import NotFound from "./not-found";
+import Card from "@/components/Cards/Cards";
+import HorizontalCard from "@/components/Cards/HorizontalCards";
 
-const NewlyLaunched = () => {
+interface Props {
+  params: Promise<{ slug: string[] }>;
+}
+
+interface Todo {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+const ResinArtTypesPage = ({ params }: Props) => {
+  const { slug } = use(params);
+  const [category] = slug;
+
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"filter" | "sort">("filter");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   // Actual applied states
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [price, setPrice] = useState(200);
   const [selectedSort, setSelectedSort] = useState<string | null>(null);
 
   // Temporary states (for modal only)
-  const [tempCategories, setTempCategories] = useState<string[]>([]);
   const [tempPrice, setTempPrice] = useState(200);
   const [tempSort, setTempSort] = useState<string | null>(null);
 
   const modalRef = useRef<HTMLDivElement>(null);
-  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const res = await fetch(
+          "https://jsonplaceholder.typicode.com/todos?_limit=5"
+        );
+        if (!res.ok) throw new Error("Failed to fetch todos");
+        const data = await res.json();
+        setTodos(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    setTimeout(fetchTodos, 2000);
+  }, []);
+
+  console.log(todos);
 
   useEffect(() => {
     if (isOpen) {
-      setTempCategories(selectedCategories);
       setTempPrice(price);
       setTempSort(selectedSort);
     }
-  }, [isOpen, price, selectedCategories, selectedSort]);
-
-  // Toggle category selection in modal
-  const toggleTempCategory = (cat: string) => {
-    setTempCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
-  };
+  }, [isOpen, price, selectedSort]);
 
   // Apply Filters
   const handleApplyFilters = () => {
-    setSelectedCategories(tempCategories);
     setPrice(tempPrice);
     setIsOpen(false);
   };
@@ -80,18 +113,35 @@ const NewlyLaunched = () => {
     };
   }, [isOpen]);
 
+  const pageInfo = getChildMenuInfo(category, "/resin-art");
+
+  if (!pageInfo) {
+    return <NotFound />;
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <ErrorComponent
+        error={new Error(error)}
+        reset={() => location.reload()}
+      />
+    );
+  }
+
   return (
     <>
       <ProductsContainer>
         <ProductsSection
-          title="New Launches"
-          description="Explore our Latest Drops – a fresh curation of art, contemporary drawings, resin accents, and handcrafted décor. Each piece is newly introduced to bring modern charm and creative flair into your collection."
-          selectedCategories={selectedCategories}
+          title={String(pageInfo?.title)}
+          description={String(pageInfo?.description)}
           price={price}
           selectedSort={selectedSort}
           setIsOpen={setIsOpen}
           setActiveTab={setActiveTab}
-          setSelectedCategories={setSelectedCategories}
           setPrice={setPrice}
           setSelectedSort={setSelectedSort}
           viewMode={viewMode}
@@ -115,7 +165,6 @@ const NewlyLaunched = () => {
         </div>
       </ProductsContainer>
 
-      {/* Modal */}
       {isOpen && (
         <div
           className={`fixed inset-0 z-40 flex items-end sm:items-center justify-center overflow-y-auto bg-black/75 transition-opacity duration-300 ease-out`}
@@ -180,7 +229,7 @@ const NewlyLaunched = () => {
             </div>
 
             {/* Body */}
-            <div className="px-6 py-4 sm:p-6 h-[40vh] sm:h-[55vh] overflow-y-auto flex flex-col gap-2 sm:gap-5">
+            <div className="px-6 py-4 sm:p-6 h-[25vh] sm:h-[45vh] overflow-y-auto flex flex-col gap-2 sm:gap-5">
               {activeTab === "filter" ? (
                 <>
                   {/* Slider uses tempPrice */}
@@ -192,14 +241,6 @@ const NewlyLaunched = () => {
                     value={tempPrice}
                     unit="₹"
                     onChange={setTempPrice}
-                  />
-                  {/* Categories use tempCategories */}
-                  <SelectableList
-                    title="Categories"
-                    items={categories.map((cat) => ({ label: cat }))}
-                    selected={tempCategories}
-                    onSelect={toggleTempCategory}
-                    multiSelect={true}
                   />
                 </>
               ) : (
@@ -239,4 +280,4 @@ const NewlyLaunched = () => {
   );
 };
 
-export default NewlyLaunched;
+export default ResinArtTypesPage;
