@@ -1,6 +1,7 @@
 "use client";
 
 import React, { use, useEffect, useRef, useState } from "react";
+import { notFound } from "next/navigation";
 import { products, sortOptions } from "@/utils/commonJson";
 import Loading from "./loading";
 import ErrorComponent from "./error";
@@ -13,7 +14,6 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Slider from "@/components/Slider/Slider";
 import SelectableList from "@/components/SelectableList/SelectableList";
 import { getChildMenuInfo } from "@/utils/menusHelper";
-import NotFound from "./not-found";
 import Card from "@/components/Cards/Cards";
 import HorizontalCard from "@/components/Cards/HorizontalCards";
 
@@ -28,7 +28,7 @@ interface Todo {
   completed: boolean;
 }
 
-const PaintingTypesPage = ({ params }: Props) => {
+const CraftTypesPage = ({ params }: Props) => {
   const { slug } = use(params);
   const [category] = slug;
 
@@ -113,10 +113,10 @@ const PaintingTypesPage = ({ params }: Props) => {
     };
   }, [isOpen]);
 
-  const pageInfo = getChildMenuInfo(category, "/painting");
+  const pageInfo = getChildMenuInfo(category, '/craft');
 
   if (!pageInfo) {
-    return <NotFound />
+    return notFound();
   }
 
   if (loading) {
@@ -280,4 +280,4 @@ const PaintingTypesPage = ({ params }: Props) => {
   );
 };
 
-export default PaintingTypesPage;
+export default CraftTypesPage;
