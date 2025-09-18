@@ -7,23 +7,39 @@ import ProductsSection from "@/components/ProductsMainSection/PageFilterSection"
 import SelectableList from "@/components/SelectableList/SelectableList";
 import Slider from "@/components/Slider/Slider";
 import { RootState } from "@/store/store";
-import { categories, products, sortOptions } from "@/utils/commonJson";
+import { products, categories, sortOptions } from "@/utils/commonJson";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import NotFound from "./not-found";
+import Loading from "./loading";
+import ErrorComponent from "./error";
+import { getParentMenuInfo } from "@/utils/menusHelper";
 
-const FestiveEdition = () => {
+interface Props {
+  params: Promise<{ slug: string[] }>;
+}
+
+interface Todo {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+const CategoryTypesPage = ({ params }: Props) => {
+  const { slug } = use(params);
+  const [category] = slug;
+
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"filter" | "sort">("filter");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  // Actual applied states
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [price, setPrice] = useState(200);
   const [selectedSort, setSelectedSort] = useState<string | null>(null);
 
-  // Temporary states (for modal only)
   const [tempCategories, setTempCategories] = useState<string[]>([]);
   const [tempPrice, setTempPrice] = useState(200);
   const [tempSort, setTempSort] = useState<string | null>(null);
@@ -39,27 +55,23 @@ const FestiveEdition = () => {
     }
   }, [isOpen, price, selectedCategories, selectedSort]);
 
-  // Toggle category selection in modal
   const toggleTempCategory = (cat: string) => {
     setTempCategories((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
     );
   };
 
-  // Apply Filters
   const handleApplyFilters = () => {
     setSelectedCategories(tempCategories);
     setPrice(tempPrice);
     setIsOpen(false);
   };
 
-  // Apply Sort
   const handleApplySort = () => {
     setSelectedSort(tempSort);
     setIsOpen(false);
   };
 
-  // Close modal when clicked outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -80,12 +92,56 @@ const FestiveEdition = () => {
     };
   }, [isOpen]);
 
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const res = await fetch(
+          "https://jsonplaceholder.typicode.com/todos?_limit=5"
+        );
+        if (!res.ok) throw new Error("Failed to fetch todos");
+        const data = await res.json();
+        setTodos(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    setTimeout(fetchTodos, 2000);
+  }, []);
+
+  const pageInfo = getParentMenuInfo(category);
+
+  if (!pageInfo) {
+    return <NotFound />;
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <ErrorComponent
+        error={new Error(error)}
+        reset={() => location.reload()}
+      />
+    );
+  }
+
+  console.log(todos);
+
   return (
     <>
       <ProductsContainer>
         <ProductsSection
-          title="Festive Edition"
-          description="Celebrate the season of joy with our Festive Edition – a vibrant mix of art, drawings, resin pieces, home décor, and crafts to brighten your celebrations."
+          title={String(pageInfo?.title)}
+          description={String(pageInfo?.description)}
           selectedCategories={selectedCategories}
           price={price}
           selectedSort={selectedSort}
@@ -98,7 +154,6 @@ const FestiveEdition = () => {
           setViewMode={setViewMode}
         />
 
-        {/* Products Section */}
         <div
           className={
             viewMode === "grid"
@@ -106,7 +161,7 @@ const FestiveEdition = () => {
               : "grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mt-4"
           }
         >
-          {products.map((product) =>
+          {products?.map((product) =>
             viewMode === "grid" ? (
               <Card key={product.id} product={product} />
             ) : (
@@ -240,4 +295,4 @@ const FestiveEdition = () => {
   );
 };
 
-export default FestiveEdition;
+export default CategoryTypesPage;
