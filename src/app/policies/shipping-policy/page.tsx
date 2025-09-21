@@ -60,7 +60,7 @@ const ShippingPolicy = () => {
       </h2>
       <ul className="list-none space-y-2 mb-4">
         <li className="before:content-['-'] before:mr-2">
-          Standard Shipping: ₹100
+          Standard Shipping: <span className="font-serif">₹</span>100
         </li>
         <li className="before:content-['-'] before:mr-2">
           All charges are applied at checkout.

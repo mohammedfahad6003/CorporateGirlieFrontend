@@ -76,8 +76,9 @@ export default function PageFilterSection({
 
             {price !== 200 && (
               <FilterChips
-                label={`₹${price} +`}
+                label={`${price}+`}
                 onClick={() => setPrice(200)}
+                isPrice={true}
               />
             )}
 
