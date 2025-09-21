@@ -7,10 +7,11 @@ import { RootState } from "@/store/store";
 
 interface FilterChipProps {
   label: string;
+  isPrice?: boolean;
   onClick: () => void;
 }
 
-const FilterChips = ({ label, onClick }: FilterChipProps) => {
+const FilterChips = ({ label, onClick, isPrice = false }: FilterChipProps) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
   return (
@@ -22,6 +23,7 @@ const FilterChips = ({ label, onClick }: FilterChipProps) => {
             : "bg-gray-800 border border-gray-800 text-white"
         }`}
     >
+      {isPrice && <span className="font-serif">₹</span>}
       {label}
       <FontAwesomeIcon
         icon={faTimes}

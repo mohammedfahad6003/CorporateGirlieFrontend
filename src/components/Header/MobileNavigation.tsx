@@ -109,8 +109,13 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
         {/* Menu Items */}
         <nav className="flex flex-col flex-grow">
           {menuForDesktopItems?.map((item: Menus) => {
-            const isActive = pathName === item.navigation;
             const hasChildren = item.childMenus && item.childMenus.length > 0;
+            const isActive =
+              pathName === item.navigation || // parent exact match
+              (hasChildren &&
+                item.childMenus?.some(
+                  (submenu) => pathName === submenu.navigation
+                )); // child active
             const isExpanded = categoriesOpen === item.id;
 
             return (
@@ -128,11 +133,17 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
                   }}
                   className={`flex items-center justify-between px-6 py-4 border-b transition-colors duration-200 w-full text-left ${
                     isActive
-                      ? "text-yellow-400 font-medium border-gray-700"
+                      ? "text-yellow-400 font-medium border-gray-200"
                       : "hover:text-yellow-400 border-gray-200"
                   }`}
                 >
-                  <span>{item.title}</span>
+                  <span
+                    className={
+                      isActive ? `underline decoration-yellow-400` : ""
+                    }
+                  >
+                    {item.title}
+                  </span>
 
                   {/* If has children → toggle icon, else normal arrow */}
                   {hasChildren ? (
@@ -174,7 +185,15 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
                         `}
                             prefetch={true}
                           >
-                            {submenu.title}
+                            <span
+                              className={
+                                pathName === submenu.navigation
+                                  ? `underline decoration-yellow-400`
+                                  : ""
+                              }
+                            >
+                              {submenu.title}
+                            </span>
                             {index !== (item.childMenus?.length ?? 0) - 1 && (
                               <div className="border-b border-gray-300 my-2" />
                             )}

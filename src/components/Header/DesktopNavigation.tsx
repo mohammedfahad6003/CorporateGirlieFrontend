@@ -27,7 +27,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
         darkMode ? "text-white" : "text-black"
       }`}
     >
-      {menuForDesktopItems.map((item: Menus) => {
+      {menuForDesktopItems?.map((item: Menus) => {
         const hasChildren = item.childMenus && item.childMenus.length > 0;
         const isActive =
           pathName === item.navigation ||
@@ -78,7 +78,7 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                 <div
                   className={`
                     absolute top-full left-1/2 -translate-x-1/2
-                    rounded-lg shadow-lg z-50 transition-opacity duration-200
+                    rounded-lg z-50 transition-opacity duration-200
                     opacity-100 visible pt-4
                     max-h-[70vh] overflow-y-auto submenu-container
                     w-[150px]
@@ -88,32 +88,48 @@ const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                     className={`
                       flex flex-col gap-3
                       p-4 w-full
-                      rounded-lg shadow-lg border
+                      rounded-lg shadow-lg
                       scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-transparent
-                      custom-scrollbar
+                      custom-scrollbar border-2
                       ${
                         darkMode
-                          ? "bg-black border-gray-700 text-white"
-                          : "bg-white border-gray-200 text-black"
+                          ? "bg-black border-yellow-400 text-white"
+                          : "bg-white border-gray-400 text-black"
                       }
                     `}
                   >
-                    {item?.childMenus?.map((submenu: ChildMenu) => (
-                      <li key={submenu.id} className="flex items-center">
-                        <Link
-                          href={submenu.navigation}
-                          className={`
-                            relative inline-block font-medium
-                            text-base lg:text-sm md:text-xs
-                            hover:text-yellow-400 group
-                          `}
-                          prefetch={true}
-                        >
-                          {submenu.title}
-                          <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-yellow-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
-                        </Link>
-                      </li>
-                    ))}
+                    {item?.childMenus?.map((submenu: ChildMenu) => {
+                      const isSubActive = pathName === submenu.navigation;
+
+                      return (
+                        <li key={submenu.id} className="flex items-center">
+                          <Link
+                            href={submenu.navigation}
+                            className={`
+                              relative inline-block font-medium
+                              text-base lg:text-sm md:text-xs group
+                              ${
+                                isSubActive
+                                  ? "text-yellow-400"
+                                  : "hover:text-yellow-400"
+                              }
+                            `}
+                            prefetch={true}
+                          >
+                            {submenu.title}
+                            <span
+                              className={`absolute left-0 -bottom-1 w-full h-[2px] bg-yellow-400 origin-left transition-transform duration-300
+                                ${
+                                  isSubActive
+                                    ? "scale-x-100"
+                                    : "scale-x-0 group-hover:scale-x-100"
+                                }
+                              `}
+                            />
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
