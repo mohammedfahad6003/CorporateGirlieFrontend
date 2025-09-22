@@ -2,10 +2,10 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPaintBrush, // Painting
-  faPencilAlt, // Drawing
-  faTruck, // Deliveries
-  faGem, // Resin Art
+  faPaintBrush, 
+  faPencilAlt, 
+  faTruck,
+  faGem,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";

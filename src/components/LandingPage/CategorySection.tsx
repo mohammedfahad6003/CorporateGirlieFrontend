@@ -7,11 +7,12 @@ import CircleBadges from "./CircleBadges";
 import { useRouter } from "next/navigation";
 
 const CategorySection = () => {
+  const router = useRouter();
+  
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
   const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
 
-  const router = useRouter();
 
   return (
     <div
