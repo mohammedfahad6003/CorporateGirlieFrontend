@@ -1,8 +1,9 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { smoothScrollToTop } from "@/utils/helperFunctions";
 
 interface MainContainerProps {
   children: ReactNode;
@@ -13,6 +14,12 @@ const ProductsContainer = ({ children }: MainContainerProps) => {
 
   const bgColor = darkMode ? "bg-black" : "bg-white";
   const textColor = darkMode ? "text-white" : "text-gray-900";
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      smoothScrollToTop();
+    }
+  }, []);
 
   return (
     <div className={`min-h-screen ${bgColor} ${textColor} p-6 sm:p-12`}>

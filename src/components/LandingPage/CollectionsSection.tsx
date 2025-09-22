@@ -5,11 +5,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 
 const CollectionsSection = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
   const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
+
+  const router = useRouter();
 
   return (
     <div
@@ -43,6 +46,10 @@ const CollectionsSection = () => {
                     : "hover:shadow-2xl"
                 }
               `}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push(`${item.imageNavigation}`);
+              }}
             >
               {/* Image */}
               <div className="relative w-full h-48">
