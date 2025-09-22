@@ -36,7 +36,8 @@ const CraftTypesPage = ({ params }: Props) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"filter" | "sort">("filter");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  const viewMode = useSelector((state: RootState) => state.viewMode.viewMode);
 
   // Actual applied states
   const [price, setPrice] = useState(200);
@@ -113,7 +114,7 @@ const CraftTypesPage = ({ params }: Props) => {
     };
   }, [isOpen]);
 
-  const pageInfo = getChildMenuInfo(category, '/craft');
+  const pageInfo = getChildMenuInfo(category, "/craft");
 
   if (!pageInfo) {
     return notFound();
@@ -145,10 +146,9 @@ const CraftTypesPage = ({ params }: Props) => {
           setPrice={setPrice}
           setSelectedSort={setSelectedSort}
           viewMode={viewMode}
-          setViewMode={setViewMode}
         />
 
-         <div
+        <div
           className={
             viewMode === "grid"
               ? "grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 mt-4"

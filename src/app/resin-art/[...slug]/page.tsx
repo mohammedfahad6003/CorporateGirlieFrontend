@@ -36,7 +36,7 @@ const ResinArtTypesPage = ({ params }: Props) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"filter" | "sort">("filter");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const viewMode = useSelector((state: RootState) => state.viewMode.viewMode);
 
   // Actual applied states
   const [price, setPrice] = useState(200);
@@ -145,7 +145,6 @@ const ResinArtTypesPage = ({ params }: Props) => {
           setPrice={setPrice}
           setSelectedSort={setSelectedSort}
           viewMode={viewMode}
-          setViewMode={setViewMode}
         />
 
         <div
