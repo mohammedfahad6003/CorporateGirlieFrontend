@@ -4,11 +4,14 @@ import { LandingPageContent } from "@/utils/commonJson";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import CircleBadges from "./CircleBadges";
+import { useRouter } from "next/navigation";
 
 const CategorySection = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
   const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
+
+  const router = useRouter();
 
   return (
     <div
@@ -56,6 +59,7 @@ const CategorySection = () => {
                 ? "bg-yellow-400 text-white hover:bg-yellow-300"
                 : "bg-gray-900 text-white hover:bg-gray-800"
             }`}
+            onClick={() => router.push(`/category/limited-edition`)}
           >
             Explore More
           </button>
