@@ -29,7 +29,7 @@ const ShippingPolicy = () => {
       <ul className="list-none space-y-2 mb-4">
         <li className="before:content-['-'] before:mr-2">
           Processing Time: All orders are processed within{" "}
-          <strong>5–7 business days</strong>.
+          <strong>8–10 business days</strong>.
         </li>
         <li className="before:content-['-'] before:mr-2">
           Business Hours: Orders placed after <strong>6 PM IST</strong> will be
@@ -39,6 +39,12 @@ const ShippingPolicy = () => {
           Order Status: You will receive an email notification once your order
           has been dispatched.
         </li>
+        <li className="before:content-['-'] before:mr-2">
+          All orders are <strong>hand-painted</strong> and require time. If the
+          ordered product is ready, it will be processed within{" "}
+          <strong>2 working days</strong>. If not, please expect{" "}
+          <strong>10–15 working days</strong> for completion & delivery.
+        </li>
       </ul>
 
       <h2 className={`text-lg sm:text-xl font-semibold mt-6 mb-2 ${textColor}`}>
@@ -46,8 +52,8 @@ const ShippingPolicy = () => {
       </h2>
       <ul className="list-none space-y-2 mb-4">
         <li className="before:content-['-'] before:mr-2">
-          Standard Shipping: Delivery within <strong>6–10 business days</strong>
-          .
+          Standard Shipping: Delivery within{" "}
+          <strong>5–7 business days</strong>.
         </li>
         <li className="before:content-['-'] before:mr-2">
           <em>Note:</em> Delivery times are estimates and may vary based on the

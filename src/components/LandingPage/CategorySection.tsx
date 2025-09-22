@@ -5,14 +5,14 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import CircleBadges from "./CircleBadges";
 import { useRouter } from "next/navigation";
+import Button from "../Button/Button";
 
 const CategorySection = () => {
   const router = useRouter();
-  
+
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
   const borderColor = darkMode ? "border-yellow-400" : "border-gray-300";
-
 
   return (
     <div
@@ -54,16 +54,12 @@ const CategorySection = () => {
             commodi perspiciatis, reiciendis modi iste!
           </p>
 
-          <button
-            className={`px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg transition cursor-pointer w-fit sm:text-lg text-sm ${
-              darkMode
-                ? "bg-yellow-400 text-white hover:bg-yellow-300"
-                : "bg-gray-900 text-white hover:bg-gray-800"
-            }`}
+          <Button
+            label="Explore More"
+            variant="filled"
             onClick={() => router.push(`/category/limited-edition`)}
-          >
-            Explore More
-          </button>
+            className={'w-fit sm:text-lg text-sm px-5 py-2.5 sm:px-6 sm:py-3 transition font-normal'}
+          />
 
           <CircleBadges />
         </div>
