@@ -13,12 +13,12 @@ import {
   faPhone,
   faHashtag,
   faCommentDots,
-  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import PolicyContainer from "@/components/ContainerStyles/PolicyContainer";
 import { COMMON_VARIABLES } from "@/utils/commonVariables";
 import emailjs from "emailjs-com";
 import ToastHandler from "@/components/ToastHandler/ToastHandler";
+import Button from "@/components/Button/Button";
 
 const ContactUs = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
@@ -58,9 +58,7 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     const newErrors = { email: "", phoneNumber: "", orderNumber: "" };
     let hasError = false;
 
@@ -292,24 +290,12 @@ const ContactUs = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end">
-          <button
-            onClick={(e) => handleSubmit(e)}
-            disabled={loading}
-            className={`
-                font-semibold px-6 py-2 rounded-md transition-all cursor-pointer sm:text-lg text-sm flex items-center justify-center gap-2
-                ${
-                  darkMode
-                    ? "bg-yellow-400 text-white hover:bg-yellow-400"
-                    : "bg-gray-900 text-white hover:bg-gray-800"
-                }
-                ${loading ? "opacity-70 cursor-not-allowed" : ""}
-              `}
-          >
-            {loading && (
-              <FontAwesomeIcon icon={faSpinner} spin className="text-white" />
-            )}
-            {loading ? "Sending..." : "Send Message"}
-          </button>
+          <Button
+            variant="filled"
+            label="Send Message"
+            onClick={() => handleSubmit()}
+            loading={loading}
+          />
         </div>
       </PolicyContainer>
       {toast && (

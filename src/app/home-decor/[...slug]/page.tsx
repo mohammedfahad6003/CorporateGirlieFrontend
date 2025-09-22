@@ -16,6 +16,7 @@ import { getChildMenuInfo } from "@/utils/menusHelper";
 import NotFound from "./not-found";
 import Card from "@/components/Cards/Cards";
 import HorizontalCard from "@/components/Cards/HorizontalCards";
+import Button from "@/components/Button/Button";
 
 interface Props {
   params: Promise<{ slug: string[] }>;
@@ -70,7 +71,7 @@ const HomeDecorTypesPage = ({ params }: Props) => {
 
     setTimeout(fetchTodos, 2000);
   }, []);
-  
+
   console.log(todos);
 
   useEffect(() => {
@@ -144,7 +145,6 @@ const HomeDecorTypesPage = ({ params }: Props) => {
           setActiveTab={setActiveTab}
           setPrice={setPrice}
           setSelectedSort={setSelectedSort}
-          viewMode={viewMode}
         />
 
         <div
@@ -167,7 +167,10 @@ const HomeDecorTypesPage = ({ params }: Props) => {
       {isOpen && (
         <div
           className={`fixed inset-0 z-40 flex items-end sm:items-center justify-center overflow-y-auto bg-black/75 transition-opacity duration-300 ease-out`}
-          onClick={() => setIsOpen(false)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(false);
+          }}
         >
           <div
             ref={modalRef}
@@ -256,21 +259,16 @@ const HomeDecorTypesPage = ({ params }: Props) => {
             </div>
 
             {/* Footer */}
-            <div className="p-4 sm:p-6 border-t text-center">
-              <button
+            <div className="p-3 sm:p-6 border-t flex justify-center">
+              <Button
+                label={activeTab === "filter" ? "Apply Filters" : "Apply Sort"}
                 onClick={
                   activeTab === "filter" ? handleApplyFilters : handleApplySort
                 }
-                className={`sm:w-[75%] w-[60%] py-3 text-sm sm:text-base rounded-xl font-semibold cursor-pointer transition-shadow duration-200 shadow-sm
-                  ${
-                    darkMode
-                      ? "bg-yellow-400 text-white hover:shadow-lg"
-                      : "bg-yellow-400 text-black hover:shadow-lg"
-                  }
-                `}
-              >
-                {activeTab === "filter" ? "Apply Filters" : "Apply Sort"}
-              </button>
+                variant="filled"
+                className={`sm:w-[75%] w-[60%] py-3 text-sm sm:text-base rounded-xl 
+                  font-semibold cursor-pointer transition-shadow duration-200 shadow-sm`}
+              />
             </div>
           </div>
         </div>
