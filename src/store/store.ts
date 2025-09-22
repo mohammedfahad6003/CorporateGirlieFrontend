@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import themeReducer from "./themeSlice";
 import cookieReducer from "./cookieSlice";
+import viewModeReducer from './viewModeSlice';
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
@@ -15,6 +16,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   theme: themeReducer,
   consent: cookieReducer,
+  viewMode: viewModeReducer,
 });
 
 // wrap with persistReducer
