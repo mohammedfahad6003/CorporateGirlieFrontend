@@ -30,7 +30,7 @@ const Card: React.FC<CardProps> = ({ product }) => {
 
   return (
     <div
-      className={`group relative rounded-2xl overflow-hidden cursor-pointer
+      className={`group relative rounded-xl overflow-hidden cursor-pointer
         transition-transform duration-500 ease-out
         border-2 ${borderColor}
         ${darkMode ? "bg-black text-white" : "bg-white text-gray-900"}
@@ -59,6 +59,11 @@ const Card: React.FC<CardProps> = ({ product }) => {
           className="object-cover"
           priority
         />
+        {product?.isSale && (
+          <span className="sm:hidden absolute bottom-0 right-0 bg-[#C10E21] text-white text-xs font-semibold px-2 py-1 rounded-tl-md">
+            {product?.saleDiscount}% OFF
+          </span>
+        )}
       </div>
 
       {/* Title + Price + Icon */}
@@ -71,7 +76,7 @@ const Card: React.FC<CardProps> = ({ product }) => {
               {product?.title}
             </h3>
             {product?.isSale ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <span className="text-sm sm:text-base line-through text-gray-500">
                   <span className="font-serif">₹</span>
                   {Number(product?.price ?? 0).toLocaleString()}
@@ -83,7 +88,7 @@ const Card: React.FC<CardProps> = ({ product }) => {
                       (1 - (product.saleDiscount ?? 0) / 100)
                   ).toLocaleString()}
                 </span>
-                <span className="text-xs sm:text-sm font-medium text-[#C10E21]">
+                <span className="hidden sm:inline text-xs sm:text-sm font-medium text-[#C10E21]">
                   {product?.saleDiscount}% OFF
                 </span>
               </div>

@@ -27,7 +27,7 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
 
   return (
     <div
-      className={`flex items-center rounded-2xl overflow-hidden cursor-pointer
+      className={`flex items-center rounded-xl overflow-hidden cursor-pointer
         border-2 p-2 sm:p-3 transition-transform duration-300
         ${
           darkMode
@@ -50,6 +50,11 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
           className="object-cover"
           priority
         />
+        {product?.isSale && (
+          <span className="block sm:hidden absolute bottom-0 right-0 bg-[#C10E21] text-white text-xs font-semibold p-1 rounded-tl-md">
+            {product?.saleDiscount}% OFF
+          </span>
+        )}
       </div>
 
       {/* Content */}
@@ -71,7 +76,7 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
                     (1 - (product.saleDiscount ?? 0) / 100)
                 ).toLocaleString()}
               </span>
-              <span className="text-xs sm:text-sm font-medium text-[#C10E21]">
+              <span className="hidden sm:inline text-xs sm:text-sm font-medium text-[#C10E21]">
                 {product?.saleDiscount}% OFF
               </span>
             </div>
