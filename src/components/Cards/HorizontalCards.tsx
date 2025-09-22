@@ -51,7 +51,7 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
           priority
         />
         {product?.isSale && (
-          <span className="block sm:hidden absolute bottom-0 right-0 bg-[#C10E21] text-white text-xs font-semibold p-1 rounded-tl-md">
+          <span className="block sm:hidden absolute bottom-0 right-0 bg-[#C10E21] text-white text-[10px] font-semibold p-1 rounded-tl-md">
             {product?.saleDiscount}% OFF
           </span>
         )}

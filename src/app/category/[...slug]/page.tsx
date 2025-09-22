@@ -34,7 +34,8 @@ const CategoryTypesPage = ({ params }: Props) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"filter" | "sort">("filter");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  const viewMode = useSelector((state: RootState) => state.viewMode.viewMode);
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [price, setPrice] = useState(200);
@@ -151,7 +152,6 @@ const CategoryTypesPage = ({ params }: Props) => {
           setPrice={setPrice}
           setSelectedSort={setSelectedSort}
           viewMode={viewMode}
-          setViewMode={setViewMode}
         />
 
         <div

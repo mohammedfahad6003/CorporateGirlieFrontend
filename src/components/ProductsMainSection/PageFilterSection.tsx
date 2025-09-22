@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThLarge, faList } from "@fortawesome/free-solid-svg-icons";
 import FilterSortSection from "../FilterSortSection/FilterSortSection";
 import FilterChips from "../FilterSortSection/FilterChips";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { setViewMode } from "@/store/viewModeSlice";
 
 interface ProductsSectionProps {
   title: string;
@@ -17,7 +18,6 @@ interface ProductsSectionProps {
   setPrice: React.Dispatch<React.SetStateAction<number>>;
   setSelectedSort: React.Dispatch<React.SetStateAction<string | null>>;
   viewMode: "grid" | "list";
-  setViewMode: React.Dispatch<React.SetStateAction<"grid" | "list">>;
   selectedCategories?: string[];
   setSelectedCategories?: React.Dispatch<React.SetStateAction<string[]>>;
 }
@@ -34,9 +34,10 @@ export default function PageFilterSection({
   setPrice,
   setSelectedSort,
   viewMode,
-  setViewMode,
 }: ProductsSectionProps) {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -58,7 +59,9 @@ export default function PageFilterSection({
       {/* Selected Chips */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8">
         {/* Filter Chips */}
-        {(selectedCategories && selectedCategories.length > 0) || price !== 200 || selectedSort ? (
+        {(selectedCategories && selectedCategories.length > 0) ||
+        price !== 200 ||
+        selectedSort ? (
           <div className="flex flex-wrap gap-2 flex-1">
             {selectedCategories?.map((cat) =>
               setSelectedCategories ? (
@@ -101,7 +104,7 @@ export default function PageFilterSection({
         >
           {/* Grid View */}
           <div
-            onClick={() => setViewMode("grid")}
+            onClick={() => dispatch(setViewMode("grid"))}
             className={`flex-1 flex items-center justify-center cursor-pointer transition-colors duration-200
               ${
                 viewMode === "grid"
@@ -121,7 +124,7 @@ export default function PageFilterSection({
 
           {/* List View */}
           <div
-            onClick={() => setViewMode("list")}
+            onClick={() => dispatch(setViewMode("list"))}
             className={`flex-1 flex items-center justify-center cursor-pointer transition-colors duration-200
               ${
                 viewMode === "list"
