@@ -17,7 +17,6 @@ interface ProductsSectionProps {
   setActiveTab: React.Dispatch<React.SetStateAction<"filter" | "sort">>;
   setPrice: React.Dispatch<React.SetStateAction<number>>;
   setSelectedSort: React.Dispatch<React.SetStateAction<string | null>>;
-  viewMode: "grid" | "list";
   selectedCategories?: string[];
   setSelectedCategories?: React.Dispatch<React.SetStateAction<string[]>>;
 }
@@ -33,9 +32,9 @@ export default function PageFilterSection({
   setSelectedCategories,
   setPrice,
   setSelectedSort,
-  viewMode,
 }: ProductsSectionProps) {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+  const viewMode = useSelector((state: RootState) => state.viewMode.viewMode)
 
   const dispatch = useDispatch();
 

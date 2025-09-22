@@ -5,8 +5,7 @@ import InputBox from "../InputBox/InputBox";
 import TextArea from "../TextArea/TextArea";
 import emailjs from "emailjs-com";
 import ToastHandler from "../ToastHandler/ToastHandler";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import Button from "../Button/Button";
 
 const GetInTouch = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
@@ -43,9 +42,7 @@ const GetInTouch = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     const newErrors = { email: "", phoneNumber: "" };
     let hasError = false;
 
@@ -169,24 +166,12 @@ const GetInTouch = () => {
 
           {/* Submit Button */}
           <div className="flex justify-end">
-            <button
-              onClick={(e) => handleSubmit(e)}
-              disabled={loading}
-              className={`
-                font-semibold px-6 py-2 rounded-md transition-all cursor-pointer sm:text-lg text-sm flex items-center justify-center gap-2
-                ${
-                  darkMode
-                    ? "bg-yellow-400 text-white hover:bg-yellow-400"
-                    : "bg-gray-900 text-white hover:bg-gray-800"
-                }
-                ${loading ? "opacity-70 cursor-not-allowed" : ""}
-              `}
-            >
-              {loading && (
-                <FontAwesomeIcon icon={faSpinner} spin className="text-white" />
-              )}
-              {loading ? "Sending..." : "Send Message"}
-            </button>
+            <Button
+              variant="filled"
+              label="Send Message"
+              onClick={() => handleSubmit()}
+              loading={loading}
+            />
           </div>
         </div>
       </div>

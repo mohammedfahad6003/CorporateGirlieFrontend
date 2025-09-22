@@ -1,6 +1,7 @@
 import { RootState } from "@/store/store";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Button from "../Button/Button";
 
 const ErrorPage = ({ error, reset }: { error: Error; reset: () => void }) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
@@ -20,17 +21,13 @@ const ErrorPage = ({ error, reset }: { error: Error; reset: () => void }) => {
       <p className="text-sm mb-6 opacity-80">
         We couldn’t load this page. Please try again.
       </p>
-      <button
-        type="button"
+
+      <Button
+        label="Retry"
         onClick={reset}
-        className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
-          darkMode
-            ? "bg-yellow-400 text-black hover:bg-yellow-300"
-            : "bg-gray-800 text-white hover:bg-gray-700"
-        }`}
-      >
-        Retry
-      </button>
+        className="transition-colors"
+        variant="filled"
+      />
     </div>
   );
 };

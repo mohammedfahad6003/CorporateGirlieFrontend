@@ -102,3 +102,26 @@ li {
   overflow-y: auto !important; /* allow scrolling */
   -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
 }
+
+@keyframes bounceWave {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bounceWave {
+  animation: bounceWave 0.6s infinite;
+}
+
+.animation-delay-150 {
+  animation-delay: 0.15s;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}

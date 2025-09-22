@@ -3,6 +3,7 @@ import { LandingPageContent } from "@/utils/commonJson";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Button from "../Button/Button";
 
 const HomePageSlider = () => {
   const [current, setCurrent] = useState(0);
@@ -62,15 +63,15 @@ const HomePageSlider = () => {
                       {img.imageTitle}
                     </h2>
                     <p className="mb-5 text-sm">{img.imageDescription}</p>
-                    <button
-                      className={`px-5 py-2 rounded-lg transition cursor-pointer sm:text-lg text-sm ${
-                        darkMode
-                          ? "bg-yellow-400 text-white hover:bg-yellow-400 hover:font-medium"
-                          : "bg-gray-900 text-white hover:bg-gray-800"
-                      }`}
-                    >
-                      {img.imageButton}
-                    </button>
+                    <div className="flex justify-center">
+                      <Button
+                        label={img.imageButton}
+                        variant="filled"
+                        className={
+                          "w-fit sm:text-lg text-sm px-5 py-2.5 sm:px-6 sm:py-3 transition font-normal"
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -93,15 +94,13 @@ const HomePageSlider = () => {
               >
                 <h2 className="text-lg font-bold mb-2">{img.imageTitle}</h2>
                 <p className="mb-4 text-sm">{img.imageDescription}</p>
-                <button
-                  className={`px-5 py-2 rounded-lg transition cursor-pointer sm:text-lg text-sm ${
-                    darkMode
-                      ? "bg-yellow-400 text-white hover:bg-yellow-400 hover:font-medium"
-                      : "bg-gray-900 text-white hover:bg-gray-800"
-                  }`}
-                >
-                  {img.imageButton}
-                </button>
+                <Button
+                  label={img.imageButton}
+                  variant="filled"
+                  className={
+                    "w-fit sm:text-lg text-sm px-5 py-2.5 sm:px-6 sm:py-3 transition font-normal"
+                  }
+                />
               </div>
             ))}
           </div>
