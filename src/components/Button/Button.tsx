@@ -12,7 +12,7 @@ interface ButtonProps {
   variant?: "hollow" | "filled";
   className?: string;
   isAnimationRequired?: boolean;
-  loading?: boolean; // new
+  loading?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -29,38 +29,50 @@ const Button: React.FC<ButtonProps> = ({
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (loading) return; // prevent click while loading
+    if (loading) return;
     onClick?.();
 
     if (isAnimationRequired) {
       if (clicked) return;
-
       setClicked(true);
+
       setTimeout(() => {
         setClicked(false);
         setSuccess(true);
       }, 2000);
 
-      // Reset success after a while
       setTimeout(() => setSuccess(false), 3500);
     }
   };
 
-  // Styles
   const baseButton =
     "relative cursor-pointer mt-1 sm:mt-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg hover:shadow-lg transition-all duration-200 flex items-center justify-center";
 
   const filledClass = darkMode
-    ? "bg-yellow-400 text-white border-2 border-yellow-400 hover:bg-yellow-500 hover:shadow-lg"
-    : "bg-gray-900 text-white border-2 border-gray-800 hover:bg-gray-800 hover:shadow-lg";
+    ? "bg-yellow-400 text-white border-2 border-yellow-400 hover:bg-yellow-500"
+    : "bg-gray-900 text-white border-2 border-gray-800 hover:bg-gray-800";
 
   const hollowClass = darkMode
-    ? "bg-black text-white border-2 border-yellow-400 hover:bg-gray-950 hover:text-white hover:shadow-lg"
-    : "bg-white text-black border-2 border-gray-800 hover:bg-gray-50 hover:text-black hover:shadow-lg";
+    ? "bg-black text-white border-2 border-yellow-400 hover:bg-gray-950"
+    : "bg-white text-black border-2 border-gray-800 hover:bg-gray-50";
+
+  const textColor =
+    variant === "filled"
+      ? "text-white"
+      : darkMode
+      ? "text-white"
+      : "text-black";
+
+  const loadingTextColor =
+    variant === "filled"
+      ? "bg-white"
+      : darkMode
+      ? "bg-white"
+      : "bg-black";
 
   return (
     <button
-      onClick={(e) => handleClick(e)}
+      onClick={handleClick}
       disabled={loading}
       className={`${className} ${baseButton} ${
         variant === "filled" ? filledClass : hollowClass
@@ -73,29 +85,37 @@ const Button: React.FC<ButtonProps> = ({
             <FontAwesomeIcon
               icon={faSpinner}
               spin
-              className="text-white mr-2"
+              className={`${textColor} mr-2`}
             />
-            <span>Sending...</span>
+            <span className={textColor}>Sending...</span>
           </>
         )}
 
         {/* Normal label */}
         {!loading && !clicked && !success && (
-          <span className="transition-opacity duration-200">{label}</span>
+          <span className={`${textColor} transition-opacity duration-200`}>
+            {label}
+          </span>
         )}
 
         {/* Wave dots animation */}
         {isAnimationRequired && clicked && !success && !loading && (
           <div className="flex items-end gap-1">
-            <span className="w-2 h-2 bg-white rounded-full animate-bounceWave"></span>
-            <span className="w-2 h-2 bg-white rounded-full animate-bounceWave animation-delay-150"></span>
-            <span className="w-2 h-2 bg-white rounded-full animate-bounceWave animation-delay-300"></span>
+            <span
+              className={`w-2 h-2 ${loadingTextColor} rounded-full animate-bounceWave`}
+            />
+            <span
+              className={`w-2 h-2 ${loadingTextColor} rounded-full animate-bounceWave animation-delay-150`}
+            />
+            <span
+              className={`w-2 h-2 ${loadingTextColor} rounded-full animate-bounceWave animation-delay-300`}
+            />
           </div>
         )}
 
         {/* Success check */}
         {isAnimationRequired && success && !loading && (
-          <FontAwesomeIcon icon={faCheck} className="text-white text-lg" />
+          <FontAwesomeIcon icon={faCheck} className={`${textColor} text-lg`} />
         )}
       </div>
     </button>
