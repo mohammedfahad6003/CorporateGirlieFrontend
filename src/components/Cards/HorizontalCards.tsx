@@ -60,7 +60,7 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
       {/* Content */}
       <div className="flex-1 flex justify-between items-center px-3 sm:px-4">
         <div>
-          <h3 className="text-sm sm:text-lg font-semibold leading-6 mb-2 sm:mb-1">
+          <h3 className="text-sm sm:text-lg font-medium leading-6 mb-2 sm:mb-1">
             {product?.title}
           </h3>
           {product?.isSale ? (
@@ -81,7 +81,7 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
               </span>
             </div>
           ) : (
-            <p className="text-sm sm:text-base font-semibold">
+            <p className="text-sm sm:text-base font-medium">
               <span className="font-serif">₹</span>
               {Number(product?.price ?? 0).toLocaleString()}
             </p>

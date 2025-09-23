@@ -48,7 +48,7 @@ const Card: React.FC<CardProps> = ({ product }) => {
     >
       {/* Image */}
       <div
-        className={`relative w-full h-42 sm:h-72 border-b-2 ${
+        className={`relative w-full h-36 sm:h-60 border-b-2 ${
           darkMode ? "border-yellow-400" : "border-gray-300"
         }`}
       >
@@ -72,7 +72,7 @@ const Card: React.FC<CardProps> = ({ product }) => {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="sm:text-lg text-sm font-semibold mb-2 sm:mb-1 leading-6">
+            <h3 className="sm:text-lg text-sm font-medium mb-2 sm:mb-1 leading-5 sm:leading-6">
               {product?.title}
             </h3>
             {product?.isSale ? (
@@ -93,7 +93,7 @@ const Card: React.FC<CardProps> = ({ product }) => {
                 </span>
               </div>
             ) : (
-              <p className="text-sm sm:text-base font-semibold">
+              <p className="text-sm sm:text-base font-medium">
                 <span className="font-serif">₹</span>
                 {Number(product?.price ?? 0).toLocaleString()}
               </p>
