@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faClipboardList,
+  faPalette,
   faShieldHeart,
   faTruck,
   faUpload,
@@ -61,7 +62,7 @@ const ProductsPage = ({ params }: Props) => {
   }
 
   const filledClass = darkMode
-    ? "bg-yellow-400 text-white border-2 border-yellow-400 hover:bg-yellow-500 hover:shadow-lg"
+    ? "bg-yellow-400 text-black border-2 border-yellow-400 hover:bg-yellow-500 hover:shadow-lg"
     : "bg-gray-900 text-white border-2 border-gray-800 hover:bg-gray-800 hover:shadow-lg";
 
   return (
@@ -184,6 +185,7 @@ const ProductsPage = ({ params }: Props) => {
               icon={faClipboardList}
             />
             <Collapse title={"Care Instructions"} icon={faShieldHeart} />
+            <Collapse title={"Customized Instructions"} icon={faPalette} />
             <Collapse title={"Shipping Instructions"} icon={faTruck} />
           </div>
 
