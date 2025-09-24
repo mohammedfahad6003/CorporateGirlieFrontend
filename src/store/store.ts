@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import themeReducer from "./themeSlice";
 import cookieReducer from "./cookieSlice";
 import viewModeReducer from './viewModeSlice';
+import cartReducer from './addCartSlice';
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   theme: themeReducer,
   consent: cookieReducer,
   viewMode: viewModeReducer,
+  cart: cartReducer,
 });
 
 // wrap with persistReducer
