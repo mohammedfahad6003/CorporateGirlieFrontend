@@ -57,8 +57,9 @@ const Button: React.FC<ButtonProps> = ({
     : "bg-white text-black border-2 border-gray-800 hover:bg-gray-50";
 
   const getTextColor = (variant: string, darkMode: boolean) => {
-    if (variant === "filled") return darkMode ? "text-black font-medium" : "text-white";
-    return darkMode ? "text-white font-medium" : "text-black";
+    if (variant === "filled")
+      return darkMode ? "text-black font-medium" : "text-white font-medium";
+    return darkMode ? "text-white font-medium" : "text-black font-medium";
   };
 
   const getLoadingTextColor = (variant: string, darkMode: boolean) => {

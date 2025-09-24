@@ -15,12 +15,13 @@ import {
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import QuantitySelector from "@/components/QuantitySelector/QuantitySelector";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import Collapse from "@/components/CollapseExpand/CollapseExpand";
+import { addToCart } from "@/store/addCartSlice";
 
 // Props type for dynamic route slug
 interface Props {
@@ -49,6 +50,7 @@ const ProductsPage = ({ params }: Props) => {
   const [quantity, setQuantity] = useState(1);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (id) {
@@ -64,6 +66,46 @@ const ProductsPage = ({ params }: Props) => {
   const filledClass = darkMode
     ? "bg-yellow-400 text-black border-2 border-yellow-400 hover:bg-yellow-500 hover:shadow-lg"
     : "bg-gray-900 text-white border-2 border-gray-800 hover:bg-gray-800 hover:shadow-lg";
+
+  const handleAddToCart = () => {
+    const calculatedPrice = data?.isSale
+      ? Math.round(
+          Number(data.price.replace(/,/g, "")) *
+            (1 - (data.saleDiscount ?? 0) / 100)
+        )
+      : Number(data?.price?.replace(/,/g, "") || 0);
+
+    const addToCartData = {
+      id: data?.id,
+      title: data?.title,
+      price: calculatedPrice,
+      quantity: quantity,
+      image: data?.image,
+    };
+
+    dispatch(addToCart(addToCartData));
+
+    return "";
+  };
+
+  //   import { useDispatch, useSelector } from "react-redux";
+  // import { addToCart, removeFromCart, updateQuantity } from "@/store/slices/cartSlice";
+  // import { RootState } from "@/store/store";
+
+  // const dispatch = useDispatch();
+  // const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  // // Add item to cart
+  // dispatch(addToCart({ id: 1, title: "Product 1", price: 1000, quantity: 1, image: "/img.jpg" }));
+
+  // // Remove item
+  // dispatch(removeFromCart(1));
+
+  // // Update quantity
+  // dispatch(updateQuantity({ id: 1, quantity: 3 }));
+
+  // // Clear cart
+  // dispatch(clearCart());
 
   return (
     <ProductsContainer>
@@ -152,7 +194,8 @@ const ProductsPage = ({ params }: Props) => {
             <Button
               label="Add To Cart"
               isAnimationRequired={true}
-              className="w-full "
+              className="w-full"
+              onClick={handleAddToCart}
             />
             <Button
               label="Buy Now"

@@ -29,7 +29,7 @@ const CustomizedInstructions: React.FC = () => {
           thecorporategirlie.arts03@gmail.com
         </a>{" "}
         , along with your <strong>order number</strong> and the{" "}
-        <strong>product name</strong>
+        <strong>product name</strong>{' '}
         after successfully placing your order and completing the payment.
       </p>
 
