@@ -17,13 +17,18 @@ import Link from "next/link";
 import Image from "next/image";
 import SearchableDropdown from "../SearchableDropdown/page";
 import { DummySearchValues, Menus } from "@/utils/commonJson";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
   const [searchedValue, setSearchedValue] = useState("");
-  const [categoriesOpen, setCategoriesOpen] = useState<Menus["id"] | null>(null);
+  const [categoriesOpen, setCategoriesOpen] = useState<Menus["id"] | null>(
+    null
+  );
+
+  const router = useRouter();
 
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
@@ -135,6 +140,10 @@ const Header = () => {
                   ? "text-yellow-400 hover:text-yellow-300"
                   : "text-gray-800 hover:text-gray-400"
               }`}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/shoping-cart");
+              }}
             />
           </div>
 
