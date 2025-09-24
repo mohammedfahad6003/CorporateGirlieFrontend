@@ -9,6 +9,7 @@ import { RootState } from "@/store/store";
 import CareInstructions from "../InstructionsContainers/CareInstructions";
 import ProductsInstructions from "../InstructionsContainers/ProductsInstructions";
 import DeliveryInstructions from "../InstructionsContainers/DeliveryInstructions";
+import CustomizedInstructions from "../InstructionsContainers/CustomizedInstructions";
 
 interface CollapseProps {
   title: string;
@@ -41,6 +42,8 @@ const Collapse: React.FC<CollapseProps> = ({
       />
     ) : title === "Shipping Instructions" ? (
       <DeliveryInstructions />
+    ) : title === "Customized Instructions" ? (
+      <CustomizedInstructions />
     ) : (
       description
     );
