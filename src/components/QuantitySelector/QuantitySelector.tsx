@@ -46,7 +46,7 @@ const QuantitySelector: React.FC<QuantitySelectorProps> = ({
       darkMode ? "border-yellow-400 bg-gray-800" : "border-gray-800 bg-white"
     } shadow-sm`;
 
-  const buttonClass = `w-10 h-10 flex items-center justify-center 
+  const buttonClass = `w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center 
     transition-colors duration-200 cursor-pointer hover:bg-yellow-400 text-lg font-semibold`;
 
   const disabledClass = `opacity-50 cursor-not-allowed hover:bg-none`;
@@ -73,13 +73,13 @@ const QuantitySelector: React.FC<QuantitySelectorProps> = ({
 
         {/* Quantity */}
         <div
-          className={`w-12 flex items-center justify-center border-l-1 border-r-1 
+          className={`w-10 sm:w-12 flex items-center justify-center border-l-1 border-r-1 
           ${
             darkMode ? "border-yellow-400" : "border-gray-400"
           } transition-colors duration-200`}
         >
           <span
-            className={`text-base sm:text-lg font-bold transition-transform duration-200 cursor-default
+            className={`text-sm sm:text-lg font-bold transition-transform duration-200 cursor-default
             ${
               animate
                 ? "scale-125 text-yellow-400"

@@ -181,7 +181,7 @@ const CraftTypesPage = ({ params }: Props) => {
                   ? "bg-black text-white border-2 border-yellow-400"
                   : "bg-white text-gray-900"
               }
-              sm:rounded-xl rounded-t-3xl shadow-2xl max-h-[90vh] flex flex-col`}
+              sm:rounded-xl rounded-t-none shadow-2xl max-h-[90vh] flex flex-col`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
