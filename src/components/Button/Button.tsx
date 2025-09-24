@@ -49,26 +49,25 @@ const Button: React.FC<ButtonProps> = ({
     "relative cursor-pointer mt-1 sm:mt-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg hover:shadow-lg transition-all duration-200 flex items-center justify-center";
 
   const filledClass = darkMode
-    ? "bg-yellow-400 text-white border-2 border-yellow-400 hover:bg-yellow-500"
+    ? "bg-yellow-400 text-black border-2 border-yellow-400 hover:bg-yellow-500"
     : "bg-gray-900 text-white border-2 border-gray-800 hover:bg-gray-800";
 
   const hollowClass = darkMode
     ? "bg-black text-white border-2 border-yellow-400 hover:bg-gray-950"
     : "bg-white text-black border-2 border-gray-800 hover:bg-gray-50";
 
-  const textColor =
-    variant === "filled"
-      ? "text-white"
-      : darkMode
-      ? "text-white"
-      : "text-black";
+  const getTextColor = (variant: string, darkMode: boolean) => {
+    if (variant === "filled") return darkMode ? "text-black font-medium" : "text-white";
+    return darkMode ? "text-white font-medium" : "text-black";
+  };
 
-  const loadingTextColor =
-    variant === "filled"
-      ? "bg-white"
-      : darkMode
-      ? "bg-white"
-      : "bg-black";
+  const getLoadingTextColor = (variant: string, darkMode: boolean) => {
+    if (variant === "filled") return darkMode ? "bg-black " : "bg-white";
+    return darkMode ? "bg-white" : "bg-black";
+  };
+
+  const textColor = getTextColor(variant, darkMode);
+  const loadingTextColor = getLoadingTextColor(variant, darkMode);
 
   return (
     <button

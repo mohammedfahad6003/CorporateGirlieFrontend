@@ -6,18 +6,27 @@ import Image from "next/image";
 import React, { use, useEffect, useState } from "react";
 import NotFound from "./not-found";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faClipboardList,
+  faShieldHeart,
+  faTruck,
+  faUpload,
+} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import QuantitySelector from "@/components/QuantitySelector/QuantitySelector";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
+import Collapse from "@/components/CollapseExpand/CollapseExpand";
 
+// Props type for dynamic route slug
 interface Props {
   params: Promise<{ slug: string[] }>;
 }
 
+// Product type definition
 interface Product {
   id: number;
   title: string;
@@ -27,6 +36,7 @@ interface Product {
   isSale?: boolean;
   saleDiscount?: number | 0;
   customizationAllowed?: boolean;
+  details?: Array<string>;
 }
 
 const ProductsPage = ({ params }: Props) => {
@@ -72,7 +82,7 @@ const ProductsPage = ({ params }: Props) => {
       </button>
 
       <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-start relative">
-        {/* Left Side - Image */}
+        {/* ---------------- LEFT SIDE : PRODUCT IMAGE ---------------- */}
         <div className="w-full sm:w-1/2 relative aspect-square">
           <Image
             src={data?.image || "/unsplashImage1.jpg"}
@@ -83,7 +93,7 @@ const ProductsPage = ({ params }: Props) => {
           />
         </div>
 
-        {/* Right Side - Info */}
+        {/* ---------------- RIGHT SIDE : PRODUCT DETAILS ---------------- */}
         <div className="w-full sm:w-1/2 flex flex-col gap-4">
           <h1 className="text-2xl sm:text-4xl font-bold">{data?.title}</h1>
 
@@ -95,10 +105,12 @@ const ProductsPage = ({ params }: Props) => {
 
           {data?.isSale ? (
             <div className="flex items-center gap-3">
+              {/* Original price (striked) */}
               <span className="text-base sm:text-xl line-through text-gray-500">
                 <span className="font-serif">₹</span>
                 {Number(data.price ?? 0).toLocaleString()}
               </span>
+              {/* Discounted price */}
               <span className="text-base sm:text-xl font-bold">
                 <span className="font-serif">₹</span>
                 {Math.round(
@@ -106,11 +118,13 @@ const ProductsPage = ({ params }: Props) => {
                     (1 - (data.saleDiscount ?? 0) / 100)
                 ).toLocaleString()}
               </span>
+              {/* Discount badge */}
               <span className="text-xs sm:text-sm font-medium text-white py-1 px-2 bg-[#C10E21] rounded-lg">
                 {data?.saleDiscount}% OFF
               </span>
             </div>
           ) : (
+            // Regular price
             <p className="text-lg sm:text-xl font-semibold">
               <span className="font-serif">₹</span>
               {Number(data?.price ?? 0).toLocaleString()}
@@ -133,8 +147,74 @@ const ProductsPage = ({ params }: Props) => {
 
           <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
 
-          <Button label="Add To Cart" isAnimationRequired={true} />
-          <Button label="Buy Now" variant="filled" isAnimationRequired={true} />
+          <div className="flex sm:flex-row flex-col gap-2 sm:gap-6">
+            <Button
+              label="Add To Cart"
+              isAnimationRequired={true}
+              className="w-full "
+            />
+            <Button
+              label="Buy Now"
+              variant="filled"
+              isAnimationRequired={true}
+              className="w-full"
+            />
+          </div>
+
+          {/* ---------------- COLLAPSIBLE SECTIONS ---------------- */}
+          <div className="flex flex-col">
+            {/* Divider */}
+            <div
+              className={
+                darkMode
+                  ? "border-1 border-yellow-400"
+                  : "border-1 border-gray-800"
+              }
+            ></div>
+
+            <Collapse
+              title={"Product Details"}
+              description={
+                Array.isArray(data?.details)
+                  ? data.details
+                  : data?.details
+                  ? [data.details]
+                  : undefined
+              }
+              icon={faClipboardList}
+            />
+            <Collapse title={"Care Instructions"} icon={faShieldHeart} />
+            <Collapse title={"Shipping Instructions"} icon={faTruck} />
+          </div>
+
+          {/* Share Button */}
+          <div>
+            <button
+              onClick={() => {
+                if (navigator.share) {
+                  navigator
+                    .share({
+                      title: data?.title,
+                      text: "Check out this product!",
+                      url: window.location.href,
+                    })
+                    .catch((err) => console.error("Share failed:", err));
+                } else {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert("Link copied to clipboard!");
+                }
+              }}
+              className={`flex items-center gap-2 px-6 py-3 text-xs sm:text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer
+      ${
+        darkMode
+          ? "bg-yellow-400 text-black hover:bg-yellow-500"
+          : "bg-gray-900 text-white hover:bg-gray-800"
+      }`}
+            >
+              <FontAwesomeIcon icon={faUpload} className="text-sm" />
+              Share
+            </button>
+          </div>
         </div>
       </div>
     </ProductsContainer>
