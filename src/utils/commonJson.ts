@@ -298,6 +298,44 @@ export const sortOptions = [
   { label: "High to Low", icon: faArrowDownWideShort },
 ];
 
+export const careInstructionData = [
+  {
+    title: "Resin Art",
+    items: [
+      "Wipe with a soft cloth.",
+      "Avoid direct sunlight.",
+      "Keep away from chemicals.",
+      "Do not place hot objects on resin.",
+    ],
+  },
+  {
+    title: "Paintings",
+    items: [
+      "Dust gently.",
+      "Avoid sunlight and moisture.",
+      "Do not use water or cleaners.",
+      "Frame with glass if desired.",
+    ],
+  },
+  {
+    title: "Home Décor",
+    items: [
+      "Wood → dry cloth only.",
+      "Glass → mild soap, avoid scrubbing painted areas.",
+      "Clay/Terracotta → keep dry.",
+      "Handle mixed-media items carefully.",
+    ],
+  },
+  {
+    title: "Crafts",
+    items: [
+      "Fabric → hand wash cold, avoid ironing painted areas.",
+      "Paper → keep dry, avoid sunlight.",
+      "Embellishments → handle gently to avoid damage.",
+    ],
+  },
+];
+
 export const products = [
   {
     id: 1,
