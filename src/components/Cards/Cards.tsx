@@ -78,11 +78,11 @@ const Card: React.FC<CardProps> = ({ product }) => {
             {product?.isSale ? (
               <div className="flex items-center gap-2 sm:gap-3">
                 <span className="text-sm sm:text-base line-through text-gray-500">
-                  <span className="font-serif">₹</span>
+                  <span className="font-sans">₹</span>
                   {Number(product?.price ?? 0).toLocaleString()}
                 </span>
                 <span className="text-sm sm:text-base font-bold">
-                  <span className="font-serif">₹</span>
+                  <span className="font-sans">₹</span>
                   {Math.round(
                     Number(product.price.replace(/,/g, "")) *
                       (1 - (product.saleDiscount ?? 0) / 100)
@@ -94,7 +94,7 @@ const Card: React.FC<CardProps> = ({ product }) => {
               </div>
             ) : (
               <p className="text-sm sm:text-base font-medium">
-                <span className="font-serif">₹</span>
+                <span className="font-sans">₹</span>
                 {Number(product?.price ?? 0).toLocaleString()}
               </p>
             )}

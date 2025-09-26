@@ -150,12 +150,12 @@ const ProductsPage = ({ params }: Props) => {
             <div className="flex items-center gap-3">
               {/* Original price (striked) */}
               <span className="text-base sm:text-xl line-through text-gray-500">
-                <span className="font-serif">₹</span>
+                <span className="font-sans">₹</span>
                 {Number(data.price ?? 0).toLocaleString()}
               </span>
               {/* Discounted price */}
               <span className="text-base sm:text-xl font-bold">
-                <span className="font-serif">₹</span>
+                <span className="font-sans">₹</span>
                 {Math.round(
                   Number(data.price.replace(/,/g, "")) *
                     (1 - (data.saleDiscount ?? 0) / 100)
@@ -169,7 +169,7 @@ const ProductsPage = ({ params }: Props) => {
           ) : (
             // Regular price
             <p className="text-lg sm:text-xl font-semibold">
-              <span className="font-serif">₹</span>
+              <span className="font-sans">₹</span>
               {Number(data?.price ?? 0).toLocaleString()}
             </p>
           )}
