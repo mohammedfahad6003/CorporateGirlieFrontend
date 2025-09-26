@@ -81,7 +81,7 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
               </span>
             </div>
           ) : (
-            <p className="text-sm sm:text-base font-medium">
+            <p className="text-sm sm:text-base font-bold">
               <span className="font-sans">₹</span>
               {Number(product?.price ?? 0).toLocaleString()}
             </p>
