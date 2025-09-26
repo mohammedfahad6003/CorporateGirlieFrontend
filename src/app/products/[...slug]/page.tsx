@@ -188,7 +188,10 @@ const ProductsPage = ({ params }: Props) => {
             applied at checkout.
           </div>
 
-          <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+          <QuantitySelector
+            quantity={quantity}
+            onChange={(newQty) => setQuantity(newQty)}
+          />
 
           <div className="flex sm:flex-row flex-col gap-2 sm:gap-6">
             <Button

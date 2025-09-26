@@ -1,16 +1,17 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import themeReducer from "./themeSlice";
 import cookieReducer from "./cookieSlice";
-import viewModeReducer from './viewModeSlice';
-import cartReducer from './addCartSlice';
+import viewModeReducer from "./viewModeSlice";
+import cartReducer from "./addCartSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import discountReducer from "./discountSlice";
 
 // persist config
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["theme"],
+  whitelist: ["theme", "cart", "discount"],
 };
 
 // combine reducers (so persist works correctly with multiple slices)
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   consent: cookieReducer,
   viewMode: viewModeReducer,
   cart: cartReducer,
+  discount: discountReducer,
 });
 
 // wrap with persistReducer
