@@ -8,14 +8,14 @@ import { RootState } from "@/store/store";
 
 interface QuantitySelectorProps {
   quantity: number;
-  setQuantity: React.Dispatch<React.SetStateAction<number>>;
+  onChange: (newQty: number) => void;
   min?: number;
   max?: number;
 }
 
 const QuantitySelector: React.FC<QuantitySelectorProps> = ({
   quantity,
-  setQuantity,
+  onChange,
   min = 1,
   max = 10,
 }) => {
@@ -29,14 +29,14 @@ const QuantitySelector: React.FC<QuantitySelectorProps> = ({
 
   const increase = () => {
     if (quantity < max) {
-      setQuantity((prev) => prev + 1);
+      onChange(quantity + 1);
       triggerAnimation();
     }
   };
 
   const decrease = () => {
     if (quantity > min) {
-      setQuantity((prev) => prev - 1);
+      onChange(quantity - 1);
       triggerAnimation();
     }
   };
@@ -47,7 +47,11 @@ const QuantitySelector: React.FC<QuantitySelectorProps> = ({
     } shadow-sm`;
 
   const buttonClass = `w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center 
-    transition-colors duration-200 cursor-pointer hover:bg-yellow-400 text-lg font-semibold`;
+    transition-colors duration-200 cursor-pointer ${
+      darkMode
+        ? "hover:bg-yellow-400 hover:text-black"
+        : "hover:bg-gray-800 hover:text-white"
+    } text-lg font-semibold`;
 
   const disabledClass = `opacity-50 cursor-not-allowed hover:bg-none`;
 
@@ -82,7 +86,7 @@ const QuantitySelector: React.FC<QuantitySelectorProps> = ({
             className={`text-sm sm:text-lg font-bold transition-transform duration-200 cursor-default
             ${
               animate
-                ? "scale-125 text-yellow-400"
+                ? `scale-125 ${darkMode ? "text-yellow-400" : "text-gray-800"}`
                 : darkMode
                 ? "text-white"
                 : "text-gray-900"
