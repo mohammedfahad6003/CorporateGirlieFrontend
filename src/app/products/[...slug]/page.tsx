@@ -21,7 +21,7 @@ import QuantitySelector from "@/components/QuantitySelector/QuantitySelector";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import Collapse from "@/components/CollapseExpand/CollapseExpand";
-import { addToCart } from "@/store/addCartSlice";
+import { addToCart, clearCart } from "@/store/addCartSlice";
 
 // Props type for dynamic route slug
 interface Props {
@@ -88,24 +88,30 @@ const ProductsPage = ({ params }: Props) => {
     return "";
   };
 
-  //   import { useDispatch, useSelector } from "react-redux";
-  // import { addToCart, removeFromCart, updateQuantity } from "@/store/slices/cartSlice";
-  // import { RootState } from "@/store/store";
+  const handleBuyNow = () => {
+    dispatch(clearCart());
 
-  // const dispatch = useDispatch();
-  // const cartItems = useSelector((state: RootState) => state.cart.items);
+    const calculatedPrice = data?.isSale
+      ? Math.round(
+          Number(data.price.replace(/,/g, "")) *
+            (1 - (data.saleDiscount ?? 0) / 100)
+        )
+      : Number(data?.price?.replace(/,/g, "") || 0);
 
-  // // Add item to cart
-  // dispatch(addToCart({ id: 1, title: "Product 1", price: 1000, quantity: 1, image: "/img.jpg" }));
+    const addToCartData = {
+      id: data?.id,
+      title: data?.title,
+      price: calculatedPrice,
+      quantity: quantity,
+      image: data?.image,
+    };
 
-  // // Remove item
-  // dispatch(removeFromCart(1));
+    dispatch(addToCart(addToCartData));
 
-  // // Update quantity
-  // dispatch(updateQuantity({ id: 1, quantity: 3 }));
+    router.push("/shoping-cart");
 
-  // // Clear cart
-  // dispatch(clearCart());
+    return "";
+  };
 
   return (
     <ProductsContainer>
@@ -150,12 +156,12 @@ const ProductsPage = ({ params }: Props) => {
             <div className="flex items-center gap-3">
               {/* Original price (striked) */}
               <span className="text-base sm:text-xl line-through text-gray-500">
-                <span className="font-serif">₹</span>
+                <span className="font-sans">₹</span>
                 {Number(data.price ?? 0).toLocaleString()}
               </span>
               {/* Discounted price */}
               <span className="text-base sm:text-xl font-bold">
-                <span className="font-serif">₹</span>
+                <span className="font-sans">₹</span>
                 {Math.round(
                   Number(data.price.replace(/,/g, "")) *
                     (1 - (data.saleDiscount ?? 0) / 100)
@@ -169,7 +175,7 @@ const ProductsPage = ({ params }: Props) => {
           ) : (
             // Regular price
             <p className="text-lg sm:text-xl font-semibold">
-              <span className="font-serif">₹</span>
+              <span className="font-sans">₹</span>
               {Number(data?.price ?? 0).toLocaleString()}
             </p>
           )}
@@ -205,6 +211,7 @@ const ProductsPage = ({ params }: Props) => {
               variant="filled"
               isAnimationRequired={true}
               className="w-full"
+              onClick={handleBuyNow}
             />
           </div>
 

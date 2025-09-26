@@ -19,9 +19,12 @@ import {
   removeDiscount,
   setDiscountCode,
 } from "@/store/discountSlice";
+import { useRouter } from "next/navigation";
 
 const ShoppingCartContainer = () => {
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
@@ -59,6 +62,12 @@ const ShoppingCartContainer = () => {
     setErrorMessage("");
   };
 
+  const handleClickNavigate = (e: React.MouseEvent, id: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/products/${id}`);
+  };
+
   return (
     <div className="flex flex-col lg:flex-row gap-6 sm:gap-6">
       {/* Left: Cart Items */}
@@ -72,9 +81,10 @@ const ShoppingCartContainer = () => {
           >
             {/* Product Image */}
             <div
-              className={`relative w-[72px] h-[72px] sm:w-24 sm:h-24 flex-shrink-0 flex items-center justify-center border rounded-lg ${
+              className={`mt-2 sm:m-0 relative w-[72px] h-[72px] sm:w-24 sm:h-24 flex-shrink-0 flex items-center justify-center border rounded-lg ${
                 darkMode ? "border-yellow-400" : "border-gray-400"
               }`}
+              onClick={(e) => handleClickNavigate(e, item?.id)}
             >
               {item.image ? (
                 <Image
@@ -95,9 +105,14 @@ const ShoppingCartContainer = () => {
 
             {/* Product Details */}
             <div className="flex-1 flex flex-col gap-1">
-              <h3 className="text-sm sm:text-lg font-medium">{item.title}</h3>
+              <h3
+                className="text-sm sm:text-lg font-medium"
+                onClick={(e) => handleClickNavigate(e, item?.id)}
+              >
+                {item.title}
+              </h3>
               <p className="text-gray-500 text-xs sm:text-sm mb-3">
-                Price: <span className="font-serif">₹ </span>
+                Price: <span className="font-sans">₹ </span>
                 {Number(item.price).toLocaleString()}
               </p>
 
@@ -120,7 +135,7 @@ const ShoppingCartContainer = () => {
             <div className="flex flex-col justify-between items-end ml-2 mt-2">
               {/* Top: Price */}
               <p className="text-sm sm:text-base font-semibold">
-                <span className="font-serif">₹ </span>
+                <span className="font-sans">₹ </span>
                 {(
                   Number(item.price) * (Number(item.quantity) || 0)
                 ).toLocaleString()}
@@ -197,7 +212,7 @@ const ShoppingCartContainer = () => {
                   ) : (
                     <>
                       <strong>
-                        <span className="font-serif font-medium">₹ </span>
+                        <span className="font-sans font-medium">₹ </span>
                         {Number(discountValue).toLocaleString()}{" "}
                       </strong>
                     </>
