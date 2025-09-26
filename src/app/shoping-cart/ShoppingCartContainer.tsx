@@ -1,0 +1,242 @@
+import Image from "next/image";
+import React, { useState } from "react";
+import { ShoppingCartQuantityContainer } from "./ShoppingCartQuantityContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart, updateQuantity } from "@/store/addCartSlice";
+import {
+  faTrashCan,
+  faCheckCircle,
+  faTimes,
+  faImage,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { RootState } from "@/store/store";
+import ShoppingCartPriceContainer from "./ShoppingCartPriceContainer";
+import { discountCodes } from "@/utils/commonJson";
+import InputBox from "@/components/InputBox/InputBox";
+import {
+  applyDiscount,
+  removeDiscount,
+  setDiscountCode,
+} from "@/store/discountSlice";
+
+const ShoppingCartContainer = () => {
+  const dispatch = useDispatch();
+
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
+  const discountCode = useSelector(
+    (state: RootState) => state.discount.discountCode
+  );
+  const appliedCode = useSelector(
+    (state: RootState) => state.discount.appliedCode
+  );
+  const discountValue = useSelector(
+    (state: RootState) => state.discount.discountValue
+  );
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleApplyDiscount = () => {
+    if (!discountCode) return;
+
+    const code = discountCode.toUpperCase();
+    if (discountCodes[code]) {
+      dispatch(
+        applyDiscount({ appliedCode: code, discountValue: discountCodes[code] })
+      );
+      setErrorMessage("");
+    } else {
+      dispatch(removeDiscount());
+      setErrorMessage("Invalid Discount code");
+    }
+  };
+
+  const handleRemoveDiscount = () => {
+    dispatch(removeDiscount());
+    setErrorMessage("");
+  };
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-6 sm:gap-6">
+      {/* Left: Cart Items */}
+      <div className="flex-[4] flex flex-col gap-4">
+        {cartItems.map((item) => (
+          <div
+            key={item.id}
+            className={`flex flex-row gap-4 p-4 border rounded-lg ${
+              darkMode ? "border-yellow-400" : "border-gray-400"
+            }`}
+          >
+            {/* Product Image */}
+            <div
+              className={`relative w-[72px] h-[72px] sm:w-24 sm:h-24 flex-shrink-0 flex items-center justify-center border rounded-lg ${
+                darkMode ? "border-yellow-400" : "border-gray-400"
+              }`}
+            >
+              {item.image ? (
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faImage}
+                  className={`text-2xl sm:text-4xl ${
+                    darkMode ? "text-yellow-400" : "text-gray-500"
+                  }`}
+                />
+              )}
+            </div>
+
+            {/* Product Details */}
+            <div className="flex-1 flex flex-col gap-1">
+              <h3 className="text-sm sm:text-lg font-medium">{item.title}</h3>
+              <p className="text-gray-500 text-xs sm:text-sm mb-3">
+                Price: <span className="font-serif">₹ </span>
+                {Number(item.price).toLocaleString()}
+              </p>
+
+              <ShoppingCartQuantityContainer
+                quantity={item.quantity}
+                onChange={(newQty) =>
+                  dispatch(
+                    updateQuantity({
+                      id: item.id,
+                      quantity: newQty,
+                    })
+                  )
+                }
+                min={1}
+                max={10}
+              />
+            </div>
+
+            {/* Actions Column */}
+            <div className="flex flex-col justify-between items-end ml-2 mt-2">
+              {/* Top: Price */}
+              <p className="text-sm sm:text-base font-semibold">
+                <span className="font-serif">₹ </span>
+                {(
+                  Number(item.price) * (Number(item.quantity) || 0)
+                ).toLocaleString()}
+              </p>
+
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Bottom: Trash button */}
+              <button
+                className="text-[#ca1325] transition-transform duration-300 ease-in-out
+                 hover:text-[#c41037] hover:scale-110 hover:-rotate-12 cursor-pointer"
+                onClick={() => dispatch(removeFromCart(item.id))}
+              >
+                <FontAwesomeIcon icon={faTrashCan} className="text-lg" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div
+        className={`block sm:hidden border-1 ${
+          darkMode ? "border-yellow-400" : "border-gray-400"
+        }`}
+      ></div>
+
+      {/* Right: Price Breakdown */}
+      <div className="flex-[2]">
+        {/* Discount Code Input */}
+        <div className="mb-3 sm:mb-8">
+          <div className="flex gap-3 items-center mb-3">
+            <InputBox
+              type="text"
+              placeholder="Discount code"
+              value={discountCode}
+              onChange={(value) => dispatch(setDiscountCode(value))}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleApplyDiscount();
+                }
+              }}
+            />
+            <button
+              className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-colors duration-200 cursor-pointer ${
+                darkMode
+                  ? "bg-yellow-400 text-black hover:bg-yellow-500"
+                  : "bg-gray-950 text-white hover:bg-gray-800"
+              }`}
+              onClick={handleApplyDiscount}
+            >
+              Apply
+            </button>
+          </div>
+
+          {/* Applied Discount Badge */}
+          {appliedCode && discountValue && (
+            <div
+              className={`flex items-center justify-between mb-2 text-sm font-medium rounded-md px-3 py-2 ${
+                darkMode
+                  ? "bg-gray-800 border border-yellow-400 text-white"
+                  : "bg-green-100 text-green-600"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <FontAwesomeIcon
+                  icon={faCheckCircle}
+                  className={darkMode ? "text-yellow-400" : ""}
+                />
+                <span>
+                  Code <strong>{appliedCode}</strong> applied:{" "}
+                  {discountValue.includes("%") ? (
+                    discountValue
+                  ) : (
+                    <>
+                      <strong>
+                        <span className="font-serif font-medium">₹ </span>
+                        {Number(discountValue).toLocaleString()}{" "}
+                      </strong>
+                    </>
+                  )}
+                </span>
+              </div>
+              <button
+                onClick={handleRemoveDiscount}
+                className={`transition cursor-pointer ${
+                  darkMode ? "hover:text-yellow-300" : "hover:text-green-900"
+                }`}
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </div>
+          )}
+
+          {/* Error Badge */}
+          {errorMessage && (
+            <div
+              className={`flex items-center gap-2 mb-2 text-sm font-medium rounded-md px-3 py-2 ${
+                darkMode
+                  ? "bg-gray-900 border border-yellow-400 text-white"
+                  : "bg-red-100 text-red-600"
+              }`}
+            >
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={darkMode ? "text-yellow-400" : "text-red-600"}
+              />
+              <span>{errorMessage}</span>
+            </div>
+          )}
+        </div>
+
+        <ShoppingCartPriceContainer discountValue={discountValue} />
+      </div>
+    </div>
+  );
+};
+
+export default ShoppingCartContainer;

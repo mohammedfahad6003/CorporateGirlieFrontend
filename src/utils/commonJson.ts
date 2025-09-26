@@ -298,6 +298,12 @@ export const sortOptions = [
   { label: "High to Low", icon: faArrowDownWideShort },
 ];
 
+export const discountCodes: Record<string, string> = {
+  SAVE50: '50',
+  OFF100: '100',
+  WELCOME10: '10%',
+};
+
 export const careInstructionData = [
   {
     title: "Resin Art",

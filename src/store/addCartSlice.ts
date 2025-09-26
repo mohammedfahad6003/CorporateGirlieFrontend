@@ -21,7 +21,9 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
-      const existingItem = state.items.find(item => item.id === action.payload.id);
+      const existingItem = state.items.find(
+        (item) => item.id === action.payload.id
+      );
       if (existingItem) {
         existingItem.quantity += action.payload.quantity;
       } else {
@@ -29,19 +31,25 @@ const cartSlice = createSlice({
       }
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter(item => item.id !== action.payload);
+      state.items = state.items.filter((item) => item.id !== action.payload);
     },
-    updateQuantity: (state, action: PayloadAction<{ id: number; quantity: number }>) => {
-      const item = state.items.find(item => item.id === action.payload.id);
+    updateQuantity: (
+      state,
+      action: PayloadAction<{ id: number; quantity: number }>
+    ) => {
+      const item = state.items.find((i) => i.id === action.payload.id);
       if (item) {
-        item.quantity = action.payload.quantity;
+        const newQty = Number(action.payload.quantity);
+        item.quantity = isNaN(newQty) || newQty < 1 ? 1 : newQty;
       }
     },
+
     clearCart: (state) => {
       state.items = [];
-    }
+    },
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

@@ -7,6 +7,7 @@ interface InputBoxProps {
   placeholder?: string;
   value: string;
   onChange: (value: string) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const InputBox: React.FC<InputBoxProps> = ({
@@ -14,6 +15,7 @@ const InputBox: React.FC<InputBoxProps> = ({
   placeholder,
   value,
   onChange,
+  onKeyDown,
 }) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
@@ -23,6 +25,7 @@ const InputBox: React.FC<InputBoxProps> = ({
       placeholder={placeholder || "Enter text"}
       value={value}
       onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+      onKeyDown={onKeyDown}
       className={`
         border-1 px-3 py-2 rounded-md outline-none w-full
         text-[14px] sm:text-[16px]
