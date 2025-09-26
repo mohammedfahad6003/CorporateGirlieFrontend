@@ -4,9 +4,11 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Button from "../Button/Button";
+import { useRouter } from "next/navigation";
 
 const HomePageSlider = () => {
   const [current, setCurrent] = useState(0);
+  const router = useRouter();
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
   const handleNext = React.useCallback(() => {
@@ -70,6 +72,7 @@ const HomePageSlider = () => {
                         className={
                           "w-fit sm:text-lg text-sm px-5 py-2.5 sm:px-6 sm:py-3 transition font-normal"
                         }
+                        onClick={() => router.push(`${img.imageNavigation}`)}
                       />
                     </div>
                   </div>
@@ -100,6 +103,7 @@ const HomePageSlider = () => {
                   className={
                     "w-fit sm:text-lg text-sm px-5 py-2.5 sm:px-6 sm:py-3 transition font-normal"
                   }
+                  onClick={() => router.push(`${img.imageNavigation}`)}
                 />
               </div>
             ))}

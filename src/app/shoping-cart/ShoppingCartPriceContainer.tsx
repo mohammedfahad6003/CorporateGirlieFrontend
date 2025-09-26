@@ -37,13 +37,13 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
 
   return (
     <div
-      className={`p-6 rounded-lg border ${
+      className={`p-4 rounded-lg border ${
         darkMode
           ? "bg-gray-950 text-white border-yellow-400"
           : "bg-gray-50 text-gray-800 border-gray-400"
       }`}
     >
-      <h3 className="text-lg font-semibold mb-4">Price Details</h3>
+      <h3 className="text-base sm:text-lg font-semibold mb-4">Price Details</h3>
 
       {/* Product-wise Breakdown */}
       <div className="mb-4 space-y-3 text-sm sm:text-base">
@@ -58,11 +58,11 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
             </div>
             <div className="flex justify-between">
               <span className={`text-xs sm:text-sm ${darkMode ? "text-gray-500" : "text-gray-700"}`}>
-                ({item.quantity} × <span className="font-serif">₹ </span>
+                ({item.quantity} × <span className="font-sans">₹ </span>
                 {Number(item.price).toLocaleString()})
               </span>
               <span className="text-sm sm:text-base">
-                <span className="font-serif">₹ </span>
+                <span className="font-sans">₹ </span>
                 {(Number(item.price) * item.quantity).toLocaleString()}
               </span>
             </div>
@@ -76,7 +76,7 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
       <div className="flex justify-between mb-2 text-sm sm:text-base">
         <span>Subtotal</span>
         <span>
-          <span className="font-serif">₹ </span>
+          <span className="font-sans">₹ </span>
           {subtotal.toLocaleString()}
         </span>
       </div>
@@ -85,7 +85,7 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
       <div className="flex justify-between mb-2 text-sm sm:text-base">
         <span>Shipping</span>
         <span>
-          <span className="font-serif">₹ </span>
+          <span className="font-sans">₹ </span>
           {shipping}
         </span>
       </div>
@@ -95,7 +95,7 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
         <div className="flex justify-between mb-2 text-sm sm:text-base">
           <span>Discount</span>
           <span className="text-green-500">
-            - <span className="font-serif">₹ </span>
+            - <span className="font-sans">₹ </span>
             {discountAmount.toLocaleString()}
           </span>
         </div>
@@ -107,7 +107,7 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
       <div className="flex justify-between text-base sm:text-lg font-bold">
         <span>Total</span>
         <span>
-          <span className="font-serif">₹</span>
+          <span className="font-sans">₹ </span>
           {finalTotal.toLocaleString()}
         </span>
       </div>

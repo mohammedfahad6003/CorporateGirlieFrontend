@@ -32,6 +32,8 @@ const Header = () => {
 
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
   useEffect(() => {
     let lastScrollY = window.scrollY;
     const threshold = 120;
@@ -72,7 +74,7 @@ const Header = () => {
   const handleDropdown = (e: string) => {
     setSearchedValue(e);
   };
-
+  
   return (
     <>
       <div
@@ -132,19 +134,24 @@ const Header = () => {
           </div>
 
           {/* Wishlist Icon */}
-          <div className="cursor-pointer text-xl sm:text-2xl md:text-3xl">
+          <div className="relative cursor-pointer text-xl sm:text-2xl md:text-3xl">
             <FontAwesomeIcon
               icon={faBagShopping}
               className={`sm:text-2xl text-xl ${
                 darkMode
                   ? "text-yellow-400 hover:text-yellow-300"
-                  : "text-gray-800 hover:text-gray-400"
+                  : "text-gray-800 hover:text-gray-600"
               }`}
               onClick={(e) => {
                 e.preventDefault();
                 router.push("/shoping-cart");
               }}
             />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-[#ca1325] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-semibold">
+                {cartItems.length}
+              </span>
+            )}
           </div>
 
           {/* Theme Toggle */}
