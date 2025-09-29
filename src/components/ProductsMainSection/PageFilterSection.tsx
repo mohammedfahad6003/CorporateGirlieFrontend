@@ -34,7 +34,7 @@ export default function PageFilterSection({
   setSelectedSort,
 }: ProductsSectionProps) {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
-  const viewMode = useSelector((state: RootState) => state.viewMode.viewMode)
+  const viewMode = useSelector((state: RootState) => state.viewMode.viewMode);
 
   const dispatch = useDispatch();
 
@@ -46,11 +46,13 @@ export default function PageFilterSection({
           darkMode ? "text-yellow-400" : "text-black"
         }`}
       >
-        {title}
+        {title ?? ""}
       </h1>
 
       {/* Description */}
-      <p className="sm:text-lg text-sm mt-3 sm:mt-4 mb-0">{description}</p>
+      <p className="sm:text-base text-sm mt-3 sm:mt-4 mb-0">
+        {description ?? ""}
+      </p>
 
       {/* Filter Section */}
       <FilterSortSection setIsOpen={setIsOpen} setActiveTab={setActiveTab} />

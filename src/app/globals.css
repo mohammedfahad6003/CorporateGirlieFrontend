@@ -17,6 +17,23 @@ html.dark {
   --foreground: #ededed;
 }
 
+/* global.css */
+:root {
+  --vh: 100%;
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --vh: 100dvh;
+  }
+}
+
+/* Drawer specific */
+.mobile-drawer {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 body {
   background: var(--background);
   font-family: "Times New Roman", Times, serif;
