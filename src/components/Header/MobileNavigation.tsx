@@ -41,9 +41,21 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
     null
   );
 
+  // In your useEffect
   useEffect(() => {
-    if (menuOpen && paneRef.current) {
-      paneRef.current.scrollTop = 0;
+    if (menuOpen) {
+      // lock scroll
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+    } else {
+      // unlock scroll
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
   }, [menuOpen]);
 
@@ -60,9 +72,10 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
 
       <div
         ref={paneRef}
-        className={`fixed top-0 left-0 h-screen w-full z-50 sm:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col mobile-drawer ${
+        className={`fixed top-0 left-0 w-full z-50 sm:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col mobile-drawer ${
           darkMode ? "bg-black text-white" : "bg-gray-50 text-black"
         } ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        style={{ height: "var(--vh)" }}
       >
         {/* Header */}
         <div className="p-4 relative">
@@ -108,103 +121,105 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }: MobileNavigationProps) => {
 
         {/* Menu Items */}
         <nav className="flex flex-col flex-grow">
-          {menuForDesktopItems?.map((item: Menus) => {
-            const hasChildren = item.childMenus && item.childMenus.length > 0;
-            const isActive =
-              pathName === item.navigation || // parent exact match
-              (hasChildren &&
-                item.childMenus?.some(
-                  (submenu) => pathName === submenu.navigation
-                )); // child active
-            const isExpanded = categoriesOpen === item.id;
+          {menuForDesktopItems
+            ?.filter((val) => val.id !== 9) // Removed to display Entire collection from Menus
+            ?.map((item: Menus) => {
+              const hasChildren = item.childMenus && item.childMenus.length > 0;
+              const isActive =
+                pathName === item.navigation || // parent exact match
+                (hasChildren &&
+                  item.childMenus?.some(
+                    (submenu) => pathName === submenu.navigation
+                  )); // child active
+              const isExpanded = categoriesOpen === item.id;
 
-            return (
-              <React.Fragment key={item.id}>
-                <button
-                  onClick={() => {
-                    if (hasChildren) {
-                      setCategoriesOpen(isExpanded ? null : item.id);
-                    } else {
-                      setMenuOpen(false);
-                      if (typeof window !== undefined) {
-                        router.push(item.navigation);
+              return (
+                <React.Fragment key={item.id}>
+                  <button
+                    onClick={() => {
+                      if (hasChildren) {
+                        setCategoriesOpen(isExpanded ? null : item.id);
+                      } else {
+                        setMenuOpen(false);
+                        if (typeof window !== undefined) {
+                          router.push(item.navigation);
+                        }
                       }
-                    }
-                  }}
-                  className={`flex items-center justify-between px-6 py-4 border-b transition-colors duration-200 w-full text-left ${
-                    isActive
-                      ? "text-yellow-400 font-medium border-gray-200"
-                      : "hover:text-yellow-400 border-gray-200"
-                  }`}
-                >
-                  <span
-                    className={
-                      isActive ? `underline decoration-yellow-400` : ""
-                    }
-                  >
-                    {item.title}
-                  </span>
-
-                  {/* If has children → toggle icon, else normal arrow */}
-                  {hasChildren ? (
-                    <FontAwesomeIcon
-                      icon={isExpanded ? faChevronDown : faChevronRight}
-                      className={`${
-                        !darkMode ? "text-yellow-400" : "text-yellow-400"
-                      } transition-transform duration-300`}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faCircleArrowRight}
-                      className={`${
-                        !darkMode ? "text-yellow-400" : "text-yellow-400"
-                      }`}
-                    />
-                  )}
-                </button>
-
-                {/* Child Menus */}
-                {hasChildren && isExpanded && (
-                  <div
-                    className={`pl-10 pr-10 py-2 space-y-2 ${
-                      darkMode ? "bg-black" : "bg-gray-50"
+                    }}
+                    className={`flex items-center justify-between px-6 py-4 border-b transition-colors duration-200 w-full text-left ${
+                      isActive
+                        ? "text-yellow-400 font-medium border-gray-200"
+                        : "hover:text-yellow-400 border-gray-200"
                     }`}
                   >
-                    {item.childMenus &&
-                      item.childMenus.map(
-                        (submenu: ChildMenu, index: number) => (
-                          <Link
-                            key={submenu.id}
-                            href={submenu.navigation}
-                            onClick={() => setMenuOpen(false)}
-                            className={`block pt-2 text-sm  ${
-                              pathName === submenu.navigation
-                                ? "text-yellow-400 font-medium"
-                                : "hover:text-yellow-400"
-                            }
-                        `}
-                            prefetch={true}
-                          >
-                            <span
-                              className={
+                    <span
+                      className={
+                        isActive ? `underline decoration-yellow-400` : ""
+                      }
+                    >
+                      {item.title}
+                    </span>
+
+                    {/* If has children → toggle icon, else normal arrow */}
+                    {hasChildren ? (
+                      <FontAwesomeIcon
+                        icon={isExpanded ? faChevronDown : faChevronRight}
+                        className={`${
+                          !darkMode ? "text-yellow-400" : "text-yellow-400"
+                        } transition-transform duration-300`}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faCircleArrowRight}
+                        className={`${
+                          !darkMode ? "text-yellow-400" : "text-yellow-400"
+                        }`}
+                      />
+                    )}
+                  </button>
+
+                  {/* Child Menus */}
+                  {hasChildren && isExpanded && (
+                    <div
+                      className={`pl-10 pr-10 py-2 space-y-2 ${
+                        darkMode ? "bg-black" : "bg-gray-50"
+                      }`}
+                    >
+                      {item.childMenus &&
+                        item.childMenus.map(
+                          (submenu: ChildMenu, index: number) => (
+                            <Link
+                              key={submenu.id}
+                              href={submenu.navigation}
+                              onClick={() => setMenuOpen(false)}
+                              className={`block pt-2 text-sm  ${
                                 pathName === submenu.navigation
-                                  ? `underline decoration-yellow-400`
-                                  : ""
+                                  ? "text-yellow-400 font-medium"
+                                  : "hover:text-yellow-400"
                               }
+                        `}
+                              prefetch={true}
                             >
-                              {submenu.title}
-                            </span>
-                            {index !== (item.childMenus?.length ?? 0) - 1 && (
-                              <div className="border-b border-gray-300 my-2" />
-                            )}
-                          </Link>
-                        )
-                      )}
-                  </div>
-                )}
-              </React.Fragment>
-            );
-          })}
+                              <span
+                                className={
+                                  pathName === submenu.navigation
+                                    ? `underline decoration-yellow-400`
+                                    : ""
+                                }
+                              >
+                                {submenu.title}
+                              </span>
+                              {index !== (item.childMenus?.length ?? 0) - 1 && (
+                                <div className="border-b border-gray-300 my-2" />
+                              )}
+                            </Link>
+                          )
+                        )}
+                    </div>
+                  )}
+                </React.Fragment>
+              );
+            })}
 
           {/* Mini Footer Section */}
           <div className={`mt-auto p-6 border-t ${borderColor}`}>
