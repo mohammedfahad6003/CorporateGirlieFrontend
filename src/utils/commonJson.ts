@@ -232,6 +232,13 @@ export const menuForDesktopItems: Menus[] = [
     ],
   },
   { id: 8, title: "Contact Us", navigation: "/contact-us" },
+  {
+    id: 9,
+    title: "Entire Collection",
+    navigation: "/category/all",
+    description:
+      "Explore our entire collection in one place – from elegant resin art and timeless drawings to unique handcrafted décor. A perfect showcase of creativity designed to add beauty and sophistication to every space.",
+  },
 ];
 
 export const DummySearchValues = [
@@ -299,9 +306,9 @@ export const sortOptions = [
 ];
 
 export const discountCodes: Record<string, string> = {
-  SAVE50: '50',
-  OFF100: '100',
-  WELCOME10: '10%',
+  SAVE50: "50",
+  OFF100: "100",
+  WELCOME10: "10%",
 };
 
 export const careInstructionData = [

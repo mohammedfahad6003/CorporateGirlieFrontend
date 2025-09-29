@@ -57,7 +57,7 @@ const CategorySection = () => {
           <Button
             label="Explore More"
             variant="filled"
-            onClick={() => router.push(`/category/limited-edition`)}
+            onClick={() => router.push(`/category/all`)}
             className={'w-fit sm:text-lg text-sm px-5 py-2.5 sm:px-6 sm:py-3 transition font-normal'}
           />
 
