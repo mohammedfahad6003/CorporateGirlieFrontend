@@ -30,7 +30,6 @@ const Button: React.FC<ButtonProps> = ({
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (loading) return;
-    onClick?.();
 
     if (isAnimationRequired) {
       if (clicked) return;
@@ -43,6 +42,7 @@ const Button: React.FC<ButtonProps> = ({
 
       setTimeout(() => setSuccess(false), 3500);
     }
+    onClick?.();
   };
 
   const baseButton =
@@ -78,7 +78,7 @@ const Button: React.FC<ButtonProps> = ({
         variant === "filled" ? filledClass : hollowClass
       }`}
     >
-      <div className="flex items-center justify-center h-6 min-w-[100px]">
+      <div className="flex items-center justify-center h-6 min-w-[100px] w-full">
         {/* Loading spinner */}
         {loading && (
           <>
