@@ -20,6 +20,9 @@ import {
   setDiscountCode,
 } from "@/store/discountSlice";
 import { useRouter } from "next/navigation";
+import Button from "@/components/Button/Button";
+import { setConsent } from "@/store/cookieSlice";
+import CookieConsentModal from "./CookieCartConsentModal";
 
 const ShoppingCartContainer = () => {
   const dispatch = useDispatch();
@@ -29,6 +32,24 @@ const ShoppingCartContainer = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
+  const consent = useSelector((state: RootState) => state.consent.consent);
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleCheckout = () => {
+    if (consent === "accepted") {
+      router.push("/checkout");
+    } else {
+      setShowPopup(true);
+    }
+  };
+
+  const handleAcceptCookies = () => {
+    dispatch(setConsent("accepted"));
+    setShowPopup(false);
+    router.push("/checkout");
+  };
 
   const discountCode = useSelector(
     (state: RootState) => state.discount.discountCode
@@ -183,7 +204,7 @@ const ShoppingCartContainer = () => {
               className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-colors duration-200 cursor-pointer ${
                 darkMode
                   ? "bg-yellow-400 text-black hover:bg-yellow-500"
-                  : "bg-gray-950 text-white hover:bg-gray-800"
+                  : "bg-gray-900 text-white hover:bg-gray-800"
               }`}
               onClick={handleApplyDiscount}
             >
@@ -249,7 +270,25 @@ const ShoppingCartContainer = () => {
         </div>
 
         <ShoppingCartPriceContainer discountValue={discountValue} />
+
+        <div className="flex sm:flex-row flex-col mt-4 lg:mt-6 w-full lg:w-10/12 mx-auto">
+          <Button
+            label="Proceed To Checkout"
+            variant="filled"
+            className="w-full"
+            onClick={handleCheckout}
+          />
+        </div>
       </div>
+
+      {showPopup && (
+        <CookieConsentModal
+          isOpen={showPopup}
+          onClose={() => setShowPopup(false)}
+          onAccept={handleAcceptCookies}
+          triggerShake={true} // 👈 makes modal shake for 3s
+        />
+      )}
     </div>
   );
 };
