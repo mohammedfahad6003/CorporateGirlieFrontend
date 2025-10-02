@@ -6,12 +6,13 @@ import cartReducer from "./addCartSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import discountReducer from "./discountSlice";
+import checkOutSliceReducer from "./checkoutSlice";
 
 // persist config
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["theme", "cart", "discount"],
+  whitelist: ["theme", "cart", "discount", "checkout"],
 };
 
 // combine reducers (so persist works correctly with multiple slices)
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   viewMode: viewModeReducer,
   cart: cartReducer,
   discount: discountReducer,
+  checkout: checkOutSliceReducer,
 });
 
 // wrap with persistReducer

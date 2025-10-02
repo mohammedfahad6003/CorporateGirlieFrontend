@@ -23,11 +23,10 @@ interface SearchableDropdownProps {
 }
 
 const placeholders = [
-  " Enter arts....",
-  " Enter painting....",
-  " Enter craft....",
-  " Enter decor....",
-  " Enter drawing....",
+  " Enter Resin....",
+  " Enter Painting....",
+  " Enter Art & Crafts....",
+  " Enter Decor....",
 ];
 
 const SearchableDropdown: React.FC<SearchableDropdownProps> = ({

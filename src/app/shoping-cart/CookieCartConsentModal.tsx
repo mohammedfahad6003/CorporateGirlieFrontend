@@ -92,9 +92,11 @@ const CookieConsentModal: React.FC<CookieConsentModalProps> = ({
 
         {/* Body */}
         <p className="text-sm sm:text-base text-center leading-relaxed p-0 sm:px-2">
-          We need your consent to securely store your{" "}
-          <span className="font-semibold">name, email, phone, and address</span>{" "}
-          so we can generate and process your order safely.
+          To continue, we require your consent to temporarily use your{" "}
+          <span className="font-semibold">name, email, phone, </span>&{" "}
+          <span className="font-semibold">address</span> for generating payment
+          details and completing your order. We do not keep this information
+          after processing.
         </p>
 
         {/* Footer */}
