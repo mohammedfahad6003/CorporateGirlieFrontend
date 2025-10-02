@@ -3,7 +3,7 @@
 import ProductsContainer from "@/components/ContainerStyles/ProductsContainer";
 import { products } from "@/utils/commonJson";
 import Image from "next/image";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import NotFound from "./not-found";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,12 +23,10 @@ import Button from "@/components/Button/Button";
 import Collapse from "@/components/CollapseExpand/CollapseExpand";
 import { addToCart, clearCart } from "@/store/addCartSlice";
 
-// Props type for dynamic route slug
 interface Props {
   params: Promise<{ slug: string[] }>;
 }
 
-// Product type definition
 interface Product {
   id: number;
   title: string;
@@ -36,13 +34,13 @@ interface Product {
   image: string;
   description?: string;
   isSale?: boolean;
-  saleDiscount?: number | 0;
+  saleDiscount?: number;
   customizationAllowed?: boolean;
   details?: Array<string>;
 }
 
 const ProductsPage = ({ params }: Props) => {
-  const { slug } = use(params);
+  const { slug } = React.use(params);
   const [id] = slug;
 
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
@@ -63,54 +61,41 @@ const ProductsPage = ({ params }: Props) => {
     return <NotFound />;
   }
 
+  const numericPrice = Number(data.price.replace(/,/g, ""));
+
   const filledClass = darkMode
     ? "bg-yellow-400 text-black border-2 border-yellow-400 hover:bg-yellow-500 hover:shadow-lg"
     : "bg-gray-900 text-white border-2 border-gray-800 hover:bg-gray-800 hover:shadow-lg";
 
   const handleAddToCart = () => {
-    const calculatedPrice = data?.isSale
-      ? Math.round(
-          Number(data.price.replace(/,/g, "")) *
-            (1 - (data.saleDiscount ?? 0) / 100)
-        )
-      : Number(data?.price?.replace(/,/g, "") || 0);
-
     const addToCartData = {
-      id: data?.id,
-      title: data?.title,
-      price: calculatedPrice,
-      quantity: quantity,
-      image: data?.image,
+      id: data.id,
+      title: data.title,
+      price: numericPrice,
+      quantity,
+      image: data.image,
+      isSale: data.isSale ?? false,
+      discount: data.saleDiscount ?? 0,
     };
 
     dispatch(addToCart(addToCartData));
-
-    return "";
   };
 
   const handleBuyNow = () => {
     dispatch(clearCart());
 
-    const calculatedPrice = data?.isSale
-      ? Math.round(
-          Number(data.price.replace(/,/g, "")) *
-            (1 - (data.saleDiscount ?? 0) / 100)
-        )
-      : Number(data?.price?.replace(/,/g, "") || 0);
-
     const addToCartData = {
-      id: data?.id,
-      title: data?.title,
-      price: calculatedPrice,
-      quantity: quantity,
-      image: data?.image,
+      id: data.id,
+      title: data.title,
+      price: numericPrice,
+      quantity,
+      image: data.image,
+      isSale: data.isSale ?? false,
+      discount: data.saleDiscount ?? 0,
     };
 
     dispatch(addToCart(addToCartData));
-
     router.push("/shoping-cart");
-
-    return "";
   };
 
   return (
@@ -157,15 +142,14 @@ const ProductsPage = ({ params }: Props) => {
               {/* Original price (striked) */}
               <span className="text-base sm:text-xl line-through text-gray-500">
                 <span className="font-sans">₹</span>
-                {Number(data.price ?? 0).toLocaleString()}
+                {numericPrice.toLocaleString("en-IN")}
               </span>
               {/* Discounted price */}
               <span className="text-base sm:text-xl font-bold">
                 <span className="font-sans">₹</span>
                 {Math.round(
-                  Number(data.price.replace(/,/g, "")) *
-                    (1 - (data.saleDiscount ?? 0) / 100)
-                ).toLocaleString()}
+                  numericPrice * (1 - (data.saleDiscount ?? 0) / 100)
+                ).toLocaleString("en-IN")}
               </span>
               {/* Discount badge */}
               <span className="text-xs sm:text-sm font-medium text-white py-1 px-2 bg-[#C10E21] rounded-lg">
@@ -176,7 +160,7 @@ const ProductsPage = ({ params }: Props) => {
             // Regular price
             <p className="text-lg sm:text-xl font-semibold">
               <span className="font-sans">₹</span>
-              {Number(data?.price ?? 0).toLocaleString()}
+              {numericPrice.toLocaleString("en-IN")}
             </p>
           )}
 
@@ -217,7 +201,6 @@ const ProductsPage = ({ params }: Props) => {
 
           {/* ---------------- COLLAPSIBLE SECTIONS ---------------- */}
           <div className="flex flex-col">
-            {/* Divider */}
             <div
               className={
                 darkMode

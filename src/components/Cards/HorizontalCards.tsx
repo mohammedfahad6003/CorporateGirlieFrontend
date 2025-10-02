@@ -67,14 +67,14 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
             <div className="flex items-center gap-3">
               <span className="text-sm sm:text-base line-through text-gray-500">
                 <span className="font-sans">₹</span>
-                {Number(product?.price ?? 0).toLocaleString()}
+                {Number(product?.price ?? 0).toLocaleString("en-IN")}
               </span>
               <span className="text-sm sm:text-base font-bold">
                 <span className="font-sans">₹</span>
                 {Math.round(
                   Number(product.price.replace(/,/g, "")) *
                     (1 - (product.saleDiscount ?? 0) / 100)
-                ).toLocaleString()}
+                ).toLocaleString("en-IN")}
               </span>
               <span className="hidden sm:inline text-xs sm:text-sm font-medium text-[#C10E21]">
                 {product?.saleDiscount}% OFF
@@ -83,7 +83,7 @@ const HorizontalCard: React.FC<HorizontalCardProps> = ({ product }) => {
           ) : (
             <p className="text-sm sm:text-base font-bold">
               <span className="font-sans">₹</span>
-              {Number(product?.price ?? 0).toLocaleString()}
+              {Number(product?.price ?? 0).toLocaleString("en-IN")}
             </p>
           )}
         </div>
