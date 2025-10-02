@@ -66,7 +66,6 @@ const CheckoutPage = () => {
       <div className="max-w-full md:max-w-4xl lg:max-w-6xl 2xl:max-w-7xl mx-auto relative">
         <div className="flex flex-col sm:flex-row gap-8 p-6 sm:px-0 sm:py-6">
           {/* Left - User Details */}
-
           <div className={`flex-1 space-y-2 p-0 sm:px-4`}>
             <h2 className="text-base sm:text-xl font-semibold mb-4 leading-5 sm:leading-7">
               Contact Information

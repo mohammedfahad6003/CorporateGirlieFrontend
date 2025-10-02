@@ -27,5 +27,23 @@ export const calculateShipping = (subtotal: number): number => {
   else if (subtotal < 2000) shipping = 200;
   else shipping = 250;
 
-  return subtotal + shipping;
+  return shipping;
 };
+
+export function calculateDiscountAmount(
+  discountValue: string | null,
+  subtotal: number
+): number {
+  if (!discountValue || subtotal <= 0) return 0;
+
+  let discountAmount = 0;
+
+  if (discountValue.includes("%")) {
+    const percent = parseFloat(discountValue.replace("%", ""));
+    discountAmount = Math.floor((subtotal * percent) / 100);
+  } else {
+    discountAmount = Number(discountValue) || 0;
+  }
+
+  return discountAmount;
+}

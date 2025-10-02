@@ -65,6 +65,7 @@ const checkoutSlice = createSlice({
     setPaymentMethod: (state, action: PayloadAction<string>) => {
       state.paymentMethod = action.payload;
     },
+    clearCheckout: () => initialState,
   },
 });
 
@@ -74,6 +75,7 @@ export const {
   setBillingSameAsShipping,
   setSubscribeNewsletter,
   setPaymentMethod,
+  clearCheckout
 } = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;
