@@ -1,6 +1,9 @@
 import { CartItem } from "@/store/addCartSlice";
 import { RootState } from "@/store/store";
-import { calculateShipping } from "@/utils/helperFunctions";
+import {
+  calculateDiscountAmount,
+  calculateShipping,
+} from "@/utils/helperFunctions";
 import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -10,6 +13,10 @@ import { useSelector } from "react-redux";
 const CheckoutHeadDetailsContainer = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  const discountValue = useSelector(
+    (state: RootState) => state.discount.discountValue
+  );
 
   const [orderSummaryOpen, setOrderSummaryOpen] = useState(false);
 
@@ -24,7 +31,10 @@ const CheckoutHeadDetailsContainer = () => {
     0
   );
 
-  const total = calculateShipping(subtotal);
+  const total =
+    subtotal +
+    calculateShipping(subtotal) -
+    calculateDiscountAmount(discountValue, subtotal);
 
   const calculateDiscountedPrice = (item: CartItem) => {
     if (!item || typeof item.price !== "number")
@@ -113,6 +123,12 @@ const CheckoutHeadDetailsContainer = () => {
                         fill
                         className="rounded-md object-cover"
                       />
+                      <div
+                        className="absolute bottom-0 w-full bg-black/50 text-white 
+                                   text-[8px] sm:text-[10px] text-center py-0.5 sm:py-1 rounded-b-md"
+                      >
+                        {item?.quantity} unit{item?.quantity > 1 ? "s" : ""}
+                      </div>
                     </div>
 
                     <div>
@@ -124,8 +140,7 @@ const CheckoutHeadDetailsContainer = () => {
                           <span className="font-sans">₹ </span>
                           {Math.round(
                             calculateDiscountedPrice(item)
-                          ).toLocaleString("en-IN")}{" "}
-                          × {item.quantity ?? 1}
+                          ).toLocaleString("en-IN")}
                         </span>
                       </p>
                     </div>

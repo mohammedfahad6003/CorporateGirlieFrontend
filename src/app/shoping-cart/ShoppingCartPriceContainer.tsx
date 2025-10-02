@@ -2,14 +2,18 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { CartItem } from "@/store/addCartSlice";
+import {
+  calculateDiscountAmount,
+  calculateShipping,
+} from "@/utils/helperFunctions";
 
-interface PriceCart {
-  discountValue: string; // could be '50' or '10%'
-}
-
-const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
+const ShoppingCartPriceContainer = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
+  const discountValue = useSelector(
+    (state: RootState) => state.discount.discountValue
+  );
 
   // Helper: calculate discounted price
   const getDiscountedPrice = (item: CartItem) => {
@@ -24,25 +28,10 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
     0
   );
 
-  // Discount applied via code
-  let discountAmount = 0;
-  if (discountValue) {
-    if (discountValue.includes("%")) {
-      const percent = parseFloat(discountValue.replace("%", ""));
-      discountAmount = Math.floor((subtotal * percent) / 100);
-    } else {
-      discountAmount = Number(discountValue);
-    }
-  }
-
-  // Shipping calculation
-  let shipping = 250;
-  if (subtotal < 300) shipping = 50;
-  else if (subtotal < 600) shipping = 100;
-  else if (subtotal < 1000) shipping = 150;
-  else if (subtotal < 2000) shipping = 200;
-
-  const finalTotal = subtotal - discountAmount + shipping;
+  const finalTotal =
+    subtotal +
+    calculateShipping(subtotal) -
+    calculateDiscountAmount(discountValue, subtotal);
 
   return (
     <div
@@ -84,8 +73,8 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
                       <span className="font-sans">₹ </span>
                       {Math.round(Number(item.price)).toLocaleString("en-IN")}
                     </>
-                  )}
-                  {""}× {item.quantity} )
+                  )}{" "}
+                  × {item.quantity} )
                 </span>
                 <span className="text-sm sm:text-base">
                   <span className="font-sans">₹ </span>
@@ -108,25 +97,28 @@ const ShoppingCartPriceContainer: React.FC<PriceCart> = ({ discountValue }) => {
         </span>
       </div>
 
+      {/* Discount Value */}
+      {calculateDiscountAmount(discountValue ?? 0, subtotal ?? 0) > 0 && (
+        <div className="flex justify-between mb-2 text-sm sm:text-base">
+          <span>Discount</span>
+          <span className="text-green-500">
+            - <span className="font-sans">₹ </span>
+            {calculateDiscountAmount(
+              discountValue ?? 0,
+              subtotal ?? 0
+            )?.toLocaleString("en-IN")}
+          </span>
+        </div>
+      )}
+
       {/* Shipping */}
       <div className="flex justify-between mb-2 text-sm sm:text-base">
         <span>Shipping</span>
         <span>
           <span className="font-sans">₹ </span>
-          {shipping}
+          {calculateShipping(subtotal)}
         </span>
       </div>
-
-      {/* Discount Value */}
-      {discountAmount > 0 && (
-        <div className="flex justify-between mb-2 text-sm sm:text-base">
-          <span>Discount</span>
-          <span className="text-green-500">
-            - <span className="font-sans">₹ </span>
-            {discountAmount.toLocaleString("en-IN")}
-          </span>
-        </div>
-      )}
 
       <div className="border-t my-2"></div>
 

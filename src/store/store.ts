@@ -12,7 +12,7 @@ import checkOutSliceReducer from "./checkoutSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["theme", "cart", "discount", "checkout"],
+  whitelist: ["theme", "cart", "discount"],
 };
 
 // combine reducers (so persist works correctly with multiple slices)
