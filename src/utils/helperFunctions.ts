@@ -17,3 +17,15 @@ export function smoothScrollToTop() {
 
   requestAnimationFrame(step);
 }
+
+export const calculateShipping = (subtotal: number): number => {
+  let shipping = 0;
+
+  if (subtotal < 300) shipping = 50;
+  else if (subtotal < 600) shipping = 100;
+  else if (subtotal < 1000) shipping = 150;
+  else if (subtotal < 2000) shipping = 200;
+  else shipping = 250;
+
+  return subtotal + shipping;
+};

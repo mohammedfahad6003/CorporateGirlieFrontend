@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { ShoppingCartQuantityContainer } from "./ShoppingCartQuantityContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart, updateQuantity } from "@/store/addCartSlice";
+import { CartItem, removeFromCart, updateQuantity } from "@/store/addCartSlice";
 import {
   faTrashCan,
   faCheckCircle,
@@ -37,6 +37,8 @@ const ShoppingCartContainer = () => {
 
   const [showPopup, setShowPopup] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleCheckout = () => {
     if (consent === "accepted") {
       router.push("/checkout");
@@ -60,8 +62,6 @@ const ShoppingCartContainer = () => {
   const discountValue = useSelector(
     (state: RootState) => state.discount.discountValue
   );
-
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handleApplyDiscount = () => {
     if (!discountCode) return;
@@ -87,6 +87,17 @@ const ShoppingCartContainer = () => {
     e.preventDefault();
     e.stopPropagation();
     router.push(`/products/${id}`);
+  };
+
+  const calculateDiscountedPrice = (item: CartItem) => {
+    if (!item || typeof item.price !== "number")
+      return Math.round(item?.price ?? 0);
+
+    const discount = item.discount ?? 0;
+
+    const total = item.price - (item.price * discount) / 100;
+
+    return Math.round(total);
   };
 
   return (
@@ -132,9 +143,24 @@ const ShoppingCartContainer = () => {
               >
                 {item.title}
               </h3>
-              <p className="text-gray-500 text-xs sm:text-sm mb-3">
-                Price: <span className="font-sans">₹ </span>
-                {Number(item.price).toLocaleString()}
+              <p className="text-gray-500 text-xs sm:text-sm mb-3 flex items-center gap-2">
+                Price:{" "}
+                {item.discount && item.discount > 0 ? (
+                  <>
+                    {/* Discounted price */}
+                    <span className="font-bold">
+                      <span className="font-sans">₹ </span>
+                      {Math.round(
+                        calculateDiscountedPrice(item)
+                      ).toLocaleString("en-IN")}
+                    </span>
+                  </>
+                ) : (
+                  <span className="font-bold">
+                    <span className="font-sans">₹ </span>
+                    {Math.round(Number(item.price)).toLocaleString("en-IN")}
+                  </span>
+                )}
               </p>
 
               <ShoppingCartQuantityContainer
@@ -157,9 +183,9 @@ const ShoppingCartContainer = () => {
               {/* Top: Price */}
               <p className="text-sm sm:text-base font-semibold">
                 <span className="font-sans">₹ </span>
-                {(
-                  Number(item.price) * (Number(item.quantity) || 0)
-                ).toLocaleString()}
+                {Math.round(
+                  calculateDiscountedPrice(item) * item?.quantity
+                )?.toLocaleString("en-IN")}
               </p>
 
               {/* Spacer */}
@@ -234,7 +260,7 @@ const ShoppingCartContainer = () => {
                     <>
                       <strong>
                         <span className="font-sans font-medium">₹ </span>
-                        {Number(discountValue).toLocaleString()}{" "}
+                        {Number(discountValue).toLocaleString("en-IN")}{" "}
                       </strong>
                     </>
                   )}

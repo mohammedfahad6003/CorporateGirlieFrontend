@@ -1,7 +1,7 @@
 "use client";
 
 import ProductsContainer from "@/components/ContainerStyles/ProductsContainer";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import ShoppingCartContainer from "./ShoppingCartContainer";
 import { clearCart } from "@/store/addCartSlice";
+import { smoothScrollToTop } from "@/utils/helperFunctions";
 
 const ShoppingCart: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,12 @@ const ShoppingCart: React.FC = () => {
       router.refresh();
     }, 3000);
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      smoothScrollToTop();
+    }
+  }, []);
 
   return (
     <ProductsContainer>
