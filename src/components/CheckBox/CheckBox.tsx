@@ -29,11 +29,12 @@ const CheckBox: React.FC<CheckBoxProps> = ({
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className={`cursor-pointer w-4 h-4 border rounded-sm ${
+        className={`cursor-pointer w-4 h-4 border rounded-sm appearance-none ${
           darkMode
-            ? "border-yellow-400 accent-white" // yellow border, white tick
-            : "border-gray-400 accent-black" // gray border, black tick
-        }`}
+            ? "checked:bg-yellow-400 checked:border-yellow-400 checked:before:text-black"
+            : "checked:bg-gray-800 checked:border-gray-800 checked:before:text-white"
+        } checked:before:content-['✔']  checked:before:text-xs checked:before:flex checked:before:items-center checked:before:justify-center`}
+        style={{ WebkitAppearance: "none" }}
       />
       {label}
     </label>

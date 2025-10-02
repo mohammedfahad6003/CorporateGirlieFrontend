@@ -74,7 +74,7 @@ const Header = () => {
   const handleDropdown = (e: string) => {
     setSearchedValue(e);
   };
-  
+
   return (
     <>
       <div
@@ -148,7 +148,7 @@ const Header = () => {
               }}
             />
             {cartItems.length > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 bg-[#ca1325] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-semibold">
+              <span className="absolute -top-1.5 -right-1.5 bg-[#ca1325] text-white text-[10px] sm:text-xs rounded-full w-4 h-4 flex items-start justify-center font-semibold">
                 {cartItems.length}
               </span>
             )}

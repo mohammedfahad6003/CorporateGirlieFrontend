@@ -56,6 +56,7 @@ const ShoppingCartContainer = () => {
   const discountCode = useSelector(
     (state: RootState) => state.discount.discountCode
   );
+  
   const appliedCode = useSelector(
     (state: RootState) => state.discount.appliedCode
   );
@@ -295,7 +296,7 @@ const ShoppingCartContainer = () => {
           )}
         </div>
 
-        <ShoppingCartPriceContainer discountValue={discountValue} />
+        <ShoppingCartPriceContainer />
 
         <div className="flex sm:flex-row flex-col mt-4 lg:mt-6 w-full lg:w-10/12 mx-auto">
           <Button
