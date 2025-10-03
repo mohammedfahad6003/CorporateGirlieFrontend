@@ -1,7 +1,7 @@
 import {
   faArrowDownWideShort,
   faArrowUpShortWide,
-  faIndianRupeeSign,
+  faClock,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -300,7 +300,7 @@ export const categories =
 
 export const sortOptions = [
   { label: "Best Selling", icon: faStar },
-  { label: "Below 1000", icon: faIndianRupeeSign },
+  { label: "Newest First", icon: faClock },
   { label: "Low to High", icon: faArrowUpShortWide },
   { label: "High to Low", icon: faArrowDownWideShort },
 ];
