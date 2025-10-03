@@ -23,7 +23,7 @@ const FilterChips = ({ label, onClick, isPrice = false }: FilterChipProps) => {
             : "bg-gray-800 border border-gray-800 text-white"
         }`}
     >
-      {isPrice && <span className="font-sans">₹</span>}
+      {isPrice && <span className="font-sans">{'Less Than'} ₹</span>}
       {label}
       <FontAwesomeIcon
         icon={faTimes}

@@ -60,7 +60,7 @@ const CheckoutHeadDetailsContainer = () => {
 
   return (
     <div
-      className={`m-0 sm:mx-2 py-4 px-6 sm:py-6 sm:px-8 lg:px-28 select-none ${
+      className={`max-w-full py-4 px-6 sm:py-6 sm:px-8 md:px-16 2xl:px-48 select-none ${
         darkMode
           ? "border-l-2 border-r-2 border-b-2 border-black bg-yellow-400"
           : "border-l-2 border-r-2 border-b-2 border-gray-800 bg-gray-800"

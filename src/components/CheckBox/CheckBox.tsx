@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
-import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import * as Checkbox from "@radix-ui/react-checkbox";
+import { CheckIcon } from "@radix-ui/react-icons";
+import { useSelector } from "react-redux";
 
 interface CheckBoxProps {
   label: string;
@@ -21,21 +22,26 @@ const CheckBox: React.FC<CheckBoxProps> = ({
 
   return (
     <label
-      className={`select-none flex items-center gap-2 cursor-pointer text-sm sm:text-base ${
+      className={`flex items-center gap-2 cursor-pointer text-sm sm:text-base select-none ${
         darkMode ? "text-white" : "text-gray-800"
       } ${className}`}
     >
-      <input
-        type="checkbox"
+      <Checkbox.Root
         checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className={`cursor-pointer w-4 h-4 border rounded-sm appearance-none ${
-          darkMode
-            ? "checked:bg-yellow-400 checked:border-yellow-400 checked:before:text-black"
-            : "checked:bg-gray-800 checked:border-gray-800 checked:before:text-white"
-        } checked:before:content-['✔']  checked:before:text-xs checked:before:flex checked:before:items-center checked:before:justify-center`}
-        style={{ WebkitAppearance: "none" }}
-      />
+        onCheckedChange={(val) => onChange(!!val)}
+        className={`flex items-center justify-center w-5 h-5 rounded border transition-colors cursor-pointer
+             focus:outline-none ${
+               darkMode
+                 ? "border-yellow-400 bg-black data-[state=checked]:bg-yellow-400 "
+                 : "border-gray-600 bg-white data-[state=checked]:bg-gray-800"
+             }`}
+      >
+        <Checkbox.Indicator>
+          <CheckIcon
+            className={`${darkMode ? "text-black" : "text-white"} w-5 h-5`}
+          />
+        </Checkbox.Indicator>
+      </Checkbox.Root>
       {label}
     </label>
   );
