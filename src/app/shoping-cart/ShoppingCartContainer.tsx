@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RootState } from "@/store/store";
 import ShoppingCartPriceContainer from "./ShoppingCartPriceContainer";
 import { discountCodes } from "@/utils/commonJson";
-import InputBox from "@/components/InputBox/InputBox";
 import {
   applyDiscount,
   removeDiscount,
@@ -23,6 +22,7 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import { setConsent } from "@/store/cookieSlice";
 import CookieConsentModal from "./CookieCartConsentModal";
+import FloatingInputBox from "@/components/InputBox/FloatingInpuxBox";
 
 const ShoppingCartContainer = () => {
   const dispatch = useDispatch();
@@ -216,9 +216,9 @@ const ShoppingCartContainer = () => {
         {/* Discount Code Input */}
         <div className="mb-3 sm:mb-8">
           <div className="flex gap-3 items-center mb-3">
-            <InputBox
+            <FloatingInputBox
               type="text"
-              placeholder="Discount code"
+              label="Discount code"
               value={discountCode}
               onChange={(value) => dispatch(setDiscountCode(value))}
               onKeyDown={(e) => {

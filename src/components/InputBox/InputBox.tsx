@@ -49,7 +49,7 @@ const InputBox: React.FC<InputBoxProps> = ({
           [&::-webkit-outer-spin-button]:appearance-none
           [&::-webkit-inner-spin-button]:appearance-none
           transition-all duration-200 ease-in-out
-          placeholder-gray-500
+          placeholder-gray-400
           ${className}
           ${
             darkMode
