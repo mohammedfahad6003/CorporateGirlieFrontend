@@ -1,9 +1,9 @@
 "use client";
 
-import * as Tooltip from "@radix-ui/react-tooltip";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { useEffect, useRef, useState } from "react";
 
 const allPaymentIcons = [
   "/payments/upi.png",
@@ -22,12 +22,46 @@ const allPaymentIcons = [
   "/payments/rupay.png",
 ];
 
-// Display first 3 icons, rest go in tooltip
-const primaryIcons = allPaymentIcons.slice(0, 3);
-const tooltipIcons = allPaymentIcons.slice(3);
-
 const PaymentGatewayInfo = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  const primaryIcons = isMobile
+    ? allPaymentIcons.slice(0, 2)
+    : allPaymentIcons.slice(0, 3);
+
+  const tooltipIcons = allPaymentIcons.slice(primaryIcons.length);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        tooltipRef.current &&
+        !tooltipRef.current.contains(event.target as Node)
+      ) {
+        setTooltipOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -45,7 +79,7 @@ const PaymentGatewayInfo = () => {
         className={`border rounded-lg p-4 ${
           darkMode
             ? "bg-black border-yellow-400"
-            : "bg-gray-100 border-gray-300"
+            : "bg-gray-100 border-gray-800"
         }`}
       >
         <div className="flex items-center justify-between">
@@ -75,54 +109,62 @@ const PaymentGatewayInfo = () => {
             ))}
 
             {tooltipIcons.length > 0 && (
-              <Tooltip.Provider delayDuration={100}>
-                <Tooltip.Root>
-                  <Tooltip.Trigger asChild>
-                    <button
-                      aria-label="More payment options"
-                      className={`w-10 h-6 p-1 rounded-sm cursor-pointer text-xs font-semibold flex items-center justify-center ${
-                        darkMode ? "bg-gray-800" : "bg-gray-200 "
-                      }`}
-                    >
-                      +{tooltipIcons.length}
-                    </button>
-                  </Tooltip.Trigger>
+              <div
+                className="relative"
+                ref={tooltipRef}
+                onMouseEnter={() => setTooltipOpen(true)}
+                onMouseLeave={() => setTooltipOpen(false)}
+              >
+                <button
+                  onClick={() => setTooltipOpen((prev) => !prev)}
+                  className={`w-10 h-6 p-1 rounded-sm cursor-pointer text-xs font-semibold flex items-center justify-center ${
+                    darkMode
+                      ? "bg-gray-800"
+                      : "bg-gray-200 border border-gray-800"
+                  }`}
+                >
+                  +{tooltipIcons.length}
+                </button>
 
-                  <Tooltip.Portal>
-                    <Tooltip.Content
-                      side="top"
-                      className={`rounded-lg px-4 py-3 shadow-lg grid grid-cols-4 gap-3 z-50 border w-60 ${
-                        darkMode
-                          ? "bg-black border-yellow-400"
-                          : "bg-white border-gray-100"
-                      }`}
-                      sideOffset={5}
-                    >
-                      {tooltipIcons.map((icon, index) => (
-                        <div
-                          key={index}
-                          className="w-10 h-6 p-1 bg-white border border-gray-100 rounded flex items-center justify-center"
-                        >
-                          <Image
-                            src={icon}
-                            alt={`tooltip-icon-${index}`}
-                            width={24}
-                            height={24}
-                            className="object-contain"
-                          />
-                        </div>
-                      ))}
-                      <Tooltip.Arrow
-                        width={10}
-                        height={5}
-                        className={`z-50 ${
-                          darkMode ? "fill-gray-900" : "fill-white"
-                        }`}
-                      />
-                    </Tooltip.Content>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
-              </Tooltip.Provider>
+                {tooltipOpen && (
+                  <div
+                    className={`absolute bottom-full mb-2 -right-1/6 sm:left-1/2 sm:-translate-x-1/2 z-50 w-60 grid grid-cols-4 gap-3 px-4 py-3 rounded-lg shadow-lg border ${
+                      darkMode
+                        ? "bg-black border-yellow-400 text-white"
+                        : "bg-gray-100 border-gray-800 text-black"
+                    }`}
+                  >
+                    {tooltipIcons.map((icon, index) => (
+                      <div
+                        key={index}
+                        className="w-10 h-6 p-1 bg-white border border-gray-100 rounded flex items-center justify-center"
+                      >
+                        <Image
+                          src={icon}
+                          alt={`tooltip-icon-${index}`}
+                          width={24}
+                          height={24}
+                          className="object-contain"
+                        />
+                      </div>
+                    ))}
+                    {/* Custom arrow */}
+                    <div
+                      className={`
+                        absolute top-full right-1/12 sm:left-1/2 sm:-translate-x-1/2 
+                        w-2 h-2 rotate-45 
+                        border-b border-r 
+                        ${
+                          darkMode
+                            ? "border-yellow-400 bg-black"
+                            : "border-gray-800 bg-white"
+                        } 
+                        -mt-[3px]
+                      `}
+                    />
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>

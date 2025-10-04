@@ -17,7 +17,7 @@ interface Address {
 interface CheckoutState {
   userDetails: Address;
   billingSameAsShipping: boolean;
-  billingDetails?: Address;
+  billingDetails: Address;
   subscribeNewsletter: boolean;
   paymentMethod: string;
 }
@@ -36,7 +36,18 @@ const initialState: CheckoutState = {
     city: "",
   },
   billingSameAsShipping: true,
-  billingDetails: undefined,
+  billingDetails: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address1: "",
+    address2: "",
+    country: "India",
+    state: "",
+    zipcode: "",
+    city: "",
+  },
   subscribeNewsletter: false,
   paymentMethod: "card",
 };
@@ -50,10 +61,9 @@ const checkoutSlice = createSlice({
     },
     updateBillingDetails: (state, action: PayloadAction<Partial<Address>>) => {
       state.billingDetails = {
-        country: "India",
         ...state.billingDetails,
         ...action.payload,
-      } as Address;
+      };
     },
     setBillingSameAsShipping: (state, action: PayloadAction<boolean>) => {
       state.billingSameAsShipping = action.payload;
@@ -75,7 +85,7 @@ export const {
   setBillingSameAsShipping,
   setSubscribeNewsletter,
   setPaymentMethod,
-  clearCheckout
+  clearCheckout,
 } = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

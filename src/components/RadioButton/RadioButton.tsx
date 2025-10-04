@@ -29,19 +29,23 @@ const RadioButton: React.FC<RadioGroupProps> = ({
     <RadioGroup.Root
       value={value}
       onValueChange={onChange}
-      className={`flex flex-col gap-4 ${className}`}
+      className={`flex flex-col gap-4 sm:gap-6 ${className}`}
     >
       {options.map((option) => (
         <label
           key={option.value}
           htmlFor={option.value}
-          className="flex items-center gap-2 cursor-pointer select-none text-sm sm:text-base"
+          className="flex items-center gap-2 sm:gap-3 cursor-pointer select-none text-sm sm:text-base"
         >
           <RadioGroup.Item
             value={option.value}
             id={option.value}
             className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors cursor-pointer
-              ${darkMode ? "border-yellow-400 bg-black" : "border-gray-600 bg-white"}
+              ${
+                darkMode
+                  ? "border-yellow-400 bg-black"
+                  : "border-gray-600 bg-white"
+              }
               data-[state=checked]:bg-${darkMode ? "yellow-400" : "gray-800"}
             `}
           >
