@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import { setConsent } from "@/store/cookieSlice";
 import CookieConsentModal from "./CookieCartConsentModal";
-import FloatingInputBox from "@/components/InputBox/FloatingInpuxBox";
+import FloatingInputBox from "@/components/InputBox/FloatingInputBox";
 
 const ShoppingCartContainer = () => {
   const dispatch = useDispatch();

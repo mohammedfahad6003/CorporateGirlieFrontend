@@ -62,7 +62,9 @@ const FloatingSelectBox: React.FC<FloatingSelectBoxProps> = ({
     <div className="relative w-full" ref={dropdownRef}>
       {/* Input Box */}
       <div
-        className={`relative border rounded-md px-3 pb-2.5 sm:pb-3 pt-3.5 sm:pt-4 h-[45px] sm:h-[54px] cursor-pointer 
+        className={`${
+          value ? "flex items-center" : ""
+        } relative border rounded-md px-3 pb-2.5 sm:pb-3 pt-3.5 sm:pt-4 h-[45px] sm:h-[54px] cursor-pointer 
           ${
             darkMode
               ? isDisabled
@@ -87,8 +89,9 @@ const FloatingSelectBox: React.FC<FloatingSelectBoxProps> = ({
             onClick={(e) => {
               e.stopPropagation();
               onChange("");
+              setFocused(false);
             }}
-            className={`absolute right-8 top-1/2 transform -translate-y-1/2 text-sm cursor-pointer ${
+            className={`absolute right-9 top-1/2 transform -translate-y-1/2 text-sm cursor-pointer pt-1 ${
               darkMode ? "text-yellow-400" : "text-gray-700"
             }`}
           >
@@ -108,10 +111,10 @@ const FloatingSelectBox: React.FC<FloatingSelectBoxProps> = ({
       {/* Label */}
       <label
         htmlFor={selectId}
-        className={`absolute left-2.5 transition-all duration-200 pointer-events-none select-none
+        className={`absolute left-3 transition-all duration-200 pointer-events-none select-none
           ${darkMode ? "text-gray-400 bg-black" : "text-gray-500 bg-white"}
           ${
-            focused && value
+            focused || value !== ""
               ? `-top-2 sm:-top-2.5 text-xs sm:text-sm px-1 ${
                   darkMode ? "text-white" : "text-black"
                 }`

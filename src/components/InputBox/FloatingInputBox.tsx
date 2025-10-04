@@ -13,6 +13,7 @@ interface FloatingInputBoxProps {
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   className?: string;
   disabled?: boolean;
+  maxLength?: number;
 }
 
 const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
@@ -24,6 +25,7 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
   onKeyDown,
   className = "",
   disabled = false,
+  maxLength,
 }) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const [focused, setFocused] = useState(false);
@@ -31,7 +33,7 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
   // fallback id if not provided
   const inputId = id || label.replace(/\s+/g, "-").toLowerCase();
 
-  const isDisabled = disabled && value.trim().length > 0;
+  const isDisabled = disabled;
 
   return (
     <div className="relative w-full">
@@ -45,10 +47,12 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
         onKeyDown={onKeyDown}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        maxLength={maxLength}
         disabled={isDisabled}
         className={`
           peer w-full rounded-md px-3 pb-2.5 sm:pb-3 pt-3.5 sm:pt-4 text-sm sm:text-base
           border transition-all duration-200 outline-none
+          truncate
           ${
             darkMode
               ? isDisabled
@@ -65,7 +69,7 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
         htmlFor={inputId}
         className={`
           absolute left-2.5 sm:left-3 transition-all duration-200
-          pointer-events-none select-none
+          pointer-events-none select-none truncate max-w-[90%]
           ${
             darkMode
               ? `${isDisabled ? "bg-black" : "bg-black"} text-gray-400 `
@@ -79,6 +83,7 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
               : "top-3 sm:top-4 text-sm sm:text-base"
           }
         `}
+        title={label}
       >
         {label}
       </label>
