@@ -21,7 +21,7 @@ const ContactInfo = () => {
         className={`flex flex-col gap-4 sm:gap-6 p-0 sm:px-4 sm:py-6 rounded-lg border-0 sm:border-1 mb-8 ${
           darkMode
             ? " border-yellow-400 bg-black"
-            : "border-gray-800 bg-gray-50"
+            : "border-gray-800 bg-white sm:bg-gray-50"
         }`}
       >
         <FloatingInputBox

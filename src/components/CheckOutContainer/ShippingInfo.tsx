@@ -68,10 +68,10 @@ const ShippingInfo = () => {
       </h2>
 
       <div
-        className={`flex flex-col gap-4 sm:gap-6 p-0 sm:px-4 sm:py-6 rounded-lg border-0 sm:border-1 ${
+        className={`flex flex-col gap-4 sm:gap-6 p-0 sm:px-4 sm:py-6 rounded-lg border-0 sm:border-1 mt-4 sm:m-0 ${
           darkMode
             ? " border-yellow-400 bg-black"
-            : "border-gray-800 bg-gray-50"
+            : "border-gray-800 bg-white sm:bg-gray-50"
         }`}
       >
         <FloatingInputBox
@@ -115,7 +115,7 @@ const ShippingInfo = () => {
           value={userDetails.city ?? ""}
           onChange={(val: string) => dispatch(updateUserDetails({ city: val }))}
         />
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+        <div className="flex flex-col sm:flex-row gap-4">
           <FloatingSelectBox
             label="State"
             value={userDetails.state}
