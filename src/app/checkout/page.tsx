@@ -15,6 +15,8 @@ import { CartItem } from "@/store/addCartSlice";
 import { smoothScrollToTop } from "@/utils/helperFunctions";
 import CheckoutHeadDetailsContainer from "../../components/CheckOutContainer/CheckoutHeadDetailsContainer";
 import FloatingInpuxBox from "@/components/InputBox/FloatingInpuxBox";
+import FloatingSelectBox from "@/components/Dropdown/Dropdown";
+import { stateApi } from "@/utils/countryJson";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -27,6 +29,10 @@ const CheckoutPage = () => {
 
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  const [statesOption, setStatesOption] = React.useState<
+    { label: string; value: string }[]
+  >([]);
 
   const getDiscountedPrice = (item: CartItem) => {
     if (!item.isSale || !item.discount) return Math.round(Number(item.price));
@@ -50,6 +56,20 @@ const CheckoutPage = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       smoothScrollToTop();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stateData = stateApi ?? [];
+      const getStateNames = stateData?.map((state) => {
+        return {
+          label: state.state,
+          value: state.state,
+        };
+      });
+
+      setStatesOption(getStateNames);
     }
   }, []);
 
@@ -106,11 +126,12 @@ const CheckoutPage = () => {
               }`}
             >
               <FloatingInpuxBox
-                label="Country"
+                label="Country/Region"
                 value={userDetails.country}
                 onChange={(val: string) =>
                   dispatch(updateUserDetails({ country: val }))
                 }
+                disabled={true}
               />
               <FloatingInpuxBox
                 label="First Name"
@@ -147,9 +168,10 @@ const CheckoutPage = () => {
                   dispatch(updateUserDetails({ city: val }))
                 }
               />
-              <FloatingInpuxBox
+              <FloatingSelectBox
                 label="State"
                 value={userDetails.state}
+                options={statesOption}
                 onChange={(val: string) =>
                   dispatch(updateUserDetails({ state: val }))
                 }
