@@ -29,7 +29,7 @@ const CheckoutPage = () => {
 
       {/* User & Payment Section */}
       <div className="max-w-full p-6 sm:py-12 sm:px-8 md:px-16 2xl:px-48 space-y-6 select-none">
-        <div className="flex flex-col sm:flex-row gap-8">
+        <div className="flex flex-col sm:flex-row gap-1 sm:gap-8">
           {/* Left - User Details */}
           <CheckoutLeftContainer />
 

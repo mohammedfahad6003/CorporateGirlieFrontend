@@ -1,17 +1,11 @@
 import React from "react";
-import RadioButton from "../RadioButton/RadioButton";
-import { setBillingSameAsShipping, updateBillingDetails } from "@/store/checkoutSlice";
-import FloatingInputBox from "../InputBox/FloatingInputBox";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { CartItem } from "@/store/addCartSlice";
+import BillingInfo from "./BillingInfo";
+import PaymentGatewayInfo from "./PaymentGatewayInfo";
 
 const CheckoutRightContainer = () => {
-  const dispatch = useDispatch();
-  const { billingSameAsShipping, billingDetails } = useSelector(
-    (state: RootState) => state.checkout
-  );
-
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const getDiscountedPrice = (item: CartItem) => {
@@ -35,49 +29,8 @@ const CheckoutRightContainer = () => {
 
   return (
     <div className={`flex-1 space-y-2`}>
-      <h2 className="text-xl font-semibold">Payment Method</h2>
-      <RadioButton
-        value={billingSameAsShipping ? "same" : "different"}
-        onChange={(val: string) =>
-          dispatch(setBillingSameAsShipping(val === "same"))
-        }
-        options={[
-          { label: "Same as shipping address", value: "same" },
-          {
-            label: "Use a different billing address",
-            value: "different",
-          },
-        ]}
-        className=""
-      />
-
-      {!billingSameAsShipping && (
-        <div className="mt-4 space-y-2">
-          <h3 className="text-lg font-semibold">Billing Address</h3>
-          <FloatingInputBox
-            label="Billing Address Line 1"
-            value={billingDetails?.address1 ?? ""}
-            onChange={(val: string) =>
-              dispatch(updateBillingDetails({ address1: val }))
-            }
-          />
-          <FloatingInputBox
-            label="Billing Address Line 2"
-            value={billingDetails?.address2 ?? ""}
-            onChange={(val: string) =>
-              dispatch(updateBillingDetails({ address2: val }))
-            }
-          />
-          <FloatingInputBox
-            label="Billing Zipcode"
-            value={billingDetails?.zipcode ?? ""}
-            onChange={(val: string) =>
-              dispatch(updateBillingDetails({ zipcode: val }))
-            }
-          />
-        </div>
-      )}
-
+      <PaymentGatewayInfo />
+      <BillingInfo />
       <div className="mt-6 space-y-1">
         <h3 className="text-lg font-semibold">Cart Summary</h3>
         <p>Subtotal: ₹{subtotal}</p>
