@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import { setConsent } from "@/store/cookieSlice";
 import CookieConsentModal from "./CookieCartConsentModal";
-import FloatingInputBox from "@/components/InputBox/FloatingInpuxBox";
+import FloatingInputBox from "@/components/InputBox/FloatingInputBox";
 
 const ShoppingCartContainer = () => {
   const dispatch = useDispatch();
@@ -298,7 +298,7 @@ const ShoppingCartContainer = () => {
 
         <ShoppingCartPriceContainer />
 
-        <div className="flex sm:flex-row flex-col mt-4 lg:mt-6 w-full lg:w-10/12 mx-auto">
+        <div className="flex sm:flex-row flex-col mt-4 lg:mt-6 w-10/12 mx-auto">
           <Button
             label="Proceed To Checkout"
             variant="filled"
@@ -313,7 +313,7 @@ const ShoppingCartContainer = () => {
           isOpen={showPopup}
           onClose={() => setShowPopup(false)}
           onAccept={handleAcceptCookies}
-          triggerShake={true} // 👈 makes modal shake for 3s
+          triggerShake={true}
         />
       )}
     </div>

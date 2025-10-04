@@ -12,6 +12,8 @@ interface FloatingInputBoxProps {
   onChange: (value: string) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   className?: string;
+  disabled?: boolean;
+  maxLength?: number;
 }
 
 const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
@@ -22,12 +24,16 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
   onChange,
   onKeyDown,
   className = "",
+  disabled = false,
+  maxLength,
 }) => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
   const [focused, setFocused] = useState(false);
 
   // fallback id if not provided
   const inputId = id || label.replace(/\s+/g, "-").toLowerCase();
+
+  const isDisabled = disabled;
 
   return (
     <div className="relative w-full">
@@ -41,12 +47,19 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
         onKeyDown={onKeyDown}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        maxLength={maxLength}
+        disabled={isDisabled}
         className={`
           peer w-full rounded-md px-3 pb-2.5 sm:pb-3 pt-3.5 sm:pt-4 text-sm sm:text-base
           border transition-all duration-200 outline-none
+          truncate
           ${
             darkMode
-              ? "bg-black text-white border-yellow-400"
+              ? isDisabled
+                ? "bg-black text-gray-400 border-yellow-400 cursor-not-allowed"
+                : "bg-black text-white border-yellow-400"
+              : isDisabled
+              ? "bg-gray-50 text-gray-500 border-gray-800 cursor-not-allowed"
               : "bg-white text-black border-gray-800"
           }
           ${className}
@@ -56,8 +69,12 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
         htmlFor={inputId}
         className={`
           absolute left-2.5 sm:left-3 transition-all duration-200
-          pointer-events-none select-none
-          ${darkMode ? "text-gray-400 bg-black" : "text-gray-500 bg-white"}
+          pointer-events-none select-none truncate max-w-[90%]
+          ${
+            darkMode
+              ? `${isDisabled ? "bg-black" : "bg-black"} text-gray-400 `
+              : `${isDisabled ? "bg-gray-50" : "bg-white"} text-gray-500 `
+          }
           ${
             focused || value
               ? `-top-2 sm:-top-2.5 text-xs sm:text-sm px-1 ${
@@ -66,6 +83,7 @@ const FloatingInputBox: React.FC<FloatingInputBoxProps> = ({
               : "top-3 sm:top-4 text-sm sm:text-base"
           }
         `}
+        title={label}
       >
         {label}
       </label>
